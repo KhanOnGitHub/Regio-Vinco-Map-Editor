@@ -19,25 +19,28 @@
         <property name="SAVE_ICON"	    value="Save.png"></property>
         <property name="EXIT_ICON"          value="Exit.png"></property> 
         <property name="EXPORT_ICON"        value="Export.png"></property>
-        <property name="CHANGE_MAP_NAME_ICON"value="ChangeMap.png"></property>
-        <property name="ADD_IMAGE_ICON" value="AddImage.png"></property>
-        <property name="CHANGE_MAP_BG_ICON"     value="ChangeMapBG.png"></property>
-        <property name="CHANGE_BORDER_COLOR_ICON"		value="ChangeBorderColor.png"></property>
-        <property name="CHANGE_THICKNESS_ICON"		value="ChangeThickness.png"></property>
-        <property name="MAP_COLOR_ICON"		value="MapColor.png"></property>
+         
+        <property name="CHANGEMAPNAME_ICON"  value="ChangeMap.png"></property>
+        <property name="ADDIMAGE_ICON" value="AddImage.png"></property>
+        <property name="CHANGEMAPBG_ICON"     value="ChangeMapBG.png"></property>
+        <property name="CHANGEBORDERCOLOR_ICON"		value="ChangeBorderColor.png"></property>
+        <property name="CHANGETHICKNESS_ICON"		value="ChangeThickness.png"></property>
+        <property name="MAPCOLOR_ICON"		value="MapColor.png"></property>
         
         
         <!-- TOOLTIPS FOR BUTTONS -->
         <property name="NEW_TOOLTIP"		value="Create a New To Do List"></property>
         <property name="LOAD_TOOLTIP"		value="Load an Existing To Do List"></property>
         <property name="SAVE_TOOLTIP"		value="Save this To Do List"></property>
+        
         <property name="EXPORT_TOOLTIP"		value="Export the map to Regio Vinco format"></property>
-        <property name="MAP_NAME_TOOLTIP"		value="Change the name of the current map"></property>
-        <property name="ADD_IMAGE_TOOLTIP"		value="Add an image to the map"></property>
-        <property name="MAP_BG_TOOLTIP"		value="Change the map background color"></property>
-        <property name="BORDER_COLOR_TOOLTIP"		value="Change the border color of the map"></property>
-        <property name="BORDER_THICKNESS_TOOLTIP"		value="Change the thickness of the borders"></property>
-        <property name="MAP_COLOR_TOOLTIP"		value="Reassign map colors"></property>
+        <property name="MAPNAME_TOOLTIP"		value="Change the name of the current map"></property>
+        <property name="ADDIMAGE_TOOLTIP"		value="Add an image to the map"></property>
+        <property name="MAPBG_TOOLTIP"		value="Change the map background color"></property>
+        <property name="BORDERCOLOR_TOOLTIP"		value="Change the border color of the map"></property>
+        <property name="BORDERTHICKNESS_TOOLTIP"		value="Change the thickness of the borders"></property>
+        <property name="MAPCOLOR_TOOLTIP"		value="Reassign map colors"></property>
+        
         
         <!-- ERROR MESSAGES -->
         <property name="CLOSE_BUTTON_TEXT"              value="Close"></property>
