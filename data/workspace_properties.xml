@@ -28,6 +28,9 @@
         <property name="REMOVE_DIALOG_TITLE"        value = "Remove Item"></property>
         <property name="REMOVE_DIALOG_MESSAGE"      value = "Are you sure you want to remove this item?"></property>
         
+        <!-- MAP LABELS -->
+        <property name = "ZOOM_SLIDER_LABEL"        value = "Slide to zoom in/out"></property>
+        
 	<!-- HEADINGS AND PROMPTS -->
 	<property name="WORKSPACE_HEADING_LABEL"    value="To Do List"></property>
 	<property name="DETAILS_HEADING_LABEL"	    value="Details"></property>
