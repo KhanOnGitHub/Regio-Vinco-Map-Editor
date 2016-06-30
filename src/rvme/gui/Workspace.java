@@ -6,16 +6,24 @@
 package rvme.gui;
 
 import java.io.IOException;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import properties_manager.PropertiesManager;
+import rvme.PropertyType;
 import saf.ui.AppGUI;
 import saf.AppTemplate;
 import saf.components.AppWorkspaceComponent;
@@ -44,6 +52,8 @@ public class Workspace extends AppWorkspaceComponent {
     Pane subregionsPane;
     Label sliderLabel;
     Slider mapZoomSlider;
+    HBox sliderBox;
+    ImageView mapImages;
     
     //OUR REGION FOR VIEWING AND MANAGING SUBREGIONS
     VBox subregionsBox;
@@ -62,7 +72,7 @@ public class Workspace extends AppWorkspaceComponent {
     }
     
     private void layoutGUI() {
-        createSplitPane();
+        createSplitPane(createMapPane(), createTableView());
     }
     
     private void setupHandlers() {
@@ -75,6 +85,7 @@ public class Workspace extends AppWorkspaceComponent {
         //SETUP MAP PANE COMPONENTS
         mapPane = new StackPane();
         subregionsPane = new Pane();
+        sliderBox = new HBox();
         
         //SETUP MAP ZOOM SLIDER
         mapZoomSlider = new Slider(0, 1, .5);
@@ -82,18 +93,33 @@ public class Workspace extends AppWorkspaceComponent {
         mapZoomSlider.setMajorTickUnit(.25f);
         mapZoomSlider.setBlockIncrement(.1f);
         
+        //LABEL FOR SLIDER
         sliderLabel = new Label();
+        sliderLabel.setText(props.getProperty(PropertyType.ZOOM_SLIDER_LABEL));
         
+        //SETUP THE HBOX CONTAINIG THE SLIDERS
+        sliderBox.getChildren().addAll(sliderLabel, mapZoomSlider);
+        
+        mapPane.setBackground(new Background (new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        mapPane.getChildren().addAll(subregionsPane, sliderBox);
         
                 
-        return null;
+        return mapPane;
     }
     
     private TableView createTableView() {
-        return null;
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+        //SETUP COLUMN HEADINGS
+        subregionNameColumn = new TableColumn(props.getProperty(PropertyType.NAME_COLUMN_HEADING));
+        subregionCapitalColumn = new TableColumn(props.getProperty(PropertyType.CAPITAL_COLUMN_HEADING));
+        subregionLeaderColumn = new TableColumn(props.getProperty(PropertyType.LEADER_COLUMN_HEADING));
+        
+        
+        
+        return subregionsTable;
     }
     
-    private void createSplitPane() {
+    private void createSplitPane(StackPane mapPane, TableView subregionData) {
         
     }
     

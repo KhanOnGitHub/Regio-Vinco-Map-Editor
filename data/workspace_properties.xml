@@ -39,9 +39,9 @@
         <property name="ITEMS_HEADING_LABEL"        value="Items"></property>
 	
         <!-- TABLE COLUMN HEADINGS -->
-        <property name="CATEGORY_COLUMN_HEADING"        value="Category"></property>
-        <property name="DESCRIPTION_COLUMN_HEADING"     value="Description"></property>
-        <property name="START_DATE_COLUMN_HEADING"      value="Start Date"></property>
+        <property name="NAME_COLUMN_HEADING"        value="Name"></property>
+        <property name="CAPITAL_COLUMN_HEADING"     value="Capital"></property>
+        <property name="LEADER_COLUMN_HEADING"      value="Leader"></property>
         <property name="END_DATE_COLUMN_HEADING"        value="End Date"></property>
         <property name="COMPLETED_COLUMN_HEADING"       value="Completed"></property>
         

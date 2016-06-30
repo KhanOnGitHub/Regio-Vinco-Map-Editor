@@ -11,5 +11,9 @@ package rvme;
  */
 public enum PropertyType {
     OK_PROMPT,
-    CANCEL_PROMPT
+    CANCEL_PROMPT,
+    ZOOM_SLIDER_LABEL,
+    NAME_COLUMN_HEADING,
+    CAPITAL_COLUMN_HEADING,
+    LEADER_COLUMN_HEADING
 }
