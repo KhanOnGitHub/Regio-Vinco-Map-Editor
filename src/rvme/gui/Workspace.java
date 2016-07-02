@@ -76,8 +76,9 @@ public class Workspace extends AppWorkspaceComponent {
     private void layoutGUI() {
         workspace = new FlowPane();
         mapPane = createMapPane();
-        subregionsTable = createTableView();
-        mapTable = createSplitPane(mapPane, subregionsTable);
+        subregionsBox = createTableView();
+        mapTable = createSplitPane(mapPane, subregionsBox);
+        mapTable.setPrefSize(app.getGUI().getPrimaryScene().getWidth(), app.getGUI().getPrimaryScene().getHeight() );
         workspace.getChildren().add(mapTable);
     }
     
@@ -113,7 +114,7 @@ public class Workspace extends AppWorkspaceComponent {
         return mapPane;
     }
     
-    private TableView createTableView() {
+    private VBox createTableView() {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         
         //CREATE THE BOX AND LABEL FOR THE TABLEVIEW
@@ -135,20 +136,34 @@ public class Workspace extends AppWorkspaceComponent {
         subregionCapitalColumn.setCellValueFactory(new PropertyValueFactory<String, String>("subregionCapital"));
         subregionLeaderColumn.setCellValueFactory(new PropertyValueFactory<String, String>("subregionLeader"));
         
+        //RESIZE AND EDIT COLUMS PROPERTIES
+        subregionNameColumn.prefWidthProperty().bind(subregionsTable.widthProperty().multiply(.33));
+        subregionCapitalColumn.prefWidthProperty().bind(subregionsTable.widthProperty().multiply(.33));
+        subregionLeaderColumn.prefWidthProperty().bind(subregionsTable.widthProperty().multiply(.34));
+        subregionNameColumn.setResizable(false);
+        subregionCapitalColumn.setResizable(false);
+        subregionLeaderColumn.setResizable(false);
+        
+        
+        //ADD COLUMNS TO THE TAB;E
         subregionsTable.getColumns().add(subregionNameColumn);
         subregionsTable.getColumns().add(subregionCapitalColumn);
         subregionsTable.getColumns().add(subregionLeaderColumn);
+        
+        //SET THE HEIGHT OF THE TABLE TO PROPERLY MATCH THE SCREEN HEIGHT
+        subregionsTable.setPrefHeight(app.getGUI().getPrimaryScene().getHeight() - subregionsLabel.getHeight());
+        
         DataManager dataManager = (DataManager)app.getDataComponent();
         subregionsTable.setItems(dataManager.getSubregions());
         
-        return subregionsTable;
+        return subregionsBox;
     }
     
-    private SplitPane createSplitPane(StackPane mapPane, TableView subregionData) {
+    private SplitPane createSplitPane(StackPane mapPane, VBox subregionsBox) {
         mapTable = new SplitPane();
         
-        mapTable.getItems().addAll(mapPane, subregionData);
-        mapTable.setDividerPositions(.5f,.9f);
+        mapTable.getItems().addAll(mapPane, subregionsBox);
+        mapTable.setDividerPositions(.5f);
         
         return mapTable;
     }
