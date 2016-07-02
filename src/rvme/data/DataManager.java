@@ -5,6 +5,8 @@
  */
 package rvme.data;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import saf.AppTemplate;
 import saf.components.AppDataComponent;
 
@@ -17,8 +19,23 @@ public class DataManager implements AppDataComponent {
     
     AppTemplate app;
     
+    ObservableList<Subregion> subregions;
+    
     public DataManager(AppTemplate initApp) throws Exception {
         app = initApp;
+        subregions = FXCollections.observableArrayList();
+    }
+    
+    public ObservableList<Subregion> getSubregions() {
+        return subregions;
+    }
+    
+    public void addSubregion(Subregion subregion) {
+        subregions.add(subregion);
+    }
+    
+    public void removeSubregion(Subregion subregion) {
+        subregions.remove(subregion);
     }
     
     @Override

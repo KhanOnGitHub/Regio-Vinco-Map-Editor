@@ -36,7 +36,7 @@
 	<property name="DETAILS_HEADING_LABEL"	    value="Details"></property>
 	<property name="NAME_PROMPT"                value="Name of Todo List:"></property>
 	<property name="OWNER_PROMPT"               value="Owner:"></property>
-        <property name="ITEMS_HEADING_LABEL"        value="Items"></property>
+        <property name="SUBREGIONS_HEADING_LABEL"        value="Subregions"></property>
 	
         <!-- TABLE COLUMN HEADINGS -->
         <property name="NAME_COLUMN_HEADING"        value="Name"></property>
