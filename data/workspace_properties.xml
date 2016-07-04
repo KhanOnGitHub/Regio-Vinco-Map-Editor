@@ -22,7 +22,11 @@
         <property name ="OK_BUTTON"                 value = "OK"></property>
         <property name ="CANCEL_BUTTON"             value = "Cancel"></property>
         <property name ="ADD_DIALOG"                value = "Add a new item"></property>
-        <property name ="EDIT_DIALOG"               value = "Edit this item"></property>
+        <property name ="EDIT_DIALOG"               value = "Edit this subregion"></property>
+        
+        <!-- EDIT DIALOG -->
+        <property name = "FLAG_LABEL"               value = "File for flag image"></property>
+        <property name = "LEADER_LABEL"             value = "File for leader image"></property>
         
         <!-- REMOVE DIALOG PROMPT -->
         <property name="REMOVE_DIALOG_TITLE"        value = "Remove Item"></property>

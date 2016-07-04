@@ -83,7 +83,14 @@ public class Workspace extends AppWorkspaceComponent {
     }
     
     private void setupHandlers() {
+        mapEditorController = new MapEditorController(app);
+        DataManager data = (DataManager)app.getDataComponent();
         
+        subregionsTable.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                mapEditorController.processEditSubregion(subregionsTable.getSelectionModel().getSelectedItem());
+            }
+        });
     }
     
     private StackPane createMapPane() {

@@ -21,6 +21,8 @@ public class Subregion {
     final StringProperty subregionName;
     final StringProperty subregionCapital;
     final StringProperty subregionLeader;
+    String flagPath;
+    String leaderPath;
     
     ArrayList<Double> polyPoints;
     Polygon region;
@@ -35,11 +37,38 @@ public class Subregion {
         region = new Polygon();
     }
     
-    public Subregion(String initName, String initCapital, String initLeader) {
+    public Subregion(String initName, String initCapital, String initLeader, String flagPath, String leaderPath) {
         this();
         subregionName.set(initName);
         subregionCapital.set(initCapital);
         subregionLeader.set(initLeader);
+        this.flagPath = flagPath;
+        this.leaderPath = leaderPath;
+        
+    }
+    
+    public StringProperty subregionName() {
+        return subregionName;
+    }
+    
+    public StringProperty subregionCapital() {
+        return subregionCapital;
+    }
+    
+    public StringProperty subregionLeader() {
+        return subregionLeader;
+    }
+    
+    public String getSubregionName() {
+        return subregionName.get();
+    }
+    
+    public String getSubregionCapital() {
+        return subregionCapital.get();
+    }
+    
+    public String getSubregionLeader() {
+        return subregionCapital.get();
     }
     
     public Polygon getRegion() {
@@ -53,6 +82,19 @@ public class Subregion {
     public ArrayList<Double> getPoints() {
         return polyPoints;
     }
+    
+    public void setRegionName(String value) {
+        subregionName.set(value);
+    }
+    
+    public void setRegionCapital(String value) {
+        subregionCapital.set(value); 
+    }
+    public void setRegionLeader(String value) {
+        subregionLeader.set(value);
+    }
+    
+    
     
     public void addPoints(double X, double Y) {
         polyPoints.add(X);

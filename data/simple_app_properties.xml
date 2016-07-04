@@ -26,6 +26,7 @@
         <property name="CHANGEBORDERCOLOR_ICON"		value="ChangeBorderColor.png"></property>
         <property name="CHANGETHICKNESS_ICON"		value="ChangeThickness.png"></property>
         <property name="MAPCOLOR_ICON"		value="MapColor.png"></property>
+        <property name ="PLAY_ICON"             value="Play.png"></property>
         
         
         <!-- TOOLTIPS FOR BUTTONS -->
@@ -40,6 +41,7 @@
         <property name="BORDERCOLOR_TOOLTIP"		value="Change the border color of the map"></property>
         <property name="BORDERTHICKNESS_TOOLTIP"		value="Change the thickness of the borders"></property>
         <property name="MAPCOLOR_TOOLTIP"		value="Reassign map colors"></property>
+        <property name="PLAYBUTTON_TOOLTIP"     value="Play this subregion's national anthem"></property>
         
         
         <!-- ERROR MESSAGES -->
@@ -54,8 +56,15 @@
         <property name="PROPERTIES_LOAD_ERROR_MESSAGE"	value="An error occured loading a properties file."></property>	
         <property name="PROPERTIES_LOAD_ERROR_TITLE"	value="Properties File Loading Error"></property>
 	
+        <!-- LABELS -->
+        <property name ="REGION_NAME_LABEL" value = "Region Name"></property>
+        <property name ="DATA_FILE_LABEL" value = "Data File Directory"></property>
+        <property name = "PARENT_REGION_LABEL" value ="Parent Region Directory"></property>
+        
+        <!-- DIALOGS -->
+        <property name = "NEW_DIALOG" value = "Create a new map"></property>
+        
         <!-- VERIFICATION MESSAGES -->
-	
         <property name="NEW_COMPLETED_MESSAGE"		value="New Work Ready for Editing"></property>
         <property name="NEW_COMPLETED_TITLE"		value="New Work Created"></property>
         <property name="LOAD_COMPLETED_MESSAGE"		value="File Loading Completed and ready for editing"></property>
