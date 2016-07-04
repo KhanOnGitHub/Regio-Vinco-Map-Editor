@@ -34,6 +34,7 @@
         
         <!-- MAP LABELS -->
         <property name = "ZOOM_SLIDER_LABEL"        value = "Slide to zoom in/out"></property>
+        <property name = "MAP_LABEL"                value ="Region Map"></property>
         
 	<!-- HEADINGS AND PROMPTS -->
 	<property name="WORKSPACE_HEADING_LABEL"    value="To Do List"></property>

@@ -88,6 +88,8 @@ public class MapEditorController {
         nameText.setText(subregion.getSubregionName());
         capitalText = new TextField();
         capitalText.setText(subregion.getSubregionCapital());
+        leaderText = new TextField();
+        leaderText.setText(subregion.getSubregionLeader());
         flagPictureText = new TextField();
         flagPictureText.setText(subregion.getSubregionCapital());
         leaderPictureText = new TextField();
@@ -132,7 +134,7 @@ public class MapEditorController {
         gridPane.add(okCancel, 1, 5);
         GridPane.setHalignment(okCancel, HPos.RIGHT);
 
-        scene = new Scene(gridPane, 300, 300);
+        scene = new Scene(gridPane, 400, 300);
         //scene.getStylesheets().add("tdlm/css/tdlm_style.css");
         //gridPane.getStyleClass().add("gridPane");
         dialog.setScene(scene);

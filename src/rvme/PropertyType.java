@@ -21,5 +21,6 @@ public enum PropertyType {
     LEADER_LABEL,
     OK_BUTTON,
     CANCEL_BUTTON,
-    EDIT_DIALOG
+    EDIT_DIALOG,
+    MAP_LABEL
 }
