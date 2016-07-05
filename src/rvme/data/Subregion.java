@@ -75,6 +75,14 @@ public class Subregion {
         return region;
     }
     
+    public String getFlagPath() {
+        return flagPath;
+    }
+    
+    public String getLeaderPath() {
+        return leaderPath;
+    }
+    
     public void setRegion(Polygon region) {
         this.region = region;
     }

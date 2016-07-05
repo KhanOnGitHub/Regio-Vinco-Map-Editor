@@ -27,7 +27,7 @@
         <property name="CHANGETHICKNESS_ICON"		value="ChangeThickness.png"></property>
         <property name="MAPCOLOR_ICON"		value="MapColor.png"></property>
         <property name ="PLAY_ICON"             value="Play.png"></property>
-        
+        <property name = "FILE_CHOOSER_ICON" value ="Folder.png"></property>
         
         <!-- TOOLTIPS FOR BUTTONS -->
         <property name="NEW_TOOLTIP"		value="Create a New To Do List"></property>
@@ -60,7 +60,8 @@
         <property name ="REGION_NAME_LABEL" value = "Region Name"></property>
         <property name ="DATA_FILE_LABEL" value = "Data File Directory"></property>
         <property name = "PARENT_REGION_LABEL" value ="Parent Region Directory"></property>
-        
+        <property name = "FILE_CHOOSER_LABEL" value = "Choose a data file for the map"></property>
+        <property name = "DIRECTORY_CHOOSER_LABEL" value ="Choose the parent directory for your map"></property>
         <!-- DIALOGS -->
         <property name = "NEW_DIALOG" value = "Create a new map"></property>
         

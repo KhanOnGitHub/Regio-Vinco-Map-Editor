@@ -6,13 +6,17 @@
 package rvme.gui;
 
 import java.io.IOException;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -120,7 +124,15 @@ public class Workspace extends AppWorkspaceComponent {
         sliderBox.getChildren().addAll(sliderLabel, mapZoomSlider);
 
         mapPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        
+        //DUMMY IMAGE
+        Image dummyImage = new Image("file:./images/Bangladesh.png");
+        ImageView dummyImageView = new ImageView(dummyImage);
+        subregionsPane.getChildren().addAll(dummyImageView);
+        
+        
         mapPane.getChildren().addAll(subregionsPane, sliderBox);
+        StackPane.setAlignment(sliderBox, Pos.BOTTOM_RIGHT);
 
         mapBox.getChildren().addAll(mapLabel, mapPane);
         

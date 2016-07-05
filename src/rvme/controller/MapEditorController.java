@@ -51,6 +51,8 @@ public class MapEditorController {
 
     private Button okButton;
     private Button cancelButton;
+    private Button prevButton;
+    private Button nextButton;
 
     private GridPane editPane;
     
@@ -91,9 +93,9 @@ public class MapEditorController {
         leaderText = new TextField();
         leaderText.setText(subregion.getSubregionLeader());
         flagPictureText = new TextField();
-        flagPictureText.setText(subregion.getSubregionCapital());
+        flagPictureText.setText(subregion.getFlagPath());
         leaderPictureText = new TextField();
-        leaderPictureText.setText(subregion.getSubregionCapital());
+        leaderPictureText.setText(subregion.getLeaderPath());
 
         //INSTANTIATE AND GIVE TEXT TO BUTTONS
         okButton = new Button();
@@ -106,6 +108,9 @@ public class MapEditorController {
         cancelButton.setOnAction(mouseClick -> {
             promptCancel();
         });
+        
+        prevButton = new Button("Previous");
+        nextButton = new Button("Next");
 
         GridPane gridPane = new GridPane();
 
@@ -132,7 +137,9 @@ public class MapEditorController {
         gridPane.add(leaderPictureText, 1, 4);
 
         gridPane.add(okCancel, 1, 5);
-        GridPane.setHalignment(okCancel, HPos.RIGHT);
+        gridPane.add(prevButton, 0, 5);
+        gridPane.add(nextButton, 2, 5);
+        GridPane.setHalignment(okCancel, HPos.CENTER);
 
         scene = new Scene(gridPane, 400, 300);
         //scene.getStylesheets().add("tdlm/css/tdlm_style.css");
