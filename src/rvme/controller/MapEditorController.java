@@ -142,8 +142,8 @@ public class MapEditorController {
         GridPane.setHalignment(okCancel, HPos.CENTER);
 
         scene = new Scene(gridPane, 400, 300);
-        //scene.getStylesheets().add("tdlm/css/tdlm_style.css");
-        //gridPane.getStyleClass().add("gridPane");
+        scene.getStylesheets().add("rvme/css/rvme_style.css");
+        gridPane.getStyleClass().add("gridPane");
         dialog.setScene(scene);
         dialog.setTitle(props.getProperty(PropertyType.EDIT_DIALOG));
         dialog.show();
