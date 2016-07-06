@@ -110,6 +110,13 @@ public class Subregion {
         subregionLeader.set(value);
     }
     
+    public void setLeaderPath(String leaderPath) {
+        this.leaderPath = leaderPath;
+    }
+    
+    public void setFlagPath(String flagPath) {
+        this.flagPath = flagPath;
+    }
     
     
     public void addPoints(double X, double Y) {

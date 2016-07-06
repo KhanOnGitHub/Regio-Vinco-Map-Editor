@@ -55,12 +55,37 @@ public class DataManager implements AppDataComponent {
         subregions.remove(subregion);
     }
     
-    public void addImage(String imageName) {
+    public void addSubregionsToPane() {
+        for(int i = 0; i < subregions.size(); i++) {
+            map.getChildren().add(subregions.get(i).constructRegion());
+        }
+    }
+    
+    public void setMapBackgroundColor(String color) {
+        map.setStyle("-fx-background-color: " + color);
+    }
+    
+    public void addImagetoMap(String imageName, double x, double y) {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         String imagePath = "file:./images/" + imageName;
         Image newImage = new Image(imagePath);
         ImageView newImageView = new ImageView(newImage);
-        imageViews.add(newImageView);        
+        
+        newImageView.setX(x);
+        newImageView.setY(y);
+        
+        imageViews.add(newImageView);
+        
+        map.getChildren().add(imageViews.get(imageViews.indexOf(newImage)));
+    }
+    
+    public Subregion getSubregionWithName(String name) {
+        Subregion returnedSubregion = null;
+        for(int i = 0; i < subregions.size(); i++) {
+            if(subregions.get(i).getSubregionName().equals(name))
+                returnedSubregion = subregions.get(i);
+        }
+        return returnedSubregion;
     }
     
         public double convertLong(double x) {
