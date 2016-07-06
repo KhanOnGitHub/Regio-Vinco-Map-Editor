@@ -177,7 +177,7 @@ public class Workspace extends AppWorkspaceComponent {
         subregionsTable.setPrefHeight(app.getGUI().getPrimaryScene().getHeight() - subregionsLabel.getHeight());
 
         DataManager dataManager = (DataManager) app.getDataComponent();
-        Subregion testSubregion = new Subregion("McKenna Land", "CS2120", "Richard McKenna", "none", "none");
+        Subregion testSubregion = new Subregion("McKenna Land", "CS2120", "Richard McKenna", "none", "none", 0, 0, 0);
         dataManager.addSubregion(testSubregion);
         subregionsTable.setItems(dataManager.getSubregions());
 

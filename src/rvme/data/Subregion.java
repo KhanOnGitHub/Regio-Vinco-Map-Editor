@@ -27,6 +27,10 @@ public class Subregion {
     ArrayList<Double> polyPoints;
     Polygon region;
     
+    int red;
+    int blue;
+    int green;
+    
     public Subregion() {
         subregionName = new SimpleStringProperty(DEFAULT_NAME);
         subregionCapital = new SimpleStringProperty(DEFAULT_CAPITAL);
@@ -35,15 +39,19 @@ public class Subregion {
         polyPoints = new ArrayList<>();
         
         region = new Polygon();
+        red = blue = green = 0;
     }
     
-    public Subregion(String initName, String initCapital, String initLeader, String flagPath, String leaderPath) {
+    public Subregion(String initName, String initCapital, String initLeader, String flagPath, String leaderPath, int red, int green, int blue) {
         this();
         subregionName.set(initName);
         subregionCapital.set(initCapital);
         subregionLeader.set(initLeader);
         this.flagPath = flagPath;
         this.leaderPath = leaderPath;
+        this.red = red;
+        this.blue = blue;
+        this.green = green;
         
     }
     
