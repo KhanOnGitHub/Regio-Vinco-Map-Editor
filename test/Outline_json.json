@@ -1,0 +1,52 @@
+{
+    "REGION_NAME": "eyb0s",
+    "BORDER_COLOR": "black",
+    "BORDER_THICKNESS": 1,
+    "NUMBER_OF_IMAGES": 1,
+    "IMAGES": [
+        {
+            "MAP_IMAGES": [
+                {
+                    "FILE_PATH": "./andorra/",
+                    "FILE_NAME": "Andorra Flag.png",
+                    "X:": 581,
+                    "Y": 39
+                },
+                {
+                    "FILE_PATH": "./andorra/",
+                    "FILE_NAME": "Andorra Flag.png",
+                    "X:": 581,
+                    "Y": 39
+                }
+            ]
+        }
+    ],
+    "NUMBER_OF_SUBREGIONS": 7,
+    "SUBREGIONS":[
+        {
+            "NUMBER_OF_SUBREGION_POLYGONS":1,
+            "SUBREGION_POLYGONS":[
+                {
+                    "X":71.01,
+                    "Y":380.02
+                },
+                                {
+                    "X":71.01,
+                    "Y":380.02
+                }
+            ]
+        },
+        
+        {
+            "NUMBER_OF_SUBREGION_POLYGONS":1,
+            "SUBREGION_POLYGONS":[
+                {
+                    "X":75.02,
+                    "Y":375.03
+                }
+            ]
+        } 
+    ]
+    
+
+}

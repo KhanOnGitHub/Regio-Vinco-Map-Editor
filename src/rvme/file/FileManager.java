@@ -8,12 +8,14 @@ package rvme.file;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import javafx.scene.paint.Color;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
+import rvme.MapEditorApp;
 import rvme.data.DataManager;
 import rvme.data.Subregion;
 
@@ -32,10 +34,11 @@ public class FileManager implements AppFileComponent {
     static final String JSON_SUBREGION_POLYGONS = "SUBREGION_POLYGONS";
     static final String JSON_X = "X";
     static final String JSON_Y = "Y";
+    
+    MapEditorApp app;
 
     @Override
     public void saveData(AppDataComponent data, String filePath) {
-
     }
 
     @Override
@@ -71,10 +74,13 @@ public class FileManager implements AppFileComponent {
                     JsonObject jsonCoordinatesObject = jsonCoordinates.getJsonObject(k);
                     double x = getDataAsDouble(jsonCoordinatesObject, JSON_X);
                     double y = getDataAsDouble(jsonCoordinatesObject, JSON_Y);
-                    x = dataManager.convertLong(x);
-                    y = dataManager.convertLat(y);
+//                    x = dataManager.convertLong(x);
+  //                  y = dataManager.convertLat(y);
                     subregion.addPoints(x, y);
                     if (k == jsonCoordinates.size() - 1) {
+                        subregion.setRegion(subregion.constructRegion());
+                        subregion.getRegion().setStrokeWidth(1); //PUT ANOTHER JSON FIELD HERE
+                        subregion.getRegion().setStroke(Color.BLACK); //PUT ANOTHER JSON FIELD HERE WHEN IMPLEMENTED
                         dataManager.addSubregion(subregion);
                     }
                 }

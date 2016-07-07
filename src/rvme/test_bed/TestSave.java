@@ -5,9 +5,15 @@
  */
 package rvme.test_bed;
 
+import java.io.File;
 import java.io.IOException;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import rvme.data.DataManager;
 import rvme.data.Subregion;
 import rvme.file.FileManager;
@@ -17,23 +23,41 @@ import saf.AppTemplate;
  *
  * @author eyb0s
  */
-public class TestSave {
+public class TestSave extends Application {
 
     AppTemplate app;
     ObservableList<Subregion> subregions;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        launch(args);
 
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        FileChooser fc = new FileChooser();
+        File selectedFile = fc.showOpenDialog(primaryStage);
+        Pane pane = createAndorra(selectedFile);
+        Scene scene = new Scene(pane, 1400, 1400);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     /*
     
      */
-    public void createAndorra() throws IOException {
-        DataManager dataManager = (DataManager) app.getDataComponent();
-        FileManager fileManager = (FileManager) app.getFileComponent();
-        String filePath = "file:./raw_map_data/Andorra.json";
-        fileManager.loadMap(dataManager, filePath);
+    public Pane createAndorra(File selectedFile) throws IOException, Exception {
+        DataManager dataManager = new DataManager(app);
+        FileManager fileManager = new FileManager();
+
+        //LOAD RAW MAP DATA, IE MAP GEOGRAPHY
+        //String filePath = "/raw_map_data/Andorra.json";
+        fileManager.loadMap(dataManager, selectedFile.getAbsolutePath());
+
+        //LOAD THE NATIONAL ANTHEM
+        dataManager.setRegionName("Andorra");
+        dataManager.setAudioName("Andorra National Anthem");
+        dataManager.setAudioFileName("./andorra/Andorra National Anthem.mid");
 
         subregions = FXCollections.observableArrayList();
         subregions = dataManager.getSubregions();
@@ -66,17 +90,24 @@ public class TestSave {
         subregions.get(6).setRegionName("Andorra la Vella");
         subregions.get(6).setRegionCapital("Andorra la Vella (city)");
         subregions.get(6).setRegionLeader("Maria Rosa Ferrer Obiols");
-        
-        for(int i = 0; i < subregions.size(); i++) {
+
+        //GIVE EACH OF THE SUBREGIONS PATH TO THEIR RESPECTIVE FLAGS AND LEADERS
+        for (int i = 0; i < subregions.size(); i++) {
             Subregion subregion = subregions.get(i);
-            
-            String flagPath = subregion.getSubregionName() + " Flag.png";
+
+            String flagPath = "file:./andorra/" + subregion.getSubregionName() + " Flag.png";
             subregion.setFlagPath(flagPath);
-            
-            String leaderPath = subregion.getSubregionLeader() + ".png";
+
+            String leaderPath = "file:./andorra/" + subregion.getSubregionLeader() + ".png";
             subregion.setLeaderPath(leaderPath);
         }
-        
-        dataManager.setMapBackgroundColor("orange");
+
+        //START ADDING THINGS TO MAP
+        //dataManager.setMapBackgroundColor("orange");
+        dataManager.addImagetoMap("file:./andorra/Andorra Flag.png", 581, 390);
+        dataManager.addSubregionsToPane();
+
+        return dataManager.getMap();
+
     }
 }
