@@ -76,7 +76,7 @@ public class Subregion {
     }
     
     public String getSubregionLeader() {
-        return subregionCapital.get();
+        return subregionLeader.get();
     }
     
     public Polygon getRegion() {

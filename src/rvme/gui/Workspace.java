@@ -209,6 +209,10 @@ public class Workspace extends AppWorkspaceComponent {
         
     }
 
+    public StackPane getMapPane() {
+        return mapPane;
+    }
+    
     @Override
     public void reloadWorkspace() {
 

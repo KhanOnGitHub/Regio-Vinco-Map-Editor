@@ -10,8 +10,6 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import rvme.data.DataManager;
@@ -37,21 +35,21 @@ public class TestSave extends Application {
     public void start(Stage primaryStage) throws Exception {
         FileChooser fc = new FileChooser();
         File selectedFile = fc.showOpenDialog(primaryStage);
-        Pane pane = createAndorra(selectedFile);
-        Scene scene = new Scene(pane, 1400, 1400);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        FileManager fileManager = new FileManager();
+        fileManager.saveData(createAndorra(selectedFile), "./andorra/newjson.json");
     }
 
     /*
     
      */
-    public Pane createAndorra(File selectedFile) throws IOException, Exception {
+    public DataManager createAndorra(File selectedFile) throws IOException, Exception {
         DataManager dataManager = new DataManager(app);
         FileManager fileManager = new FileManager();
 
         //LOAD RAW MAP DATA, IE MAP GEOGRAPHY
         //String filePath = "/raw_map_data/Andorra.json";
+        dataManager.setBorderThickness(1.0);
+        dataManager.setParentDirectory("./andorra/");
         fileManager.loadMap(dataManager, selectedFile.getAbsolutePath());
 
         //LOAD THE NATIONAL ANTHEM
@@ -103,11 +101,11 @@ public class TestSave extends Application {
         }
 
         //START ADDING THINGS TO MAP
-        //dataManager.setMapBackgroundColor("orange");
+        dataManager.setMapBackgroundColor("orange");
         dataManager.addImagetoMap("file:./andorra/Andorra Flag.png", 581, 390);
-        dataManager.addSubregionsToPane();
+        //dataManager.addSubregionsToPane();
 
-        return dataManager.getMap();
+        return dataManager;
 
     }
 }

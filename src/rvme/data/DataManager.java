@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import properties_manager.PropertiesManager;
+import rvme.gui.Workspace;
 import saf.AppTemplate;
 import saf.components.AppDataComponent;
 import saf.ui.AppGUI;
@@ -29,8 +30,14 @@ public class DataManager implements AppDataComponent {
     ObservableList<Image> images;
     ArrayList<String> paths;
     String backgroundColor;
-    String borderColor;
-
+    int borderColorRed;
+    int borderColorGreen;
+    int borderColorBlue;
+    
+    String parentDirectory;
+    
+    double borderThickness;
+    
     Pane map;
 
     String regionName;
@@ -43,12 +50,16 @@ public class DataManager implements AppDataComponent {
         imageViews = FXCollections.observableArrayList();
         paths = new ArrayList();
         backgroundColor = "";
-        borderColor = "";
+        int borderColorRed = 0;
+        int borderColorGreen = 0;
+        int borderColorBlue = 0;
         regionName = "";
         audioName = "";
         audioFileName = "";
         map = new Pane();
         map.setPrefSize(802, 536);
+        borderThickness = 1.0;
+        parentDirectory = "";
     }
 
     public ObservableList<Subregion> getSubregions() {
@@ -62,11 +73,22 @@ public class DataManager implements AppDataComponent {
     public void removeSubregion(Subregion subregion) {
         subregions.remove(subregion);
     }
+    
+    public String getParentDirectory() {
+        return parentDirectory;
+    }
+    
+    public void setParentDirectory(String directory) {
+        parentDirectory = directory;
+    }
 
-    public void addSubregionsToPane() {
+    public void addSubregionsToPane() throws Exception {
         for (int i = 0; i < subregions.size(); i++) {
             map.getChildren().add(subregions.get(i).constructRegion());
         }
+        
+        Workspace workspace = new Workspace(app);
+        workspace.getMapPane().getChildren().add(map);
     }
 
     public void setMapBackgroundColor(String color) {
@@ -148,6 +170,38 @@ public class DataManager implements AppDataComponent {
     
     public Pane getMap() {
         return map;
+    }
+    
+    public double getBorderThickness() {
+        return borderThickness;
+    }
+    
+    public void setBorderThickness(double borderThickness) {
+        this.borderThickness = borderThickness;
+    }
+    
+    public void setBorderColorRed(int red) {
+        borderColorRed = red;
+    }
+    
+    public void setBorderColorGreen(int green) {
+        borderColorGreen = green;
+    }
+    
+    public void setBorderColorBlue(int blue) {
+        borderColorBlue = blue;
+    }
+    
+    public int getBorderColorRed() {
+        return borderColorRed;
+    }
+    
+    public int getBorderColorBlue() {
+        return borderColorBlue;
+    }
+    
+    public int getBorderColorGreen() {
+        return borderColorGreen;
     }
 
     @Override
