@@ -60,6 +60,8 @@ public class FileManager implements AppFileComponent {
     static final String JSON_REGION_LEADER = "REGION_LEADER";
     static final String JSON_FLAG_PATH = "FLAG_PATH";
     static final String JSON_LEADER_PATH = "LEADER_PATH";
+    static final String JSON_AUDIO = "AUDIO_NAME";
+    static final String JSON_AUDIO_FILE = "AUDIO_FILE_NAME";
 
     MapEditorApp app;
 
@@ -144,6 +146,8 @@ public class FileManager implements AppFileComponent {
 
         dataManagerJSO = Json.createObjectBuilder()
                 .add(JSON_REGION, regionName)
+                .add(JSON_AUDIO, audioName)
+                .add(JSON_AUDIO_FILE, audioFileName)
                 .add(JSON_THICKNESS, borderThickness)
                 .add(JSON_BORDER, borderColorArray)
                 .add(JSON_SUBREGIONS, subregionsArray).build();
@@ -170,21 +174,21 @@ public class FileManager implements AppFileComponent {
     @Override
     public void loadData(AppDataComponent data, String filePath) throws IOException {
         JsonObject json = loadJSONFile(filePath);
-        
+
         DataManager dataManager = (DataManager) data;
-        
+
         JsonObject jsonRegionName = json.getJsonObject(JSON_REGION);
         dataManager.setRegionName(getDataAsString(jsonRegionName, JSON_REGION));
-        
+
         JsonObject jsonBorderThickness = json.getJsonObject(JSON_THICKNESS);
         dataManager.setBorderThickness(getDataAsDouble(jsonBorderThickness, JSON_THICKNESS));
-        
+
         JsonArray jsonBorderColorsArray = json.getJsonArray(JSON_BORDER);
         JsonObject jsonBorderColors = jsonBorderColorsArray.getJsonObject(0);
         dataManager.setBorderColorBlue(getDataAsInt(jsonBorderColors, JSON_BLUE));
         dataManager.setBorderColorRed(getDataAsInt(jsonBorderColors, JSON_RED));
         dataManager.setBorderColorGreen(getDataAsInt(jsonBorderColors, JSON_GREEN));
-        
+
         loadMap(data, filePath);
     }
 
@@ -199,13 +203,64 @@ public class FileManager implements AppFileComponent {
         JsonNumber number = (JsonNumber) value;
         return number.bigIntegerValue().intValue();
     }
-    
+
     public String getDataAsString(JsonObject json, String dataName) {
         JsonValue value = json.get(dataName);
         JsonString string = (JsonString) value;
         return string.getString();
     }
+
     public void loadMap(AppDataComponent data, String filePath) throws IOException {
+        //CLEAR OLD DATA
+        DataManager dataManager = (DataManager) data;
+        dataManager.clearSubregions();
+
+        // LOAD JSON FILE WITH THE DATA 
+        JsonObject json = loadJSONFile(filePath);
+
+        //LOAD ALL REGIONS
+        JsonArray jsonSubRegions = json.getJsonArray(JSON_SUBREGIONS);
+
+        for (int i = 0; i < jsonSubRegions.size(); i++) //json 1 
+        {
+            JsonObject jsonItemForSubregionPolygons = jsonSubRegions.getJsonObject(i);
+            Subregion subregion = new Subregion();
+            JsonArray jsonSubregionProperties = jsonItemForSubregionPolygons.getJsonArray(JSON_SUBREGION_PROPERTIES);
+            JsonObject jsonSubregionPropertiesObject = jsonSubregionProperties.getJsonObject(0);
+
+            String regionName = getDataAsString(jsonSubregionPropertiesObject, JSON_REGION);
+            String regionCapital = getDataAsString(jsonSubregionPropertiesObject, JSON_REGION_CAPITAL);
+            String regionLeader = getDataAsString(jsonSubregionPropertiesObject, JSON_REGION_LEADER);
+            String regionFlag = getDataAsString(jsonSubregionPropertiesObject, JSON_FLAG_PATH);
+            String regionLeaderPath = getDataAsString(jsonSubregionPropertiesObject, JSON_LEADER_PATH);
+            int red = getDataAsInt(jsonSubregionPropertiesObject, JSON_RED);
+            int green = getDataAsInt(jsonSubregionPropertiesObject, JSON_GREEN);
+            int blue = getDataAsInt(jsonSubregionPropertiesObject, JSON_BLUE);
+
+            JsonArray jsonSubregionPolygons = jsonItemForSubregionPolygons.getJsonArray(JSON_SUBREGION_POLYGONS);
+            for (int j = 0; j < jsonSubregionPolygons.size(); j++) { // json 2
+                JsonArray jsonCoordinates = jsonSubregionPolygons.getJsonArray(j);
+                for (int k = 0; k < jsonCoordinates.size(); k++) {
+                    JsonObject jsonCoordinatesObject = jsonCoordinates.getJsonObject(k);
+                    double x = getDataAsDouble(jsonCoordinatesObject, JSON_X);
+                    double y = getDataAsDouble(jsonCoordinatesObject, JSON_Y);
+//                    x = dataManager.convertLong(x);
+                    //                  y = dataManager.convertLat(y);
+                    subregion.addPoints(x, y);
+                    if (k == jsonCoordinates.size() - 1) {
+                        subregion.setRegion(subregion.constructRegion());
+                        subregion.getRegion().setStrokeWidth(1); //PUT ANOTHER JSON FIELD HERE
+                        subregion.getRegion().setStroke(Color.BLACK); //PUT ANOTHER JSON FIELD HERE WHEN IMPLEMENTED
+                        dataManager.addSubregion(subregion);
+                    }
+                }
+            }
+        }
+        //dataManager.drawMap();
+        System.out.println(dataManager.getSubregions().size());
+    }
+
+    public void loadRawMap(AppDataComponent data, String filePath) throws IOException {
         //CLEAR OLD DATA
         DataManager dataManager = (DataManager) data;
         dataManager.clearSubregions();

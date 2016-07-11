@@ -51,7 +51,7 @@ public class TestSave extends Application {
         //String filePath = "/raw_map_data/Andorra.json";
         dataManager.setBorderThickness(1.0);
         dataManager.setParentDirectory("./andorra/");
-        fileManager.loadMap(dataManager, selectedFile.getAbsolutePath());
+        fileManager.loadRawMap(dataManager, selectedFile.getAbsolutePath());
 
         //LOAD THE NATIONAL ANTHEM
         dataManager.setRegionName("Andorra");
