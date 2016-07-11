@@ -23,6 +23,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.json.JsonString;
 import javax.json.JsonValue;
 import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
@@ -136,9 +137,9 @@ public class FileManager implements AppFileComponent {
                 .add(JSON_RED, borderColorRed)
                 .add(JSON_GREEN, borderColorGreen)
                 .add(JSON_BLUE, borderColorBlue).build();
-        
+
         borderColorBuilder.add(borderColorObject);
-        
+
         JsonArray borderColorArray = borderColorBuilder.build();
 
         dataManagerJSO = Json.createObjectBuilder()
@@ -168,7 +169,11 @@ public class FileManager implements AppFileComponent {
 
     @Override
     public void loadData(AppDataComponent data, String filePath) throws IOException {
+        JsonObject json = loadJSONFile(filePath);
 
+        JsonObject jsonRegionName = json.getJsonObject(JSON_REGION);
+        /*jsonRegionName.g
+        loadMap(data, filePath);*/
     }
 
     public double getDataAsDouble(JsonObject json, String dataName) {
@@ -177,6 +182,17 @@ public class FileManager implements AppFileComponent {
         return number.bigDecimalValue().doubleValue();
     }
 
+    public int getDataAsInt(JsonObject json, String dataName) {
+        JsonValue value = json.get(dataName);
+        JsonNumber number = (JsonNumber) value;
+        return number.bigIntegerValue().intValue();
+    }
+    
+    public String getDataAsString(JsonObject json, String dataName) {
+        JsonValue value = json.get(dataName);
+        JsonString string = (JsonString) value;
+        return string.getString();
+    }
     public void loadMap(AppDataComponent data, String filePath) throws IOException {
         //CLEAR OLD DATA
         DataManager dataManager = (DataManager) data;

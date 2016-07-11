@@ -33,15 +33,16 @@ public class TestSave extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        testSaveAndorra(primaryStage);
+    }
+
+    public void testSaveAndorra(Stage primaryStage) throws Exception {
         FileChooser fc = new FileChooser();
         File selectedFile = fc.showOpenDialog(primaryStage);
         FileManager fileManager = new FileManager();
-        fileManager.saveData(createAndorra(selectedFile), "./andorra/newjson.json");
+        fileManager.saveData(createAndorra(selectedFile), "./andorra/Andorra.json");
     }
 
-    /*
-    
-     */
     public DataManager createAndorra(File selectedFile) throws IOException, Exception {
         DataManager dataManager = new DataManager(app);
         FileManager fileManager = new FileManager();
@@ -87,7 +88,7 @@ public class TestSave extends Application {
 
         subregions.get(6).setRegionName("Andorra la Vella");
         subregions.get(6).setRegionCapital("Andorra la Vella (city)");
-
+        subregions.get(6).setRegionLeader("Maria Rosa Ferrer Obiols");
 
         //GIVE EACH OF THE SUBREGIONS PATH TO THEIR RESPECTIVE FLAGS AND LEADERS
         for (int i = 0; i < subregions.size(); i++) {
