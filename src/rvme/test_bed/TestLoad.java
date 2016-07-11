@@ -37,6 +37,8 @@ public class TestLoad extends Application {
         DataManager dataManager = new DataManager(app);
         fileManager.loadData(dataManager, "./andorra/Andorra.json");
         
+        dataManager.printData();
+        
         System.out.println(dataManager.getSubregions().get(0).getPoints());
     }
 }

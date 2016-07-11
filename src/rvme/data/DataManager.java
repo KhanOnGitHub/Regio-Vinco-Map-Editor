@@ -28,7 +28,7 @@ public class DataManager implements AppDataComponent {
     ObservableList<Subregion> subregions;
     ObservableList<ImageView> imageViews;
     ObservableList<Image> images;
-    ArrayList<String> paths;
+    ObservableList<String> paths;
     String backgroundColor;
     int borderColorRed;
     int borderColorGreen;
@@ -48,7 +48,7 @@ public class DataManager implements AppDataComponent {
         app = initApp;
         subregions = FXCollections.observableArrayList();
         imageViews = FXCollections.observableArrayList();
-        paths = new ArrayList();
+        paths = FXCollections.observableArrayList();
         backgroundColor = "";
         int borderColorRed = 0;
         int borderColorGreen = 0;
@@ -115,7 +115,7 @@ public class DataManager implements AppDataComponent {
         map.getChildren().add(imageViews.get(imageViews.indexOf(newImageView)));
     }
     
-    public ArrayList<String> getPaths() {
+    public ObservableList<String> getPaths() {
         return paths;
     }
 
@@ -207,6 +207,23 @@ public class DataManager implements AppDataComponent {
     
     public int getBorderColorGreen() {
         return borderColorGreen;
+    }
+    
+    public void printData() {
+        System.out.println("Region Name: " + regionName);
+        System.out.println("Audio Name: " + audioName);
+        System.out.println("Audio File Name: " + audioFileName);
+        System.out.println("Border Thickness: " + borderThickness);
+        
+        for(int i = 0; i < paths.size(); i ++)
+            System.out.println("Image Path: " + paths.get(i));
+        System.out.println("Border Color: " + borderColorRed + ", " + borderColorGreen + ", " +borderColorBlue);
+        System.out.println("Background Color: " + backgroundColor);
+        
+        for(int i = 0; i < subregions.size(); i++) {
+            subregions.get(i).printProperties();
+        }
+        
     }
 
     @Override

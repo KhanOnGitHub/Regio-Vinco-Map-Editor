@@ -4,6 +4,11 @@
     "AUDIO_NAME":"Andorra National Anthem",
     "AUDIO_FILE_NAME":"./andorra/Andorra National Anthem.mid",
     "BORDER_THICKNESS":1.0,
+    "IMAGE_PATHS":[
+        {
+            "IMAGE_PATH":"file:./andorra/file:./andorra/Andorra Flag.png"
+        }
+    ],
     "BORDER_COLOR":[
         {
             "R":0,
@@ -11,6 +16,7 @@
             "B":0
         }
     ],
+    "MAP COLOR":"orange",
     "SUBREGIONS":[
         {
             "SUBREGION_PROPERTIES":[

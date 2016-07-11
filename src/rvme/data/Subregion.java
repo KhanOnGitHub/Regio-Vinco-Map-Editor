@@ -131,6 +131,34 @@ public class Subregion {
         return blue;
     }
     
+    public void setRed(int red) {
+        this.red = red;
+    }
+    
+    public void setGreen(int green) {
+        this.green = green;
+    }
+    
+    public void setBlue(int blue) {
+        this.blue = blue;
+    }
+    
+    public void setRGB(int red, int green, int blue) {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+    }
+    
+    public void printProperties() {
+        System.out.println("Subregion Name: " + subregionName);
+        System.out.println("Subregion Capital: " + subregionCapital);
+        System.out.println("Subregion Leader: " + subregionLeader);
+        
+        System.out.println("Flag Path: " + flagPath);
+        System.out.println("Leader Path: " + leaderPath);
+        System.out.println("Subregion RGB Values :" + red + ", " + green + ", " + blue);
+    }
+    
     public void addPoints(double X, double Y) {
         polyPoints.add(X);
         polyPoints.add(Y);
