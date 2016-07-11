@@ -12,11 +12,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -66,6 +67,8 @@ public class FileManager implements AppFileComponent {
     static final String JSON_AUDIO_FILE = "AUDIO_FILE_NAME";
     static final String JSON_IMAGE = "IMAGE_PATH";
     static final String JSON_IMAGES = "IMAGE_PATHS";
+    static final String JSON_ZOOM = "MAP_ZOOM";
+    
 
     MapEditorApp app;
 
@@ -79,16 +82,20 @@ public class FileManager implements AppFileComponent {
         int borderColorGreen = dataManager.getBorderColorGreen();
         int borderColorBlue = dataManager.getBorderColorBlue();
         double borderThickness = dataManager.getBorderThickness();
+        double mapZoom = dataManager.getMapZoom();
         String backgroundColor = dataManager.getBackgroundColor();
         String audioName = dataManager.getAudioName();
         String audioFileName = dataManager.getAudioFileName();
 
         //JSON FOR THE PATHS OF IMAGES THAT ARENT LEADERS OR FLAGS
         ObservableList<String> paths = dataManager.getPaths();
+        ObservableList<ImageView> imageViews = dataManager.getImageViews();
         JsonArrayBuilder imagePathBuilder = Json.createArrayBuilder();
         for (int l = 0; l < paths.size(); l++) {
             JsonObject imageFilePath = Json.createObjectBuilder()
-                    .add(JSON_IMAGE, paths.get(l)).build();
+                    .add(JSON_IMAGE, paths.get(l))
+                    .add(JSON_X, imageViews.get(l).getX())
+                    .add(JSON_Y, imageViews.get(l).getY()).build();
             imagePathBuilder.add(imageFilePath);
         }
         JsonArray imagePaths = imagePathBuilder.build();
@@ -166,6 +173,7 @@ public class FileManager implements AppFileComponent {
                 .add(JSON_IMAGES, imagePaths)
                 .add(JSON_BORDER, borderColorArray)
                 .add(JSON_MAP_COLOR, backgroundColor)
+                .add(JSON_ZOOM, mapZoom)
                 .add(JSON_SUBREGIONS, subregionsArray).build();
 
         Map<String, Object> properties = new HashMap<>(1);
@@ -188,7 +196,7 @@ public class FileManager implements AppFileComponent {
     }
 
     @Override
-    public void loadData(AppDataComponent data, String filePath) throws IOException {
+    public void loadData(AppDataComponent data, String filePath) throws IOException, Exception {
         JsonObject json = loadJSONFile(filePath);
 
         DataManager dataManager = (DataManager) data;
@@ -206,7 +214,14 @@ public class FileManager implements AppFileComponent {
         for (int i = 0; i < jsonImagePaths.size(); i++) {
             JsonObject jsonImagePath = jsonImagePaths.getJsonObject(i);
             JsonString jsonImageString = jsonImagePath.getJsonString(JSON_IMAGE);
+            double x = getDataAsDouble(jsonImagePath, JSON_X);
+            double y = getDataAsDouble(jsonImagePath, JSON_Y);
             dataManager.getPaths().add(jsonImageString.getString());
+            Image newImage = new Image(jsonImageString.getString());
+            ImageView newImageView = new ImageView(newImage);
+            newImageView.setX(x);
+            newImageView.setY(y);
+            dataManager.getImageViews().add(newImageView);
         }
 
         JsonNumber jsonBorderThickness = json.getJsonNumber(JSON_THICKNESS);
@@ -221,7 +236,13 @@ public class FileManager implements AppFileComponent {
         JsonString jsonMapColor = json.getJsonString(JSON_MAP_COLOR);
         dataManager.setMapBackgroundColor(jsonMapColor.getString());
         
+        JsonNumber jsonMapZoom = json.getJsonNumber(JSON_ZOOM);
+        dataManager.setMapZoom(jsonMapZoom.doubleValue());
+        
         loadMap(data, filePath);
+        
+        dataManager.addSubregionsToPane();
+        
     }
 
     public double getDataAsDouble(JsonObject json, String dataName) {
@@ -290,8 +311,8 @@ public class FileManager implements AppFileComponent {
                     JsonObject jsonCoordinatesObject = jsonCoordinates.getJsonObject(k);
                     double x = getDataAsDouble(jsonCoordinatesObject, JSON_X);
                     double y = getDataAsDouble(jsonCoordinatesObject, JSON_Y);
-//                    x = dataManager.convertLong(x);
-                    //                  y = dataManager.convertLat(y);
+                   // x = dataManager.convertLong(x);
+                   // y = dataManager.convertLat(y);
                     subregion.addPoints(x, y);
                     if (k == jsonCoordinates.size() - 1) {
                         subregion.setRegion(subregion.constructRegion());

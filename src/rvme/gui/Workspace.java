@@ -125,11 +125,6 @@ public class Workspace extends AppWorkspaceComponent {
 
         mapPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         
-        //DUMMY IMAGE
-        Image dummyImage = new Image("file:./images/Bangladesh.png");
-        ImageView dummyImageView = new ImageView(dummyImage);
-        subregionsPane.getChildren().addAll(dummyImageView);
-        
         
         mapPane.getChildren().addAll(subregionsPane, sliderBox);
         StackPane.setAlignment(sliderBox, Pos.BOTTOM_RIGHT);
@@ -177,8 +172,6 @@ public class Workspace extends AppWorkspaceComponent {
         subregionsTable.setPrefHeight(app.getGUI().getPrimaryScene().getHeight() - subregionsLabel.getHeight());
 
         DataManager dataManager = (DataManager) app.getDataComponent();
-        Subregion testSubregion = new Subregion("McKenna Land", "CS2120", "Richard McKenna", "none", "none", 0, 0, 0);
-        dataManager.addSubregion(testSubregion);
         subregionsTable.setItems(dataManager.getSubregions());
 
         subregionsBox.getChildren().add(subregionsLabel);

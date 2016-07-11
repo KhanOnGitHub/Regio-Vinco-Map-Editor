@@ -6,7 +6,9 @@
     "BORDER_THICKNESS":1.0,
     "IMAGE_PATHS":[
         {
-            "IMAGE_PATH":"file:./andorra/file:./andorra/Andorra Flag.png"
+            "IMAGE_PATH":"file:./andorra/file:./andorra/Andorra Flag.png",
+            "X":581.0,
+            "Y":390.0
         }
     ],
     "BORDER_COLOR":[
@@ -17,6 +19,7 @@
         }
     ],
     "MAP_COLOR":"orange",
+    "MAP_ZOOM":1.0,
     "SUBREGIONS":[
         {
             "SUBREGION_PROPERTIES":[

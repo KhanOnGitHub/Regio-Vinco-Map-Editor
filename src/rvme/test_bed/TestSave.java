@@ -78,10 +78,6 @@ public class TestSave extends Application {
         subregions.get(3).setRegionCapital("Escaldes-Engordany (town)");
         subregions.get(3).setRegionLeader("Montserrat Capdevila Pallarés");
 
-        subregions.get(4).setRegionName("Ordino");
-        subregions.get(4).setRegionCapital("Ordino");
-        subregions.get(4).setRegionLeader("Ventura Espot");
-
         subregions.get(5).setRegionName("La Massana");
         subregions.get(5).setRegionCapital("La Massana (town)");
         subregions.get(5).setRegionLeader("Josep Areny");
