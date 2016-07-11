@@ -1,12 +1,26 @@
 
 {
+    "REGION NAME":"Andorra",
+    "BORDER_THICKNESS":1.0,
+    "BORDER_COLOR":[
+        {
+            "R":0,
+            "G":0,
+            "B":0
+        }
+    ],
     "SUBREGIONS":[
         {
             "SUBREGION_PROPERTIES":[
                 {
                     "REGION_NAME":"Ordino",
                     "REGION_CAPITAL":"Ordino (town)",
-                    "REGION_LEADER":"Ordino (town)"
+                    "REGION_LEADER":"Ventura Espot",
+                    "FLAG_PATH":"file:./andorra/Ordino Flag.png",
+                    "LEADER_PATH":"file:./andorra/Ventura Espot.png",
+                    "R":0,
+                    "G":0,
+                    "B":0
                 }
             ],
             "SUBREGION_POLYGONS":[
@@ -219,7 +233,12 @@
                 {
                     "REGION_NAME":"Canillo",
                     "REGION_CAPITAL":"Canillo (town)",
-                    "REGION_LEADER":"Canillo (town)"
+                    "REGION_LEADER":"Enric Casadevall Medrano",
+                    "FLAG_PATH":"file:./andorra/Canillo Flag.png",
+                    "LEADER_PATH":"file:./andorra/Enric Casadevall Medrano.png",
+                    "R":0,
+                    "G":0,
+                    "B":0
                 }
             ],
             "SUBREGION_POLYGONS":[
@@ -836,7 +855,12 @@
                 {
                     "REGION_NAME":"Encamp",
                     "REGION_CAPITAL":"Encamp (town)",
-                    "REGION_LEADER":"Encamp (town)"
+                    "REGION_LEADER":"Miquel Alís Font",
+                    "FLAG_PATH":"file:./andorra/Encamp Flag.png",
+                    "LEADER_PATH":"file:./andorra/Miquel Alís Font.png",
+                    "R":0,
+                    "G":0,
+                    "B":0
                 }
             ],
             "SUBREGION_POLYGONS":[
@@ -1365,7 +1389,12 @@
                 {
                     "REGION_NAME":"Escaldes-Engordany",
                     "REGION_CAPITAL":"Escaldes-Engordany (town)",
-                    "REGION_LEADER":"Escaldes-Engordany (town)"
+                    "REGION_LEADER":"Montserrat Capdevila Pallarés",
+                    "FLAG_PATH":"file:./andorra/Escaldes-Engordany Flag.png",
+                    "LEADER_PATH":"file:./andorra/Montserrat Capdevila Pallarés.png",
+                    "R":0,
+                    "G":0,
+                    "B":0
                 }
             ],
             "SUBREGION_POLYGONS":[
@@ -1866,7 +1895,12 @@
                 {
                     "REGION_NAME":"Ordino",
                     "REGION_CAPITAL":"Ordino",
-                    "REGION_LEADER":"Ordino"
+                    "REGION_LEADER":"Ventura Espot",
+                    "FLAG_PATH":"file:./andorra/Ordino Flag.png",
+                    "LEADER_PATH":"file:./andorra/Ventura Espot.png",
+                    "R":0,
+                    "G":0,
+                    "B":0
                 }
             ],
             "SUBREGION_POLYGONS":[
@@ -2267,7 +2301,12 @@
                 {
                     "REGION_NAME":"La Massana",
                     "REGION_CAPITAL":"La Massana (town)",
-                    "REGION_LEADER":"La Massana (town)"
+                    "REGION_LEADER":"Josep Areny",
+                    "FLAG_PATH":"file:./andorra/La Massana Flag.png",
+                    "LEADER_PATH":"file:./andorra/Josep Areny.png",
+                    "R":0,
+                    "G":0,
+                    "B":0
                 }
             ],
             "SUBREGION_POLYGONS":[
@@ -2756,7 +2795,12 @@
                 {
                     "REGION_NAME":"Andorra la Vella",
                     "REGION_CAPITAL":"Andorra la Vella (city)",
-                    "REGION_LEADER":"Andorra la Vella (city)"
+                    "REGION_LEADER":"?",
+                    "FLAG_PATH":"file:./andorra/Andorra la Vella Flag.png",
+                    "LEADER_PATH":"file:./andorra/?.png",
+                    "R":0,
+                    "G":0,
+                    "B":0
                 }
             ],
             "SUBREGION_POLYGONS":[

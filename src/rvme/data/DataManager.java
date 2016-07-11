@@ -93,6 +93,11 @@ public class DataManager implements AppDataComponent {
 
     public void setMapBackgroundColor(String color) {
         map.setStyle("-fx-background-color: " + color);
+        backgroundColor = color;
+    }
+    
+    public String getBackgroundColor() {
+        return backgroundColor;
     }
 
     public void addImagetoMap(String imageName, double x, double y) {

@@ -87,7 +87,7 @@ public class TestSave extends Application {
 
         subregions.get(6).setRegionName("Andorra la Vella");
         subregions.get(6).setRegionCapital("Andorra la Vella (city)");
-        subregions.get(6).setRegionLeader("Maria Rosa Ferrer Obiols");
+
 
         //GIVE EACH OF THE SUBREGIONS PATH TO THEIR RESPECTIVE FLAGS AND LEADERS
         for (int i = 0; i < subregions.size(); i++) {

@@ -8,6 +8,7 @@ package rvme.data;
 import java.util.ArrayList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 /**
  *
@@ -118,6 +119,17 @@ public class Subregion {
         this.flagPath = flagPath;
     }
     
+    public int getRed() {
+        return red;
+    }
+    
+    public int getGreen() {
+        return green;
+    }
+    
+    public int getBlue() {
+        return blue;
+    }
     
     public void addPoints(double X, double Y) {
         polyPoints.add(X);
@@ -127,7 +139,7 @@ public class Subregion {
     public Polygon constructRegion() {
         region = new Polygon();
         region.getPoints().addAll(polyPoints);
-        
+        region.setFill(Color.color(red, green, blue));
         return region;
     }
     

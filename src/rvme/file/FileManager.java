@@ -47,10 +47,18 @@ public class FileManager implements AppFileComponent {
     static final String JSON_SUBREGION_PROPERTIES = "SUBREGION_PROPERTIES";
     static final String JSON_X = "X";
     static final String JSON_Y = "Y";
+    static final String JSON_REGION = "REGION NAME";
+    static final String JSON_BORDER = "BORDER_COLOR";
+    static final String JSON_THICKNESS = "BORDER_THICKNESS";
+    static final String JSON_RED = "R";
+    static final String JSON_GREEN = "G";
+    static final String JSON_BLUE = "B";
 
     static final String JSON_REGION_NAME = "REGION_NAME";
     static final String JSON_REGION_CAPITAL = "REGION_CAPITAL";
     static final String JSON_REGION_LEADER = "REGION_LEADER";
+    static final String JSON_FLAG_PATH = "FLAG_PATH";
+    static final String JSON_LEADER_PATH = "LEADER_PATH";
 
     MapEditorApp app;
 
@@ -64,6 +72,9 @@ public class FileManager implements AppFileComponent {
         int borderColorGreen = dataManager.getBorderColorGreen();
         int borderColorBlue = dataManager.getBorderColorBlue();
         double borderThickness = dataManager.getBorderThickness();
+        String backgroundColor = dataManager.getBackgroundColor();
+        String audioName = dataManager.getAudioName();
+        String audioFileName = dataManager.getAudioFileName();
 
         //BUILD A JSON ARRAY BUILDER FOR NECESSARY ARRAYS
         ObservableList<Subregion> subregions = dataManager.getSubregions();
@@ -72,72 +83,86 @@ public class FileManager implements AppFileComponent {
         for (int i = 0; i < subregions.size(); i++) {
             Subregion currentSubregion = subregions.get(i);
             ArrayList<Double> currentSubregionCoordinates = currentSubregion.getPoints();
-           
+
             //MAKE THE LIST OF SUBREGION PROPERTIES
             JsonArrayBuilder subregionPropertiesBuilder = Json.createArrayBuilder();
-            String testSubregionLeader = currentSubregion.getSubregionLeader();
-            System.out.println(testSubregionLeader);
+
             JsonObject subregionPropertiesJson = Json.createObjectBuilder()
                     .add(JSON_REGION_NAME, currentSubregion.getSubregionName())
                     .add(JSON_REGION_CAPITAL, currentSubregion.getSubregionCapital())
-                    .add(JSON_REGION_LEADER, currentSubregion.getSubregionLeader()).build();
+                    .add(JSON_REGION_LEADER, currentSubregion.getSubregionLeader())
+                    .add(JSON_FLAG_PATH, currentSubregion.getFlagPath())
+                    .add(JSON_LEADER_PATH, currentSubregion.getLeaderPath())
+                    .add(JSON_RED, currentSubregion.getRed())
+                    .add(JSON_GREEN, currentSubregion.getGreen())
+                    .add(JSON_BLUE, currentSubregion.getBlue()).build();
             subregionPropertiesBuilder.add(subregionPropertiesJson);
-            
+
             //THE ARRAY TO ADD TO THE LARGER OBJECT LATER
             JsonArray subregionPropertiesArray = subregionPropertiesBuilder.build();
-            
+
             //FINALLY CREATE THE SUBREGION PROPERTIES OBJECT
             //JsonObject subregionPropertiesFinalObject = Json.createObjectBuilder()
-             //       .add(JSON_SUBREGION_PROPERTIES, subregionPropertiesArray).build();
-            
-            
+            //       .add(JSON_SUBREGION_PROPERTIES, subregionPropertiesArray).build();
             JsonArrayBuilder subregionCoordinatesBuilder = Json.createArrayBuilder();
             JsonArrayBuilder subregionCoordinatesArrayBuilder = Json.createArrayBuilder();
-            
+
             for (int j = 0; j < currentSubregionCoordinates.size(); j += 2) {
                 JsonObject coordinatePair = Json.createObjectBuilder()
                         .add(JSON_X, currentSubregionCoordinates.get(j))
                         .add(JSON_Y, currentSubregionCoordinates.get(j + 1)).build();
                 subregionCoordinatesArrayBuilder.add(coordinatePair);
-                
-                if(j == currentSubregionCoordinates.size()-2) {
+
+                if (j == currentSubregionCoordinates.size() - 2) {
                     JsonArray subregionCoordinatesInnerArray = subregionCoordinatesArrayBuilder.build();
-                    subregionCoordinatesBuilder.add(subregionCoordinatesInnerArray);  
+                    subregionCoordinatesBuilder.add(subregionCoordinatesInnerArray);
                 }
             }
-            
+
             //ARRAY WITH COORDINATES TO ADD TO LARGER OBJECT LATER
-            JsonArray subregionCoordinatesArray = subregionCoordinatesBuilder.build(); 
-            
+            JsonArray subregionCoordinatesArray = subregionCoordinatesBuilder.build();
+
             JsonObject subregionObject = Json.createObjectBuilder()
                     .add(JSON_SUBREGION_PROPERTIES, subregionPropertiesArray)
                     .add(JSON_SUBREGION_POLYGONS, subregionCoordinatesArray).build();
             subregionBuilder.add(subregionObject);
         }
-        
-        JsonArray subregionsArray = subregionBuilder.build();
-        
-        dataManagerJSO = Json.createObjectBuilder()
-                
-                .add(JSON_SUBREGIONS, subregionsArray).build();
-        
-        Map<String, Object> properties = new HashMap<>(1);
-	properties.put(JsonGenerator.PRETTY_PRINTING, true);
-	JsonWriterFactory writerFactory = Json.createWriterFactory(properties);
-	StringWriter sw = new StringWriter();
-	JsonWriter jsonWriter = writerFactory.createWriter(sw);
-	jsonWriter.writeObject(dataManagerJSO);
-	jsonWriter.close();
 
-	// INIT THE WRITER
-	OutputStream os = new FileOutputStream(filePath);
-	JsonWriter jsonFileWriter = Json.createWriter(os);
-	jsonFileWriter.writeObject(dataManagerJSO);
-	String prettyPrinted = sw.toString();
-	PrintWriter pw = new PrintWriter(filePath);
-	pw.write(prettyPrinted);
-	pw.close();
-                
+        JsonArray subregionsArray = subregionBuilder.build();
+
+        JsonArrayBuilder borderColorBuilder = Json.createArrayBuilder();
+
+        JsonObject borderColorObject = Json.createObjectBuilder()
+                .add(JSON_RED, borderColorRed)
+                .add(JSON_GREEN, borderColorGreen)
+                .add(JSON_BLUE, borderColorBlue).build();
+        
+        borderColorBuilder.add(borderColorObject);
+        
+        JsonArray borderColorArray = borderColorBuilder.build();
+
+        dataManagerJSO = Json.createObjectBuilder()
+                .add(JSON_REGION, regionName)
+                .add(JSON_THICKNESS, borderThickness)
+                .add(JSON_BORDER, borderColorArray)
+                .add(JSON_SUBREGIONS, subregionsArray).build();
+
+        Map<String, Object> properties = new HashMap<>(1);
+        properties.put(JsonGenerator.PRETTY_PRINTING, true);
+        JsonWriterFactory writerFactory = Json.createWriterFactory(properties);
+        StringWriter sw = new StringWriter();
+        JsonWriter jsonWriter = writerFactory.createWriter(sw);
+        jsonWriter.writeObject(dataManagerJSO);
+        jsonWriter.close();
+
+        // INIT THE WRITER
+        OutputStream os = new FileOutputStream(filePath);
+        JsonWriter jsonFileWriter = Json.createWriter(os);
+        jsonFileWriter.writeObject(dataManagerJSO);
+        String prettyPrinted = sw.toString();
+        PrintWriter pw = new PrintWriter(filePath);
+        pw.write(prettyPrinted);
+        pw.close();
 
     }
 
