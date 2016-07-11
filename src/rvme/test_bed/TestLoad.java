@@ -31,14 +31,12 @@ public class TestLoad extends Application {
     }
     
     public void testLoadAndorra(Stage primaryStage) throws Exception {
-        FileChooser fc = new FileChooser();
-        File selectedFile = fc.showOpenDialog(primaryStage);
+       /* FileChooser fc = new FileChooser();
+        File selectedFile = fc.showOpenDialog(primaryStage);*/
         FileManager fileManager = new FileManager();
         DataManager dataManager = new DataManager(app);
         fileManager.loadData(dataManager, "./andorra/Andorra.json");
         
         dataManager.printData();
-        
-        System.out.println(dataManager.getSubregions().get(0).getPoints());
     }
 }

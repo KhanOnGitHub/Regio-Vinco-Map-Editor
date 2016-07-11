@@ -51,7 +51,7 @@ public class FileManager implements AppFileComponent {
     static final String JSON_Y = "Y";
     static final String JSON_REGION = "REGION NAME";
     static final String JSON_BORDER = "BORDER_COLOR";
-    static final String JSON_MAP_COLOR = "MAp_COLOR";
+    static final String JSON_MAP_COLOR = "MAP_COLOR";
     static final String JSON_THICKNESS = "BORDER_THICKNESS";
     static final String JSON_RED = "R";
     static final String JSON_GREEN = "G";
@@ -193,23 +193,24 @@ public class FileManager implements AppFileComponent {
 
         DataManager dataManager = (DataManager) data;
 
-        JsonObject jsonRegionName = json.getJsonObject(JSON_REGION);
-        dataManager.setRegionName(getDataAsString(jsonRegionName, JSON_REGION));
+        JsonString jsonRegionName = json.getJsonString(JSON_REGION);
+        dataManager.setRegionName(jsonRegionName.getString());
 
-        JsonObject jsonAudioName = json.getJsonObject(JSON_AUDIO);
-        dataManager.setAudioName(getDataAsString(jsonAudioName, JSON_AUDIO));
+        JsonString jsonAudioName = json.getJsonString(JSON_AUDIO);
+        dataManager.setAudioName(jsonAudioName.getString());
 
-        JsonObject jsonAudioFileName = json.getJsonObject(JSON_AUDIO_FILE);
-        dataManager.setAudioName(getDataAsString(jsonAudioFileName, JSON_AUDIO_FILE));
+        JsonString jsonAudioFileName = json.getJsonString(JSON_AUDIO_FILE);
+        dataManager.setAudioName(jsonAudioFileName.getString());
 
         JsonArray jsonImagePaths = json.getJsonArray(JSON_IMAGES);
         for (int i = 0; i < jsonImagePaths.size(); i++) {
             JsonObject jsonImagePath = jsonImagePaths.getJsonObject(i);
-            dataManager.getPaths().add(getDataAsString(jsonImagePath, JSON_IMAGE));
+            JsonString jsonImageString = jsonImagePath.getJsonString(JSON_IMAGE);
+            dataManager.getPaths().add(jsonImageString.getString());
         }
 
-        JsonObject jsonBorderThickness = json.getJsonObject(JSON_THICKNESS);
-        dataManager.setBorderThickness(getDataAsDouble(jsonBorderThickness, JSON_THICKNESS));
+        JsonNumber jsonBorderThickness = json.getJsonNumber(JSON_THICKNESS);
+        dataManager.setBorderThickness(jsonBorderThickness.doubleValue());
 
         JsonArray jsonBorderColorsArray = json.getJsonArray(JSON_BORDER);
         JsonObject jsonBorderColors = jsonBorderColorsArray.getJsonObject(0);
@@ -217,8 +218,8 @@ public class FileManager implements AppFileComponent {
         dataManager.setBorderColorRed(getDataAsInt(jsonBorderColors, JSON_RED));
         dataManager.setBorderColorGreen(getDataAsInt(jsonBorderColors, JSON_GREEN));
 
-        JsonObject jsonMapColor = json.getJsonObject(JSON_MAP_COLOR);
-        dataManager.setMapBackgroundColor(getDataAsString(jsonMapColor, JSON_MAP_COLOR));
+        JsonString jsonMapColor = json.getJsonString(JSON_MAP_COLOR);
+        dataManager.setMapBackgroundColor(jsonMapColor.getString());
         
         loadMap(data, filePath);
     }
@@ -259,11 +260,17 @@ public class FileManager implements AppFileComponent {
             JsonArray jsonSubregionProperties = jsonItemForSubregionPolygons.getJsonArray(JSON_SUBREGION_PROPERTIES);
             JsonObject jsonSubregionPropertiesObject = jsonSubregionProperties.getJsonObject(0);
 
-            String regionName = getDataAsString(jsonSubregionPropertiesObject, JSON_REGION_NAME);
-            String regionCapital = getDataAsString(jsonSubregionPropertiesObject, JSON_REGION_CAPITAL);
-            String regionLeader = getDataAsString(jsonSubregionPropertiesObject, JSON_REGION_LEADER);
-            String regionFlag = getDataAsString(jsonSubregionPropertiesObject, JSON_FLAG_PATH);
-            String regionLeaderPath = getDataAsString(jsonSubregionPropertiesObject, JSON_LEADER_PATH);
+            JsonString regionNameString = jsonSubregionPropertiesObject.getJsonString(JSON_REGION_NAME);
+            JsonString regionCapitalString = jsonSubregionPropertiesObject.getJsonString(JSON_REGION_CAPITAL);
+            JsonString regionLeaderString = jsonSubregionPropertiesObject.getJsonString(JSON_REGION_LEADER);
+            JsonString regionFlagString = jsonSubregionPropertiesObject.getJsonString(JSON_FLAG_PATH);
+            JsonString regionLeaderPathString = jsonSubregionPropertiesObject.getJsonString(JSON_LEADER_PATH);
+            
+            String regionName = regionNameString.getString();
+            String regionCapital = regionCapitalString.getString();
+            String regionLeader = regionLeaderString.getString();
+            String regionFlag = regionFlagString.getString();
+            String regionLeaderPath = regionLeaderPathString.getString();
 
             int red = getDataAsInt(jsonSubregionPropertiesObject, JSON_RED);
             int green = getDataAsInt(jsonSubregionPropertiesObject, JSON_GREEN);
