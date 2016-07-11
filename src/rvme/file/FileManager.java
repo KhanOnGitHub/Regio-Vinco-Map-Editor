@@ -170,10 +170,22 @@ public class FileManager implements AppFileComponent {
     @Override
     public void loadData(AppDataComponent data, String filePath) throws IOException {
         JsonObject json = loadJSONFile(filePath);
-
+        
+        DataManager dataManager = (DataManager) data;
+        
         JsonObject jsonRegionName = json.getJsonObject(JSON_REGION);
-        /*jsonRegionName.g
-        loadMap(data, filePath);*/
+        dataManager.setRegionName(getDataAsString(jsonRegionName, JSON_REGION));
+        
+        JsonObject jsonBorderThickness = json.getJsonObject(JSON_THICKNESS);
+        dataManager.setBorderThickness(getDataAsDouble(jsonBorderThickness, JSON_THICKNESS));
+        
+        JsonArray jsonBorderColorsArray = json.getJsonArray(JSON_BORDER);
+        JsonObject jsonBorderColors = jsonBorderColorsArray.getJsonObject(0);
+        dataManager.setBorderColorBlue(getDataAsInt(jsonBorderColors, JSON_BLUE));
+        dataManager.setBorderColorRed(getDataAsInt(jsonBorderColors, JSON_RED));
+        dataManager.setBorderColorGreen(getDataAsInt(jsonBorderColors, JSON_GREEN));
+        
+        loadMap(data, filePath);
     }
 
     public double getDataAsDouble(JsonObject json, String dataName) {
