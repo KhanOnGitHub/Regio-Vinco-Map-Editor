@@ -377,8 +377,6 @@ public class FileManager implements AppFileComponent {
                 }
             }
         }
-        //dataManager.drawMap();
-        System.out.println(dataManager.getSubregions().size());
     }
 
     public void loadRawMap(AppDataComponent data, String filePath) throws IOException {
@@ -403,8 +401,8 @@ public class FileManager implements AppFileComponent {
                     JsonObject jsonCoordinatesObject = jsonCoordinates.getJsonObject(k);
                     double x = getDataAsDouble(jsonCoordinatesObject, JSON_X);
                     double y = getDataAsDouble(jsonCoordinatesObject, JSON_Y);
-//                    x = dataManager.convertLong(x);
-                    //                  y = dataManager.convertLat(y);
+                    x = dataManager.convertLong(x);
+                    y = dataManager.convertLat(y);
                     subregion.addPoints(x, y);
                     if (k == jsonCoordinates.size() - 1) {
                         subregion.setRegion(subregion.constructRegion());
@@ -415,8 +413,6 @@ public class FileManager implements AppFileComponent {
                 }
             }
         }
-        //dataManager.drawMap();
-        System.out.println(dataManager.getSubregions().size());
     }
 
     private JsonObject loadJSONFile(String jsonFilePath) throws IOException {
@@ -439,14 +435,14 @@ public class FileManager implements AppFileComponent {
     }
 
     @Override
-    public void newMap(AppDataComponent data, String regionName, String filePath, String directoryPath) throws IOException {
+    public void newMap(AppDataComponent data, String regionName, String filePath, String directoryPath) throws IOException, Exception {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         DataManager dataManager = (DataManager) data;
         dataManager.setRegionName(regionName);
         loadRawMap(data, filePath);
-        File newMapFile = 
-        if (selectedFile != null) {
-        }
+        File newMapFile = new File("./work/", regionName + ".json");
+        loadRawMap(data, filePath);
+        dataManager.addSubregionsToPane();
 
     }
 

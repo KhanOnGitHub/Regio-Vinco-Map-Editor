@@ -130,8 +130,6 @@ public class Workspace extends AppWorkspaceComponent {
 
         //mapPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         
-        
-        
         mapPane.getChildren().add(subregionsPane);
         mapPane.getChildren().add(sliderBox);
  
@@ -216,8 +214,8 @@ public class Workspace extends AppWorkspaceComponent {
             subregionGroup.getChildren().add(polygon);
         }
         
-        subregionGroup.setScaleX(subregionGroup.getScaleX()* 100);
-        subregionGroup.setScaleY(subregionGroup.getScaleY() * 100);
+        subregionGroup.setScaleX(subregionGroup.getScaleX()*200);
+        subregionGroup.setScaleY(subregionGroup.getScaleY() * 200);
         subregionsPane.getChildren().add(subregionGroup);
         subregionsPane.setBackground(Background.EMPTY);
         
