@@ -29,9 +29,9 @@
                     "REGION_LEADER":"Ventura Espot",
                     "FLAG_PATH":"file:./andorra/Ordino Flag.png",
                     "LEADER_PATH":"file:./andorra/Ventura Espot.png",
-                    "R":0,
-                    "G":0,
-                    "B":0
+                    "R":200,
+                    "G":200,
+                    "B":200
                 }
             ],
             "SUBREGION_POLYGONS":[
@@ -247,9 +247,9 @@
                     "REGION_LEADER":"Enric Casadevall Medrano",
                     "FLAG_PATH":"file:./andorra/Canillo Flag.png",
                     "LEADER_PATH":"file:./andorra/Enric Casadevall Medrano.png",
-                    "R":0,
-                    "G":0,
-                    "B":0
+                    "R":198,
+                    "G":198,
+                    "B":198
                 }
             ],
             "SUBREGION_POLYGONS":[
@@ -869,9 +869,9 @@
                     "REGION_LEADER":"Miquel Alís Font",
                     "FLAG_PATH":"file:./andorra/Encamp Flag.png",
                     "LEADER_PATH":"file:./andorra/Miquel Alís Font.png",
-                    "R":0,
-                    "G":0,
-                    "B":0
+                    "R":196,
+                    "G":196,
+                    "B":196
                 }
             ],
             "SUBREGION_POLYGONS":[
@@ -1403,9 +1403,9 @@
                     "REGION_LEADER":"Montserrat Capdevila Pallarés",
                     "FLAG_PATH":"file:./andorra/Escaldes-Engordany Flag.png",
                     "LEADER_PATH":"file:./andorra/Montserrat Capdevila Pallarés.png",
-                    "R":0,
-                    "G":0,
-                    "B":0
+                    "R":194,
+                    "G":194,
+                    "B":194
                 }
             ],
             "SUBREGION_POLYGONS":[
@@ -1904,14 +1904,14 @@
         {
             "SUBREGION_PROPERTIES":[
                 {
-                    "REGION_NAME":"Ordino",
-                    "REGION_CAPITAL":"Ordino",
-                    "REGION_LEADER":"Ventura Espot",
-                    "FLAG_PATH":"file:./andorra/Ordino Flag.png",
-                    "LEADER_PATH":"file:./andorra/Ventura Espot.png",
-                    "R":0,
-                    "G":0,
-                    "B":0
+                    "REGION_NAME":"La Massana",
+                    "REGION_CAPITAL":"La Massana (town)",
+                    "REGION_LEADER":"Josep Areny",
+                    "FLAG_PATH":"file:./andorra/La Massana Flag.png",
+                    "LEADER_PATH":"file:./andorra/Josep Areny.png",
+                    "R":192,
+                    "G":192,
+                    "B":192
                 }
             ],
             "SUBREGION_POLYGONS":[
@@ -2310,14 +2310,14 @@
         {
             "SUBREGION_PROPERTIES":[
                 {
-                    "REGION_NAME":"La Massana",
-                    "REGION_CAPITAL":"La Massana (town)",
-                    "REGION_LEADER":"Josep Areny",
-                    "FLAG_PATH":"file:./andorra/La Massana Flag.png",
-                    "LEADER_PATH":"file:./andorra/Josep Areny.png",
-                    "R":0,
-                    "G":0,
-                    "B":0
+                    "REGION_NAME":"Andorra la Vella",
+                    "REGION_CAPITAL":"Andorra la Vella (city)",
+                    "REGION_LEADER":"Maria Rosa Ferrer Obiols",
+                    "FLAG_PATH":"file:./andorra/Andorra la Vella Flag.png",
+                    "LEADER_PATH":"file:./andorra/Maria Rosa Ferrer Obiols.png",
+                    "R":190,
+                    "G":190,
+                    "B":190
                 }
             ],
             "SUBREGION_POLYGONS":[
@@ -2804,14 +2804,14 @@
         {
             "SUBREGION_PROPERTIES":[
                 {
-                    "REGION_NAME":"Andorra la Vella",
-                    "REGION_CAPITAL":"Andorra la Vella (city)",
-                    "REGION_LEADER":"Maria Rosa Ferrer Obiols",
-                    "FLAG_PATH":"file:./andorra/Andorra la Vella Flag.png",
-                    "LEADER_PATH":"file:./andorra/Maria Rosa Ferrer Obiols.png",
-                    "R":0,
-                    "G":0,
-                    "B":0
+                    "REGION_NAME":"Sant Julia de Loria",
+                    "REGION_CAPITAL":"Sant Julia de Loria (town)",
+                    "REGION_LEADER":"Josep Pintat Forné",
+                    "FLAG_PATH":"file:./andorra/Sant Julia de Loria Flag.png",
+                    "LEADER_PATH":"file:./andorra/Josep Pintat Forné.png",
+                    "R":188,
+                    "G":188,
+                    "B":188
                 }
             ],
             "SUBREGION_POLYGONS":[

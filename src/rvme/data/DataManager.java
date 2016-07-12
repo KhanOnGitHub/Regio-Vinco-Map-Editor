@@ -5,19 +5,21 @@
  */
 package rvme.data;
 
-import java.util.ArrayList;
+import java.io.File;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 import properties_manager.PropertiesManager;
 import rvme.gui.Workspace;
 import saf.AppTemplate;
 import saf.components.AppDataComponent;
-import saf.ui.AppGUI;
+import saf.ui.AppProgressBarDialogSingleton;
 
 /**
  *
@@ -47,6 +49,10 @@ public class DataManager implements AppDataComponent {
     String regionName;
     String audioName;
     String audioFileName;
+
+    ProgressBar loadingProgress;
+    Label loadingLabel;
+    GridPane loadingGrid;
 
     public DataManager(AppTemplate initApp) throws Exception {
         app = initApp;
@@ -89,12 +95,8 @@ public class DataManager implements AppDataComponent {
     }
 
     public void addSubregionsToPane() throws Exception {
-        for (int i = 0; i < subregions.size(); i++) {
-            map.getChildren().add(subregions.get(i).constructRegion());
-        }
-
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
-        workspace.getWorkspace().getChildren().add(map);
+        workspace.drawOnMap(subregions);
     }
 
     public void setMapBackgroundColor(String color) {
@@ -137,9 +139,7 @@ public class DataManager implements AppDataComponent {
 
     public double convertLong(double x) {
         //SOME CONVERSION
-        Workspace workspace = (Workspace) app.getWorkspaceComponent();
-        double screenWidth = workspace.getMapPane().getWidth();
-        x = (x + 180.0) * (screenWidth / 360);
+        x = (x + 180.0) * (802 / 360);
         return x;
     }
 
@@ -149,9 +149,8 @@ public class DataManager implements AppDataComponent {
 
     public double convertLat(double y) {
         //SOME CONVERSION
-        Workspace workspace = (Workspace) app.getWorkspaceComponent();
-        double screenHeight = workspace.getMapPane().getHeight();
-        y = (90.0 - y) * (screenHeight / 180);
+
+        y = (90.0 - y) * (536 / 180) ;
         return y;
     }
 
@@ -242,7 +241,35 @@ public class DataManager implements AppDataComponent {
 
     }
 
-   /* public void drawMap() {
+    public void loadingProgress() {
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
+        AppProgressBarDialogSingleton loadingDialog = AppProgressBarDialogSingleton.getSingleton();
+        loadingProgress = new ProgressBar();
+        loadingProgress.setProgress(0f);
+        loadingLabel = new Label();
+        //REPLACE WITH XML PROPERTY
+        loadingLabel.setText("Loading of work in progress");
+        loadingGrid = new GridPane();
+        loadingGrid.add(loadingLabel, 0, 0);
+        loadingGrid.add(loadingProgress, 1, 0);
+        Scene scene = new Scene(loadingGrid, 300, 300);
+        scene.getStylesheets().add("rvme/css/rvme_style.css");
+        loadingGrid.getStyleClass().add("gridPane");
+        loadingDialog.setScene(scene);
+        //REPLACE WITH XML PROPERTY
+        loadingDialog.setTitle("Loading");
+        loadingDialog.show();
+    }
+    
+    public void setLoadingProgress(double value) {
+        loadingProgress.setProgress(value);
+    }
+    
+    public void setLabelText(String text) {
+        loadingLabel.setText(text);
+    }
+
+    /* public void drawMap() {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
         AppGUI gui = app.getGUI();
         for (int i = 0; i < polygons.size(); i++) {
@@ -252,7 +279,6 @@ public class DataManager implements AppDataComponent {
         }
 
     }*/
-
     @Override
     public void reset() {
 
@@ -261,4 +287,6 @@ public class DataManager implements AppDataComponent {
     public void clearSubregions() {
         subregions.clear();
     }
+    
+
 }

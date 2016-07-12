@@ -33,6 +33,7 @@ public class TestSave extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         testSaveAndorra(primaryStage);
     }
 
@@ -65,26 +66,37 @@ public class TestSave extends Application {
         subregions.get(0).setRegionName("Ordino");
         subregions.get(0).setRegionCapital("Ordino (town)");
         subregions.get(0).setRegionLeader("Ventura Espot");
+        subregions.get(0).setRGB(200, 200, 200);
 
         subregions.get(1).setRegionName("Canillo");
         subregions.get(1).setRegionCapital("Canillo (town)");
         subregions.get(1).setRegionLeader("Enric Casadevall Medrano");
+        subregions.get(1).setRGB(198, 198, 198);
 
         subregions.get(2).setRegionName("Encamp");
         subregions.get(2).setRegionCapital("Encamp (town)");
         subregions.get(2).setRegionLeader("Miquel Alís Font");
+        subregions.get(2).setRGB(196, 196, 196);
 
         subregions.get(3).setRegionName("Escaldes-Engordany");
         subregions.get(3).setRegionCapital("Escaldes-Engordany (town)");
         subregions.get(3).setRegionLeader("Montserrat Capdevila Pallarés");
+        subregions.get(3).setRGB(194, 194, 194);
 
-        subregions.get(5).setRegionName("La Massana");
-        subregions.get(5).setRegionCapital("La Massana (town)");
-        subregions.get(5).setRegionLeader("Josep Areny");
+        subregions.get(4).setRegionName("La Massana");
+        subregions.get(4).setRegionCapital("La Massana (town)");
+        subregions.get(4).setRegionLeader("Josep Areny");
+        subregions.get(4).setRGB(192, 192, 192);
 
-        subregions.get(6).setRegionName("Andorra la Vella");
-        subregions.get(6).setRegionCapital("Andorra la Vella (city)");
-        subregions.get(6).setRegionLeader("Maria Rosa Ferrer Obiols");
+        subregions.get(5).setRegionName("Andorra la Vella");
+        subregions.get(5).setRegionCapital("Andorra la Vella (city)");
+        subregions.get(5).setRegionLeader("Maria Rosa Ferrer Obiols");
+        subregions.get(5).setRGB(190, 190, 190);
+        
+        subregions.get(6).setRegionName("Sant Julia de Loria");
+        subregions.get(6).setRegionCapital("Sant Julia de Loria (town)");
+        subregions.get(6).setRegionLeader("Josep Pintat Forné");
+        subregions.get(6).setRGB(188,188,188);
 
         //GIVE EACH OF THE SUBREGIONS PATH TO THEIR RESPECTIVE FLAGS AND LEADERS
         for (int i = 0; i < subregions.size(); i++) {

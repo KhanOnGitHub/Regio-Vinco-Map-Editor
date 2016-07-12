@@ -6,17 +6,17 @@
 package rvme.gui;
 
 import java.io.IOException;
-import javafx.geometry.HPos;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
+import javafx.scene.Group;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -27,6 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import properties_manager.PropertiesManager;
 import rvme.PropertyType;
 import saf.ui.AppGUI;
@@ -50,6 +51,8 @@ public class Workspace extends AppWorkspaceComponent {
 
     //OUR SPLIT PANE
     SplitPane mapTable;
+
+    ProgressBar loadingProgress;
 
     //THIS HAS OUR SUBREGION MAP
     VBox mapBox;
@@ -77,10 +80,12 @@ public class Workspace extends AppWorkspaceComponent {
         setupHandlers();
     }
 
+    
     private void layoutGUI() {
         workspace = new FlowPane();
         mapBox = createMapPane();
         subregionsBox = createTableView();
+        loadingProgress = new ProgressBar();
         mapTable = createSplitPane(mapBox, subregionsBox);
         mapTable.setPrefSize(app.getGUI().getPrimaryScene().getWidth(), app.getGUI().getPrimaryScene().getHeight());
         workspace.getChildren().add(mapTable);
@@ -99,9 +104,9 @@ public class Workspace extends AppWorkspaceComponent {
 
     private VBox createMapPane() {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
-        
+
         mapBox = new VBox();
-        
+
         mapLabel = new Label();
         mapLabel.setText(props.getProperty(PropertyType.MAP_LABEL));
 
@@ -123,14 +128,16 @@ public class Workspace extends AppWorkspaceComponent {
         //SETUP THE HBOX CONTAINIG THE SLIDERS
         sliderBox.getChildren().addAll(sliderLabel, mapZoomSlider);
 
-        mapPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        //mapPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         
         
-        mapPane.getChildren().addAll(subregionsPane, sliderBox);
-        StackPane.setAlignment(sliderBox, Pos.BOTTOM_RIGHT);
+        
+        mapPane.getChildren().add(subregionsPane);
+        mapPane.getChildren().add(sliderBox);
+ 
 
         mapBox.getChildren().addAll(mapLabel, mapPane);
-        
+
         return mapBox;
     }
 
@@ -142,8 +149,6 @@ public class Workspace extends AppWorkspaceComponent {
         subregionsLabel = new Label(props.getProperty(PropertyType.SUBREGIONS_HEADING_LABEL));
 
         subregionsTable = new TableView();
-
-
 
         //SETUP COLUMN HEADINGS
         subregionNameColumn = new TableColumn(props.getProperty(PropertyType.NAME_COLUMN_HEADING));
@@ -176,7 +181,7 @@ public class Workspace extends AppWorkspaceComponent {
 
         subregionsBox.getChildren().add(subregionsLabel);
         subregionsBox.getChildren().add(subregionsTable);
-        
+
         return subregionsBox;
     }
 
@@ -196,16 +201,34 @@ public class Workspace extends AppWorkspaceComponent {
 
         subregionsBox.getStyleClass().add(CLASS_BORDERED_PANE);
         mapTable.getStyleClass().add(CLASS_BORDERED_PANE);
-        
+
         subregionsLabel.getStyleClass().add(CLASS_SUBHEADING_LABEL);
         mapLabel.getStyleClass().add(CLASS_SUBHEADING_LABEL);
+
+    }
+
+    public void drawOnMap(ObservableList<Subregion> subregions) {
+        subregionsPane.setPrefSize(802, 536);
+        Group subregionGroup = new Group();
+        for (int i = 0; i < subregions.size(); i++) {
+            Polygon polygon = subregions.get(i).constructRegion();
+            polygon.setStrokeWidth(polygon.getStrokeWidth()/50);
+            subregionGroup.getChildren().add(polygon);
+        }
         
+        subregionGroup.setScaleX(subregionGroup.getScaleX()* 100);
+        subregionGroup.setScaleY(subregionGroup.getScaleY() * 100);
+        subregionsPane.getChildren().add(subregionGroup);
+        subregionsPane.setBackground(Background.EMPTY);
+        
+ 
+
     }
 
     public StackPane getMapPane() {
         return mapPane;
     }
-    
+
     @Override
     public void reloadWorkspace() {
 

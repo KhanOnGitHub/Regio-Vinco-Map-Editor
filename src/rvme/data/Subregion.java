@@ -167,7 +167,7 @@ public class Subregion {
     public Polygon constructRegion() {
         region = new Polygon();
         region.getPoints().addAll(polyPoints);
-        region.setFill(Color.color(red, green, blue));
+        region.setFill(Color.rgb(red, green, blue));
         return region;
     }
     

@@ -5,10 +5,11 @@
  */
 package rvme.test_bed;
 
-import java.io.File;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
-import javafx.stage.FileChooser;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 import rvme.data.DataManager;
 import rvme.file.FileManager;
@@ -19,24 +20,36 @@ import saf.AppTemplate;
  * @author eyb0s
  */
 public class TestLoad extends Application {
+
     AppTemplate app;
-    
+
     public static void main(String[] args) {
         launch(args);
     }
-    
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        testLoadAndorra(primaryStage);
+        Pane pane = new Pane();
+        DataManager dataManager = testLoadAndorra(primaryStage);
+        for (int i = 0; i < dataManager.getSubregions().size(); i++) {
+            pane.getChildren().add(dataManager.getSubregions().get(i).constructRegion());
+        }
+        Scene scene = new Scene(pane, 1000, 1000);
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
     }
-    
-    public void testLoadAndorra(Stage primaryStage) throws Exception {
-       /* FileChooser fc = new FileChooser();
+
+    public DataManager testLoadAndorra(Stage primaryStage) throws Exception {
+        /* FileChooser fc = new FileChooser();
         File selectedFile = fc.showOpenDialog(primaryStage);*/
         FileManager fileManager = new FileManager();
         DataManager dataManager = new DataManager(app);
-        fileManager.loadData(dataManager, "./andorra/Andorra.json");
-        
+        fileManager.loadDataTest(dataManager, "./andorra/Andorra.json");
+
         dataManager.printData();
+
+        return dataManager;
     }
 }
