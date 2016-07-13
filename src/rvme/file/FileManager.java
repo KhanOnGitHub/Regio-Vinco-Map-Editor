@@ -207,8 +207,6 @@ public class FileManager implements AppFileComponent {
 
         DataManager dataManager = (DataManager) data;
 
-        dataManager.loadingProgress();
-
         JsonString jsonRegionName = json.getJsonString(JSON_REGION);
         dataManager.setRegionName(jsonRegionName.getString());
 
@@ -441,7 +439,10 @@ public class FileManager implements AppFileComponent {
         dataManager.setRegionName(regionName);
         loadRawMap(data, filePath);
         File newMapFile = new File("./work/", regionName + ".json");
+        newMapFile.createNewFile();
         loadRawMap(data, filePath);
+        dataManager.setParentDirectory(directoryPath);
+        saveData(data, newMapFile.getPath());
         dataManager.addSubregionsToPane();
 
     }

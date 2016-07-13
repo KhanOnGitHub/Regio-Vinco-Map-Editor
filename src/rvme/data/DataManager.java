@@ -57,6 +57,7 @@ public class DataManager implements AppDataComponent {
     public DataManager(AppTemplate initApp) throws Exception {
         app = initApp;
         subregions = FXCollections.observableArrayList();
+        images = FXCollections.observableArrayList();
         imageViews = FXCollections.observableArrayList();
         paths = FXCollections.observableArrayList();
         backgroundColor = "";
@@ -150,7 +151,7 @@ public class DataManager implements AppDataComponent {
     public double convertLat(double y) {
         //SOME CONVERSION
 
-        y = (90.0 - y) * (536 / 180) ;
+        y = (90.0 - y) * (536 / 180);
         return y;
     }
 
@@ -260,11 +261,11 @@ public class DataManager implements AppDataComponent {
         loadingDialog.setTitle("Loading");
         loadingDialog.show();
     }
-    
+
     public void setLoadingProgress(double value) {
         loadingProgress.setProgress(value);
     }
-    
+
     public void setLabelText(String text) {
         loadingLabel.setText(text);
     }
@@ -281,13 +282,28 @@ public class DataManager implements AppDataComponent {
     }*/
     @Override
     public void reset() {
-        
+        subregions.clear();
+        imageViews.clear();
+        images.clear();
+        paths.clear();
+        backgroundColor = "";
+        borderColorRed = borderColorGreen = borderColorBlue = 0;
 
+        parentDirectory = "";
+
+        borderThickness = 1.0f;
+        mapZoom = 1.0f;
+
+        map.getChildren().clear();
+        randomPane.getChildren().clear();
+
+        regionName="";
+        audioName="";
+        audioFileName="";
     }
 
     public void clearSubregions() {
         subregions.clear();
     }
-    
 
 }

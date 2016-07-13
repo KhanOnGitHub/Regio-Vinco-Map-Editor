@@ -37,6 +37,9 @@ public class Subregion {
         subregionCapital = new SimpleStringProperty(DEFAULT_CAPITAL);
         subregionLeader = new SimpleStringProperty(DEFAULT_LEADER);
         
+        flagPath = "";
+        leaderPath = "";
+        
         polyPoints = new ArrayList<>();
         
         region = new Polygon();

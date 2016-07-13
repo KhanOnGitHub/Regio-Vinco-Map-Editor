@@ -50,6 +50,7 @@
         <property name="NEW_ERROR_MESSAGE"              value="An error occured creating New work."></property>
         <property name="NEW_ERROR_TITLE"		value="New Work Error"></property>
         <property name="LOAD_ERROR_MESSAGE"             value="An error occured loading work."></property>
+        <property name="LOAD_ERROR_FORMAT"              value="The file is in the incorrect format. Please choose a valid file."></property>
         <property name="LOAD_ERROR_TITLE"		value="Load Work Error"></property>
         <property name="SAVE_ERROR_MESSAGE"             value="An error occured saving work."></property>
         <property name="SAVE_ERROR_TITLE"		value="Save Work Error"></property>
