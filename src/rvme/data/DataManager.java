@@ -5,17 +5,23 @@
  */
 package rvme.data;
 
-import java.io.File;
+import java.io.IOException;
+import javafx.scene.paint.Color;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import properties_manager.PropertiesManager;
+import rvme.file.FileManager;
 import rvme.gui.Workspace;
 import saf.AppTemplate;
 import saf.components.AppDataComponent;
@@ -54,25 +60,28 @@ public class DataManager implements AppDataComponent {
     Label loadingLabel;
     GridPane loadingGrid;
 
+    boolean converted;
+    
     public DataManager(AppTemplate initApp) throws Exception {
         app = initApp;
         subregions = FXCollections.observableArrayList();
         images = FXCollections.observableArrayList();
         imageViews = FXCollections.observableArrayList();
         paths = FXCollections.observableArrayList();
-        backgroundColor = "";
+        backgroundColor = "#FFFFFF";
         int borderColorRed = 0;
         int borderColorGreen = 0;
         int borderColorBlue = 0;
-        regionName = "";
-        audioName = "";
-        audioFileName = "";
+        regionName = "?";
+        audioName = "?";
+        audioFileName = "?";
         map = new Pane();
         randomPane = new Pane();
         map.setPrefSize(802, 536);
         borderThickness = 1.0;
-        parentDirectory = "";
+        parentDirectory = "?";
         mapZoom = 1.0;
+        converted = false;
     }
 
     public ObservableList<Subregion> getSubregions() {
@@ -101,12 +110,20 @@ public class DataManager implements AppDataComponent {
     }
 
     public void setMapBackgroundColor(String color) {
-        randomPane.setStyle("-fx-background-color: " + color);
         backgroundColor = color;
+        //randomPane.setBackground(new Background(new BackgroundFill(Color.web(color), CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
     public String getBackgroundColor() {
         return backgroundColor;
+    }
+    
+    public boolean getConverted() {
+        return converted;
+    }
+    
+    public void setConverted(boolean value) {
+        converted = value;
     }
 
     public void addImagetoMap(String imageName, double x, double y) {
@@ -304,6 +321,13 @@ public class DataManager implements AppDataComponent {
 
     public void clearSubregions() {
         subregions.clear();
+    }
+    
+    @Override
+    public void changeMapName(String mapName) throws IOException {
+        FileManager fileManager = (FileManager) app.getFileComponent();
+        regionName = mapName;
+        fileManager.updateFiles(regionName);
     }
 
 }
