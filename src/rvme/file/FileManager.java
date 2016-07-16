@@ -259,6 +259,7 @@ public class FileManager implements AppFileComponent {
         loadMap(data, filePath, chosenFile);
 
         dataManager.addSubregionsToPane();
+        dataManager.addImagesToMap();
 
         currentMapFile = chosenFile;
         folderInParent = new File(dataManager.getParentDirectory() + "/" + dataManager.getRegionName());
@@ -409,6 +410,23 @@ public class FileManager implements AppFileComponent {
                 }
             }
         }
+        
+        //LOAD ALL IMAGES
+        JsonArray jsonImages = json.getJsonArray(JSON_IMAGES);
+        for(int i = 0; i < jsonImages.size(); i++)
+        {
+            JsonObject jsonImageProperties = jsonImages.getJsonObject(i);
+            String imagePath = jsonImageProperties.getString(JSON_IMAGE);
+            double x = getDataAsDouble(jsonImageProperties, JSON_X);
+            double y = getDataAsDouble(jsonImageProperties, JSON_Y);
+            x = dataManager.convertLong(x);
+            y = dataManager.convertLat(y);
+            Image newImage = new Image(imagePath);
+            ImageView newImageView = new ImageView(newImage);
+            newImageView.setX(x);
+            newImageView.setY(y);
+        }
+        
         dataManager.setConverted(true);
 
     }
@@ -490,13 +508,13 @@ public class FileManager implements AppFileComponent {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         DataManager dataManager = (DataManager) data;
         dataManager.reset();
+        dataManager.setConverted(false);
         dataManager.setRegionName(regionName);
         loadRawMap(data, filePath);
         currentMapFile = new File("./work/", regionName + ".json");
         currentMapFile.createNewFile();
         folderInParent = new File(directoryPath + "/" + regionName);
         folderInParent.mkdirs();
-        loadRawMap(data, filePath);
         dataManager.setParentDirectory(directoryPath);
         saveData(data, currentMapFile.getPath());
         dataManager.addSubregionsToPane();

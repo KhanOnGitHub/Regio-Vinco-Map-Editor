@@ -15,6 +15,7 @@ import saf.components.AppDataComponent;
 import saf.components.AppFileComponent;
 import saf.components.AppWorkspaceComponent;
 import static javafx.application.Application.launch;
+import static javafx.application.Application.launch;
 
 /**
  *

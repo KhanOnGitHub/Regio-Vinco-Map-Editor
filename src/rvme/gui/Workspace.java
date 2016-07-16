@@ -218,9 +218,16 @@ public class Workspace extends AppWorkspaceComponent {
         subregionGroup.setScaleY(subregionGroup.getScaleY() * 200);
         subregionsPane.getChildren().add(subregionGroup);
         subregionsPane.setBackground(Background.EMPTY);
-        
- 
-
+    }
+    
+    public void imagesOnMap(ObservableList<ImageView> imageViews) {
+        for(int i = 0; i < imageViews.size(); i++) {
+            subregionsPane.getChildren().add(imageViews.get(i));
+        }
+    }
+    
+    public void imageOnMap(ImageView imageView) {
+        subregionsPane.getChildren().add(imageView);
     }
 
     public StackPane getMapPane() {

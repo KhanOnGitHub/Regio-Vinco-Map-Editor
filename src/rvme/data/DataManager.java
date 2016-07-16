@@ -140,6 +140,11 @@ public class DataManager implements AppDataComponent {
 
         map.getChildren().add(imageViews.get(imageViews.indexOf(newImageView)));
     }
+    
+    public void addImagesToMap() {
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
+        workspace.imagesOnMap(imageViews);
+    }
 
     public ObservableList<String> getPaths() {
         return paths;
@@ -328,6 +333,18 @@ public class DataManager implements AppDataComponent {
         FileManager fileManager = (FileManager) app.getFileComponent();
         regionName = mapName;
         fileManager.updateFiles(regionName);
+    }
+    
+    @Override 
+    public void addImage(String imagePath) {
+        Image newImage = new Image("file:" + imagePath);
+        ImageView newImageView = new ImageView(newImage);
+        imageViews.add(newImageView);
+        
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
+        workspace.imageOnMap(imageViews.get(imageViews.size()-1));
+        
+        
     }
 
 }
