@@ -75,9 +75,9 @@ public class DataManager implements AppDataComponent {
         imageViews = FXCollections.observableArrayList();
         paths = FXCollections.observableArrayList();
         backgroundColor = "#FFFFFF";
-        int borderColorRed = 0;
-        int borderColorGreen = 0;
-        int borderColorBlue = 0;
+        int borderColorRed = 255;
+        int borderColorGreen = 255;
+        int borderColorBlue = 255;
         regionName = "?";
         audioName = "?";
         audioFileName = "?";
@@ -114,6 +114,7 @@ public class DataManager implements AppDataComponent {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
         workspace.drawOnMap(subregions);
     }
+    
 
     public void setMapBackgroundColor(String color) {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
@@ -378,16 +379,20 @@ public class DataManager implements AppDataComponent {
     @Override
     public void changeBorderColor() {
         AppChangeMapBorderColorDialogSingleton changeBorderColorDialog = AppChangeMapBorderColorDialogSingleton.getSingleton();
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
         ColorPicker mapBGColorPicker = new ColorPicker();
         GridPane colorPickerPane = new GridPane();
         Button okButton = new Button("OK");
         okButton.setOnAction(e -> {
             Color chosenColor = mapBGColorPicker.getValue();
-            String hexString = String.format("#%02X%02X%02X",
-                    (int) (chosenColor.getRed() * 255),
-                    (int) (chosenColor.getGreen() * 255),
-                    (int) (chosenColor.getBlue() * 255));
-            setMapBackgroundColor(hexString);
+            borderColorRed = (int) chosenColor.getRed() * 255;
+            borderColorGreen = (int) chosenColor.getGreen() * 255; 
+            borderColorBlue = (int) chosenColor.getBlue() * 255;
+            for(int i = 0; i < subregions.size(); i ++) {
+                Subregion subregion = subregions.get(i);
+                subregion.setRegion(subregion.constructRegion(borderThickness, borderColorRed, borderColorGreen, borderColorBlue));
+            }
+            workspace.redrawSubregions();
             changeBorderColorDialog.close();
         });
         colorPickerPane.add(mapBGColorPicker, 0, 0);

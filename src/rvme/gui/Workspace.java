@@ -96,7 +96,7 @@ public class Workspace extends AppWorkspaceComponent {
                 mapEditorController.processEditSubregion(subregionsTable.getSelectionModel().getSelectedItem());
             }
         });
-        
+
         /*subregionsPane.setOnMouseClicked(e -> {
             System.out.println("aylmao");
         });*/
@@ -128,15 +128,15 @@ public class Workspace extends AppWorkspaceComponent {
 
         //SETUP THE HBOX CONTAINIG THE SLIDERS
         sliderBox.getChildren().addAll(sliderLabel, mapZoomSlider);
-        
+
         Group sliderBoxGroup = new Group();
         sliderBoxGroup.getChildren().add(sliderBox);
-        
+
         //mapPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         mapPane.getChildren().add(subregionsPane);
         mapPane.getChildren().add(imagesPane);
         mapPane.getChildren().add(sliderBoxGroup);
-        
+
         sliderBoxGroup.setPickOnBounds(false);
         imagesPane.setPickOnBounds(false);
         StackPane.setAlignment(sliderBoxGroup, Pos.BOTTOM_LEFT);
@@ -212,11 +212,11 @@ public class Workspace extends AppWorkspaceComponent {
     }
 
     public void drawOnMap(ObservableList<Subregion> subregions) {
+        DataManager dataManager = (DataManager) app.getDataComponent();
         subregionsPane.setPrefSize(802, 536);
         Group subregionGroup = new Group();
         for (int i = 0; i < subregions.size(); i++) {
-            Polygon polygon = subregions.get(i).constructRegion();
-            polygon.setStrokeWidth(polygon.getStrokeWidth() / 50);
+            Polygon polygon = subregions.get(i).getRegion();
             subregionGroup.getChildren().add(polygon);
         }
 
@@ -236,22 +236,40 @@ public class Workspace extends AppWorkspaceComponent {
         imagesPane.getChildren().add(imageView);
 
     }
-    
+
     public void removeImageOnMap() {
         DataManager dataManager = (DataManager) app.getDataComponent();
         imagesPane.getChildren().clear();
         dataManager.addImagesToMap();
     }
 
+    public void redrawSubregions() {
+        DataManager dataManager = (DataManager) app.getDataComponent();
+        ObservableList<Subregion> subregions = dataManager.getSubregions();
+        subregionsPane.setPrefSize(802, 536);
+        subregionsPane.getChildren().clear();
+
+        Group subregionGroup = new Group();
+        for (int i = 0; i < subregions.size(); i++) {
+            Polygon polygon = subregions.get(i).getRegion();
+            subregionGroup.getChildren().add(polygon);
+        }
+
+        subregionGroup.setScaleX(subregionGroup.getScaleX() * 200);
+        subregionGroup.setScaleY(subregionGroup.getScaleY() * 200);
+        subregionsPane.getChildren().add(subregionGroup);
+        subregionsPane.setBackground(Background.EMPTY);
+
+    }
 
     public StackPane getMapPane() {
         return mapPane;
     }
 
     @Override
-    public void reloadWorkspace()  {
-        DataManager dataManager = (DataManager)app.getDataComponent();
-       /* 
+    public void reloadWorkspace() {
+        DataManager dataManager = (DataManager) app.getDataComponent();
+        /* 
         //recreate tables
         layoutGUI();
         setupHandlers();
@@ -263,7 +281,7 @@ public class Workspace extends AppWorkspaceComponent {
             Logger.getLogger(Workspace.class.getName()).log(Level.SEVERE, null, ex);
         }
         dataManager.addImagesToMap();
-*/
+         */
     }
 
 }

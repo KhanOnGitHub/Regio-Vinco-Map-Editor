@@ -11,6 +11,7 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import rvme.MapEditorApp;
+import saf.components.AppDataComponent;
 /**
  *
  * @author eyb0s
@@ -46,7 +47,9 @@ public class Subregion {
         polyPoints = new ArrayList<>();
         
         region = new Polygon();
-        red = blue = green = 0;
+        red = 124;
+        green = 252;
+        blue = 0;
     }
     
     public Subregion(String initName, String initCapital, String initLeader, String flagPath, String leaderPath, int red, int green, int blue) {
@@ -170,14 +173,14 @@ public class Subregion {
         polyPoints.add(Y);
     }
     
-    public Polygon constructRegion() {
-        DataManager dataManager = (DataManager) app.getDataComponent();
+    public Polygon constructRegion(double strokeWidth, int borderColorRed, int borderColorGreen, int borderColorBlue) {
         region = new Polygon();
         region.getPoints().addAll(polyPoints);
         region.setFill(Color.rgb(red, green, blue));
-        region.setStrokeWidth(dataManager.getBorderThickness());
-        region.setStroke(Color.rgb(dataManager.getBorderColorRed(), dataManager.getBorderColorGreen(), dataManager.getBorderColorBlue()));
+        region.setStrokeWidth(region.getStrokeWidth()/100);
+        region.setStroke(Color.rgb(borderColorRed, borderColorGreen, borderColorBlue));
         return region;
     }
+    
     
 }

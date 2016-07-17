@@ -220,7 +220,7 @@ public class FileManager implements AppFileComponent {
         dataManager.setAudioName(jsonAudioName.getString());
 
         JsonString jsonAudioFileName = json.getJsonString(JSON_AUDIO_FILE);
-        dataManager.setAudioName(jsonAudioFileName.getString());
+        dataManager.setAudioFileName(jsonAudioFileName.getString());
 
         JsonString jsonParentRegionDirectory = json.getJsonString(JSON_DIRECTORY);
         dataManager.setParentDirectory(jsonParentRegionDirectory.getString());
@@ -386,7 +386,7 @@ public class FileManager implements AppFileComponent {
                         y = dataManager.convertLat(y);
                         subregion.addPoints(x, y);
                         if (k == jsonCoordinates.size() - 1) {
-                            subregion.setRegion(subregion.constructRegion());
+                            subregion.setRegion(subregion.constructRegion(dataManager.getBorderThickness(), dataManager.getBorderColorRed(), dataManager.getBorderColorGreen(), dataManager.getBorderColorBlue()));
                             dataManager.addSubregion(subregion);
                         }
                     }
@@ -398,9 +398,7 @@ public class FileManager implements AppFileComponent {
                         double y = getDataAsDouble(jsonCoordinatesObject, JSON_Y);
                         subregion.addPoints(x, y);
                         if (k == jsonCoordinates.size() - 1) {
-                            subregion.setRegion(subregion.constructRegion());
-                            subregion.getRegion().setStrokeWidth(1); //PUT ANOTHER JSON FIELD HERE
-                            subregion.getRegion().setStroke(Color.BLACK); //PUT ANOTHER JSON FIELD HERE WHEN IMPLEMENTED
+                            subregion.setRegion(subregion.constructRegion(dataManager.getBorderThickness(), dataManager.getBorderColorRed(), dataManager.getBorderColorGreen(), dataManager.getBorderColorBlue()));
                             dataManager.addSubregion(subregion);
                         }
                     }
@@ -456,7 +454,7 @@ public class FileManager implements AppFileComponent {
                         y = dataManager.convertLat(y);
                         subregion.addPoints(x, y);
                         if (k == jsonCoordinates.size() - 1) {
-                            subregion.setRegion(subregion.constructRegion());
+                            subregion.setRegion(subregion.constructRegion(dataManager.getBorderThickness(), dataManager.getBorderColorRed(), dataManager.getBorderColorGreen(), dataManager.getBorderColorBlue()));
                             subregion.getRegion().setStrokeWidth(1); //PUT ANOTHER JSON FIELD HERE
                             subregion.getRegion().setStroke(Color.BLACK); //PUT ANOTHER JSON FIELD HERE WHEN IMPLEMENTED
                             dataManager.addSubregion(subregion);
@@ -469,7 +467,7 @@ public class FileManager implements AppFileComponent {
                         double y = getDataAsDouble(jsonCoordinatesObject, JSON_Y);
                         subregion.addPoints(x, y);
                         if (k == jsonCoordinates.size() - 1) {
-                            subregion.setRegion(subregion.constructRegion());
+                            subregion.setRegion(subregion.constructRegion(dataManager.getBorderThickness(), dataManager.getBorderColorRed(), dataManager.getBorderColorGreen(), dataManager.getBorderColorBlue()));
                             subregion.getRegion().setStrokeWidth(1); //PUT ANOTHER JSON FIELD HERE
                             subregion.getRegion().setStroke(Color.BLACK); //PUT ANOTHER JSON FIELD HERE WHEN IMPLEMENTED
                             dataManager.addSubregion(subregion);

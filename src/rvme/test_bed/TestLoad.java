@@ -32,7 +32,7 @@ public class TestLoad extends Application {
         Pane pane = new Pane();
         DataManager dataManager = testLoadAndorra(primaryStage);
         for (int i = 0; i < dataManager.getSubregions().size(); i++) {
-            pane.getChildren().add(dataManager.getSubregions().get(i).constructRegion());
+           // pane.getChildren().add(dataManager.getSubregions().get(i).constructRegion());
         }
         Scene scene = new Scene(pane, 1000, 1000);
 
