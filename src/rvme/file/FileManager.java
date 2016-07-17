@@ -263,7 +263,6 @@ public class FileManager implements AppFileComponent {
 
         currentMapFile = chosenFile;
         folderInParent = new File(dataManager.getParentDirectory() + "/" + dataManager.getRegionName());
-        //updateFiles("hehe");
 
     }
 
@@ -421,6 +420,7 @@ public class FileManager implements AppFileComponent {
             ImageView newImageView = new ImageView(newImage);
             newImageView.setX(x);
             newImageView.setY(y);
+            dataManager.getImageViews().add(newImageView);
         }
         
         dataManager.setConverted(true);

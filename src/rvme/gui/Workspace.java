@@ -14,6 +14,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -69,6 +70,7 @@ public class Workspace extends AppWorkspaceComponent {
     TableColumn subregionNameColumn;
     TableColumn subregionCapitalColumn;
     TableColumn subregionLeaderColumn;
+    
 
     public Workspace(AppTemplate initApp) throws IOException {
         app = initApp;
@@ -91,15 +93,27 @@ public class Workspace extends AppWorkspaceComponent {
         mapEditorController = new MapEditorController(app);
         DataManager data = (DataManager) app.getDataComponent();
 
-        subregionsTable.setOnMouseClicked(e -> {
-            if (e.getClickCount() == 2) {
-                mapEditorController.processEditSubregion(subregionsTable.getSelectionModel().getSelectedItem());
-            }
+        subregionsTable.setRowFactory(e -> {
+            TableRow<Subregion> row = new TableRow<>();
+            row.setOnMouseClicked(mouseClick -> {
+                Subregion rowData = row.getItem();
+                mapEditorController.processHighlightSubregion(rowData);
+                if (mouseClick.getClickCount() == 2 && (!row.isEmpty())) {
+                    rowData = row.getItem();
+                    mapEditorController.processEditSubregion(rowData);
+                }
+            });
+            return row;
         });
+    }
 
-        /*subregionsPane.setOnMouseClicked(e -> {
-            System.out.println("aylmao");
-        });*/
+    public void updateTableView() {
+        subregionsTable.getColumns().get(0).setVisible(false);
+        subregionsTable.getColumns().get(0).setVisible(true);
+        subregionsTable.getColumns().get(1).setVisible(false);
+        subregionsTable.getColumns().get(1).setVisible(true);
+        subregionsTable.getColumns().get(2).setVisible(false);
+        subregionsTable.getColumns().get(2).setVisible(true);
     }
 
     private VBox createMapPane() {
@@ -214,6 +228,7 @@ public class Workspace extends AppWorkspaceComponent {
     public void drawOnMap(ObservableList<Subregion> subregions) {
         DataManager dataManager = (DataManager) app.getDataComponent();
         subregionsPane.setPrefSize(802, 536);
+        
         Group subregionGroup = new Group();
         for (int i = 0; i < subregions.size(); i++) {
             Polygon polygon = subregions.get(i).getRegion();
@@ -248,7 +263,7 @@ public class Workspace extends AppWorkspaceComponent {
         ObservableList<Subregion> subregions = dataManager.getSubregions();
         subregionsPane.setPrefSize(802, 536);
         subregionsPane.getChildren().clear();
-
+        
         Group subregionGroup = new Group();
         for (int i = 0; i < subregions.size(); i++) {
             Polygon polygon = subregions.get(i).getRegion();
@@ -264,6 +279,10 @@ public class Workspace extends AppWorkspaceComponent {
 
     public StackPane getMapPane() {
         return mapPane;
+    }
+
+    public TableView getTableView() {
+        return subregionsTable;
     }
 
     @Override

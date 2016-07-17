@@ -5,23 +5,17 @@
  */
 package rvme.controller;
 
-import javafx.scene.control.CheckBox;
-import java.time.LocalDate;
-import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import properties_manager.PropertiesManager;
 import saf.AppTemplate;
-import saf.ui.AppMessageDialogSingleton;
-import saf.ui.AppYesNoCancelDialogSingleton;
 import saf.ui.AppEditDialogSingleton;
 import rvme.PropertyType;
 import rvme.data.DataManager;
@@ -55,7 +49,7 @@ public class MapEditorController {
     private Button nextButton;
 
     private GridPane editPane;
-    
+
     private Scene scene;
 
     public MapEditorController(AppTemplate initApp) {
@@ -67,6 +61,16 @@ public class MapEditorController {
         workspace.reloadWorkspace();
         DataManager data = (DataManager) app.getDataComponent();
         layoutEditSubregionGUI(subregion);
+    }
+    
+    public void processHighlightSubregion(Subregion subregion) {
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
+        workspace.reloadWorkspace();
+        DataManager dataManager = (DataManager) app.getDataComponent();
+        ObservableList<Subregion> subregions = dataManager.getSubregions();
+        int chosenSubregion = subregions.indexOf(subregion);
+        dataManager.highlightSubregion(chosenSubregion);
+        
     }
 
     public void layoutEditSubregionGUI(Subregion subregion) {
@@ -108,7 +112,7 @@ public class MapEditorController {
         cancelButton.setOnAction(mouseClick -> {
             promptCancel();
         });
-        
+
         prevButton = new Button("Previous");
         nextButton = new Button("Next");
 
@@ -150,9 +154,11 @@ public class MapEditorController {
     }
 
     public void editSubregion(Subregion subregion) {
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
         subregion.setRegionName(nameText.getText());
         subregion.setRegionCapital(capitalText.getText());
         subregion.setRegionLeader(leaderText.getText());
+        workspace.updateTableView();
         dialog.close();
 
     }

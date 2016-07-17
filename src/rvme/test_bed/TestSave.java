@@ -111,7 +111,7 @@ public class TestSave extends Application {
 
         //START ADDING THINGS TO MAP
         dataManager.setMapBackgroundColor("orange");
-        dataManager.addImagetoMap("file:./andorra/Andorra Flag.png", 581, 390);
+       // dataManager.addImagetoMap("file:./andorra/Andorra Flag.png", 581, 390);
         //dataManager.addSubregionsToPane();
 
         return dataManager;

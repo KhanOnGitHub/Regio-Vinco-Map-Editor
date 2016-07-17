@@ -6,6 +6,11 @@
     "AUDIO_FILE_NAME":"",
     "BORDER_THICKNESS":1.0,
     "IMAGE_PATHS":[
+        {
+        "IMAGE_PATH": "C:\\Users\\eyb0s\\Documents\\NetBeansProjects\\hw5\\andorra\\Andorra Flag.png",
+        "X": 581,
+        "Y": 390
+        }
     ],
     "BORDER_COLOR":[
         {

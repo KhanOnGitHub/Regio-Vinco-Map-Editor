@@ -114,7 +114,6 @@ public class DataManager implements AppDataComponent {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
         workspace.drawOnMap(subregions);
     }
-    
 
     public void setMapBackgroundColor(String color) {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
@@ -133,21 +132,6 @@ public class DataManager implements AppDataComponent {
 
     public void setConverted(boolean value) {
         converted = value;
-    }
-
-    public void addImagetoMap(String imageName, double x, double y) {
-        PropertiesManager props = PropertiesManager.getPropertiesManager();
-        String imagePath = "file:./andorra/" + imageName;
-        Image newImage = new Image(imagePath);
-        paths.add(imagePath);
-        ImageView newImageView = new ImageView(newImage);
-
-        newImageView.setX(x);
-        newImageView.setY(y);
-
-        imageViews.add(newImageView);
-
-        map.getChildren().add(imageViews.get(imageViews.indexOf(newImageView)));
     }
 
     public void addImagesToMap() {
@@ -386,9 +370,9 @@ public class DataManager implements AppDataComponent {
         okButton.setOnAction(e -> {
             Color chosenColor = mapBGColorPicker.getValue();
             borderColorRed = (int) chosenColor.getRed() * 255;
-            borderColorGreen = (int) chosenColor.getGreen() * 255; 
+            borderColorGreen = (int) chosenColor.getGreen() * 255;
             borderColorBlue = (int) chosenColor.getBlue() * 255;
-            for(int i = 0; i < subregions.size(); i ++) {
+            for (int i = 0; i < subregions.size(); i++) {
                 Subregion subregion = subregions.get(i);
                 subregion.setRegion(subregion.constructRegion(borderThickness, borderColorRed, borderColorGreen, borderColorBlue));
             }
@@ -401,6 +385,56 @@ public class DataManager implements AppDataComponent {
         Scene scene = new Scene(colorPickerPane);
         changeBorderColorDialog.setScene(scene);
         changeBorderColorDialog.showAndWait();
+    }
+
+    @Override
+    public void reassignMapColors() {
+        Color[] subregionColors = new Color[subregions.size()];
+        int intervalGreyscale = 254 / subregions.size();
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
+        DataManager dataManager = (DataManager) app.getDataComponent();
+
+        for (int i = 0; i < subregions.size(); i++) {
+            subregionColors[i] = Color.rgb(254 - (intervalGreyscale * i), 254 - (intervalGreyscale * i), 254 - (intervalGreyscale * i));
+            subregions.get(i).setChanged(false);
+        }
+
+        for (int i = 0; i < subregions.size(); i++) {
+            Subregion newColorSubregion = subregions.get((int) (Math.random() * subregions.size()));
+            int newRed = (int) (subregionColors[i].getRed() * 255);
+            int newGreen = (int) (subregionColors[i].getGreen() * 255);
+            int newBlue = (int) (subregionColors[i].getBlue() * 255);
+            while (newColorSubregion.getChanged()) {
+                newColorSubregion = subregions.get((int) (Math.random() * subregions.size()));
+            }
+            newColorSubregion.setRGB(newRed, newGreen, newBlue);
+            newColorSubregion.constructRegion(dataManager.getBorderThickness(), dataManager.getBorderColorRed(), dataManager.getBorderColorGreen(), dataManager.getBorderColorBlue(), newRed, newGreen, newBlue);
+            newColorSubregion.setChanged(true);
+        }
+
+        workspace.redrawSubregions();
+
+    }
+
+    public void highlightSubregion(int chosenSubregion) {
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
+        Subregion subregion = subregions.get(chosenSubregion);
+        subregion.setPrevRed(subregion.getRed());
+        subregion.setPrevGreen(subregion.getGreen());
+        subregion.setPrevBlue(subregion.getBlue());
+        subregion.setRGB(255, 255, 0);
+        subregion.setRegion(subregion.constructRegion(borderThickness, borderColorRed, borderColorGreen, borderColorBlue, 255, 255, 0));
+        for (int i = 0; i < subregions.size(); i++) {
+            if (i != chosenSubregion) {
+                Subregion nonSelectedSubregion = subregions.get(i);
+                int red = nonSelectedSubregion.getPrevRed();
+                int green = nonSelectedSubregion.getPrevGreen();
+                int blue = nonSelectedSubregion.getBlue();
+                nonSelectedSubregion.setRGB(red, green, blue);
+                nonSelectedSubregion.setRegion(nonSelectedSubregion.constructRegion(borderThickness, borderColorRed, borderColorGreen, borderColorBlue, red, green, blue));
+            }
+        }
+        workspace.redrawSubregions();
     }
 
     public void setupImageViewListener(ImageView imageView) {
