@@ -7,9 +7,9 @@ package rvme.gui;
 
 import java.io.IOException;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
@@ -19,14 +19,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import properties_manager.PropertiesManager;
 import rvme.PropertyType;
@@ -80,7 +77,6 @@ public class Workspace extends AppWorkspaceComponent {
         setupHandlers();
     }
 
-    
     private void layoutGUI() {
         workspace = new FlowPane();
         mapBox = createMapPane();
@@ -100,6 +96,10 @@ public class Workspace extends AppWorkspaceComponent {
                 mapEditorController.processEditSubregion(subregionsTable.getSelectionModel().getSelectedItem());
             }
         });
+        
+        /*subregionsPane.setOnMouseClicked(e -> {
+            System.out.println("aylmao");
+        });*/
     }
 
     private VBox createMapPane() {
@@ -127,13 +127,16 @@ public class Workspace extends AppWorkspaceComponent {
 
         //SETUP THE HBOX CONTAINIG THE SLIDERS
         sliderBox.getChildren().addAll(sliderLabel, mapZoomSlider);
-
-        //mapPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         
+        Group sliderBoxGroup = new Group();
+        sliderBoxGroup.getChildren().add(sliderBox);
+        
+        //mapPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         mapPane.getChildren().add(subregionsPane);
-        mapPane.getChildren().add(sliderBox);
- 
-
+        mapPane.getChildren().add(sliderBoxGroup);
+        
+        sliderBoxGroup.setPickOnBounds(false);
+        StackPane.setAlignment(sliderBoxGroup, Pos.BOTTOM_LEFT);
         mapBox.getChildren().addAll(mapLabel, mapPane);
 
         return mapBox;
@@ -210,25 +213,27 @@ public class Workspace extends AppWorkspaceComponent {
         Group subregionGroup = new Group();
         for (int i = 0; i < subregions.size(); i++) {
             Polygon polygon = subregions.get(i).constructRegion();
-            polygon.setStrokeWidth(polygon.getStrokeWidth()/50);
+            polygon.setStrokeWidth(polygon.getStrokeWidth() / 50);
             subregionGroup.getChildren().add(polygon);
         }
-        
-        subregionGroup.setScaleX(subregionGroup.getScaleX()*200);
+
+        subregionGroup.setScaleX(subregionGroup.getScaleX() * 200);
         subregionGroup.setScaleY(subregionGroup.getScaleY() * 200);
         subregionsPane.getChildren().add(subregionGroup);
         subregionsPane.setBackground(Background.EMPTY);
     }
-    
+
     public void imagesOnMap(ObservableList<ImageView> imageViews) {
-        for(int i = 0; i < imageViews.size(); i++) {
+        for (int i = 0; i < imageViews.size(); i++) {
             subregionsPane.getChildren().add(imageViews.get(i));
         }
     }
-    
+
     public void imageOnMap(ImageView imageView) {
         subregionsPane.getChildren().add(imageView);
+
     }
+
 
     public StackPane getMapPane() {
         return mapPane;
@@ -236,6 +241,7 @@ public class Workspace extends AppWorkspaceComponent {
 
     @Override
     public void reloadWorkspace() {
+        DataManager dataManager = (DataManager)app.getDataComponent();
 
     }
 

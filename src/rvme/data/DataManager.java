@@ -13,6 +13,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -43,6 +44,7 @@ public class DataManager implements AppDataComponent {
     int borderColorRed;
     int borderColorGreen;
     int borderColorBlue;
+    int imageViewSelected;
 
     String parentDirectory;
 
@@ -61,7 +63,7 @@ public class DataManager implements AppDataComponent {
     GridPane loadingGrid;
 
     boolean converted;
-    
+
     public DataManager(AppTemplate initApp) throws Exception {
         app = initApp;
         subregions = FXCollections.observableArrayList();
@@ -110,18 +112,20 @@ public class DataManager implements AppDataComponent {
     }
 
     public void setMapBackgroundColor(String color) {
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
         backgroundColor = color;
         //randomPane.setBackground(new Background(new BackgroundFill(Color.web(color), CornerRadii.EMPTY, Insets.EMPTY)));
+        workspace.getMapPane().setBackground(new Background(new BackgroundFill(Color.web(color), CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
     public String getBackgroundColor() {
         return backgroundColor;
     }
-    
+
     public boolean getConverted() {
         return converted;
     }
-    
+
     public void setConverted(boolean value) {
         converted = value;
     }
@@ -140,7 +144,7 @@ public class DataManager implements AppDataComponent {
 
         map.getChildren().add(imageViews.get(imageViews.indexOf(newImageView)));
     }
-    
+
     public void addImagesToMap() {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
         workspace.imagesOnMap(imageViews);
@@ -292,16 +296,6 @@ public class DataManager implements AppDataComponent {
         loadingLabel.setText(text);
     }
 
-    /* public void drawMap() {
-        Workspace workspace = (Workspace) app.getWorkspaceComponent();
-        AppGUI gui = app.getGUI();
-        for (int i = 0; i < polygons.size(); i++) {
-            Polygon poly = polygons.get(i).reconstructRegion();
-            poly.setFill(Color.GREEN);
-            workspace.getWorkspace().getChildren().add(poly);
-        }
-
-    }*/
     @Override
     public void reset() {
         subregions.clear();
@@ -319,32 +313,43 @@ public class DataManager implements AppDataComponent {
         map.getChildren().clear();
         randomPane.getChildren().clear();
 
-        regionName="";
-        audioName="";
-        audioFileName="";
+        regionName = "";
+        audioName = "";
+        audioFileName = "";
     }
 
     public void clearSubregions() {
         subregions.clear();
     }
-    
+
     @Override
     public void changeMapName(String mapName) throws IOException {
         FileManager fileManager = (FileManager) app.getFileComponent();
         regionName = mapName;
         fileManager.updateFiles(regionName);
     }
-    
-    @Override 
+
+    @Override
     public void addImage(String imagePath) {
         Image newImage = new Image("file:" + imagePath);
         ImageView newImageView = new ImageView(newImage);
         imageViews.add(newImageView);
-        
+        setupImageViewListener(newImageView);
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
-        workspace.imageOnMap(imageViews.get(imageViews.size()-1));
-        
-        
+        workspace.imageOnMap(imageViews.get(imageViews.size() - 1));
+    }
+
+    public void setupImageViewListener(ImageView imageView) {
+        imageView.setOnMouseDragged(e -> {
+            imageView.setEffect(new DropShadow(10.0, Color.YELLOW));
+            imageViewSelected = imageViews.indexOf(imageView);
+            for(int i = 0; i < imageViews.size(); i++) {
+                if(i != imageViewSelected)
+                    imageViews.get(i).setEffect(null);
+            }
+            imageView.setX(e.getX());
+            imageView.setY(e.getY());
+        });
     }
 
 }
