@@ -387,8 +387,6 @@ public class FileManager implements AppFileComponent {
                         subregion.addPoints(x, y);
                         if (k == jsonCoordinates.size() - 1) {
                             subregion.setRegion(subregion.constructRegion());
-                            subregion.getRegion().setStrokeWidth(1); //PUT ANOTHER JSON FIELD HERE
-                            subregion.getRegion().setStroke(Color.BLACK); //PUT ANOTHER JSON FIELD HERE WHEN IMPLEMENTED
                             dataManager.addSubregion(subregion);
                         }
                     }

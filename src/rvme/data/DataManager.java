@@ -11,6 +11,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.effect.DropShadow;
@@ -26,6 +28,8 @@ import rvme.file.FileManager;
 import rvme.gui.Workspace;
 import saf.AppTemplate;
 import saf.components.AppDataComponent;
+import saf.ui.AppChangeMapBGDialogSingleton;
+import saf.ui.AppChangeMapBorderColorDialogSingleton;
 import saf.ui.AppProgressBarDialogSingleton;
 
 /**
@@ -339,16 +343,82 @@ public class DataManager implements AppDataComponent {
         workspace.imageOnMap(imageViews.get(imageViews.size() - 1));
     }
 
+    @Override
+    public void removeImage() {
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
+        imageViews.remove(imageViewSelected);
+        workspace.removeImageOnMap();
+
+    }
+
+    @Override
+    public void changeMapBG() {
+        AppChangeMapBGDialogSingleton changeBGDialog = AppChangeMapBGDialogSingleton.getSingleton();
+        ColorPicker mapBGColorPicker = new ColorPicker();
+        GridPane colorPickerPane = new GridPane();
+        Button okButton = new Button("OK");
+        okButton.setOnAction(e -> {
+            Color chosenColor = mapBGColorPicker.getValue();
+            String hexString = String.format("#%02X%02X%02X",
+                    (int) (chosenColor.getRed() * 255),
+                    (int) (chosenColor.getGreen() * 255),
+                    (int) (chosenColor.getBlue() * 255));
+            setMapBackgroundColor(hexString);
+            changeBGDialog.close();
+        });
+        colorPickerPane.add(mapBGColorPicker, 0, 0);
+        colorPickerPane.add(okButton, 0, 1);
+
+        Scene scene = new Scene(colorPickerPane);
+        changeBGDialog.setScene(scene);
+        changeBGDialog.showAndWait();
+
+    }
+
+    @Override
+    public void changeBorderColor() {
+        AppChangeMapBorderColorDialogSingleton changeBorderColorDialog = AppChangeMapBorderColorDialogSingleton.getSingleton();
+        ColorPicker mapBGColorPicker = new ColorPicker();
+        GridPane colorPickerPane = new GridPane();
+        Button okButton = new Button("OK");
+        okButton.setOnAction(e -> {
+            Color chosenColor = mapBGColorPicker.getValue();
+            String hexString = String.format("#%02X%02X%02X",
+                    (int) (chosenColor.getRed() * 255),
+                    (int) (chosenColor.getGreen() * 255),
+                    (int) (chosenColor.getBlue() * 255));
+            setMapBackgroundColor(hexString);
+            changeBorderColorDialog.close();
+        });
+        colorPickerPane.add(mapBGColorPicker, 0, 0);
+        colorPickerPane.add(okButton, 0, 1);
+
+        Scene scene = new Scene(colorPickerPane);
+        changeBorderColorDialog.setScene(scene);
+        changeBorderColorDialog.showAndWait();
+    }
+
     public void setupImageViewListener(ImageView imageView) {
         imageView.setOnMouseDragged(e -> {
-            imageView.setEffect(new DropShadow(10.0, Color.YELLOW));
+            imageView.setEffect(new DropShadow(20.0, Color.YELLOW));
             imageViewSelected = imageViews.indexOf(imageView);
-            for(int i = 0; i < imageViews.size(); i++) {
-                if(i != imageViewSelected)
+            for (int i = 0; i < imageViews.size(); i++) {
+                if (i != imageViewSelected) {
                     imageViews.get(i).setEffect(null);
+                }
             }
             imageView.setX(e.getX());
             imageView.setY(e.getY());
+        });
+
+        imageView.setOnMouseClicked(e -> {
+            imageView.setEffect(new DropShadow(20.0, Color.YELLOW));
+            imageViewSelected = imageViews.indexOf(imageView);
+            for (int i = 0; i < imageViews.size(); i++) {
+                if (i != imageViewSelected) {
+                    imageViews.get(i).setEffect(null);
+                }
+            }
         });
     }
 

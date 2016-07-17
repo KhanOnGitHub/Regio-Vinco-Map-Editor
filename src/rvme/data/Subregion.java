@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import rvme.MapEditorApp;
 /**
  *
  * @author eyb0s
@@ -31,6 +32,8 @@ public class Subregion {
     int red;
     int blue;
     int green;
+    
+    MapEditorApp app;
     
     public Subregion() {
         subregionName = new SimpleStringProperty(DEFAULT_NAME);
@@ -168,9 +171,12 @@ public class Subregion {
     }
     
     public Polygon constructRegion() {
+        DataManager dataManager = (DataManager) app.getDataComponent();
         region = new Polygon();
         region.getPoints().addAll(polyPoints);
         region.setFill(Color.rgb(red, green, blue));
+        region.setStrokeWidth(dataManager.getBorderThickness());
+        region.setStroke(Color.rgb(dataManager.getBorderColorRed(), dataManager.getBorderColorGreen(), dataManager.getBorderColorBlue()));
         return region;
     }
     

@@ -9,7 +9,6 @@ import java.io.IOException;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
@@ -55,6 +54,7 @@ public class Workspace extends AppWorkspaceComponent {
     VBox mapBox;
     StackPane mapPane;
     Pane subregionsPane;
+    Pane imagesPane;
     Label sliderLabel;
     Label mapLabel;
     Slider mapZoomSlider;
@@ -113,6 +113,7 @@ public class Workspace extends AppWorkspaceComponent {
         //SETUP MAP PANE COMPONENTS
         mapPane = new StackPane();
         subregionsPane = new Pane();
+        imagesPane = new Pane();
         sliderBox = new HBox();
 
         //SETUP MAP ZOOM SLIDER
@@ -133,9 +134,11 @@ public class Workspace extends AppWorkspaceComponent {
         
         //mapPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         mapPane.getChildren().add(subregionsPane);
+        mapPane.getChildren().add(imagesPane);
         mapPane.getChildren().add(sliderBoxGroup);
         
         sliderBoxGroup.setPickOnBounds(false);
+        imagesPane.setPickOnBounds(false);
         StackPane.setAlignment(sliderBoxGroup, Pos.BOTTOM_LEFT);
         mapBox.getChildren().addAll(mapLabel, mapPane);
 
@@ -225,13 +228,19 @@ public class Workspace extends AppWorkspaceComponent {
 
     public void imagesOnMap(ObservableList<ImageView> imageViews) {
         for (int i = 0; i < imageViews.size(); i++) {
-            subregionsPane.getChildren().add(imageViews.get(i));
+            imagesPane.getChildren().add(imageViews.get(i));
         }
     }
 
     public void imageOnMap(ImageView imageView) {
-        subregionsPane.getChildren().add(imageView);
+        imagesPane.getChildren().add(imageView);
 
+    }
+    
+    public void removeImageOnMap() {
+        DataManager dataManager = (DataManager) app.getDataComponent();
+        imagesPane.getChildren().clear();
+        dataManager.addImagesToMap();
     }
 
 
@@ -240,9 +249,21 @@ public class Workspace extends AppWorkspaceComponent {
     }
 
     @Override
-    public void reloadWorkspace() {
+    public void reloadWorkspace()  {
         DataManager dataManager = (DataManager)app.getDataComponent();
-
+       /* 
+        //recreate tables
+        layoutGUI();
+        setupHandlers();
+        initStyle();
+        
+        try {
+            dataManager.addSubregionsToPane();
+        } catch (Exception ex) {
+            Logger.getLogger(Workspace.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        dataManager.addImagesToMap();
+*/
     }
 
 }
