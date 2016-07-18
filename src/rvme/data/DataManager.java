@@ -23,6 +23,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Polygon;
 import properties_manager.PropertiesManager;
 import rvme.file.FileManager;
 import rvme.gui.Workspace;
@@ -96,6 +97,7 @@ public class DataManager implements AppDataComponent {
 
     public void addSubregion(Subregion subregion) {
         subregions.add(subregion);
+
     }
 
     public void removeSubregion(Subregion subregion) {
@@ -375,6 +377,7 @@ public class DataManager implements AppDataComponent {
             for (int i = 0; i < subregions.size(); i++) {
                 Subregion subregion = subregions.get(i);
                 subregion.setRegion(subregion.constructRegion(borderThickness, borderColorRed, borderColorGreen, borderColorBlue));
+                setupRegionListener(subregion);
             }
             workspace.redrawSubregions();
             changeBorderColorDialog.close();
@@ -410,6 +413,7 @@ public class DataManager implements AppDataComponent {
             newColorSubregion.setRGB(newRed, newGreen, newBlue);
             newColorSubregion.constructRegion(dataManager.getBorderThickness(), dataManager.getBorderColorRed(), dataManager.getBorderColorGreen(), dataManager.getBorderColorBlue(), newRed, newGreen, newBlue);
             newColorSubregion.setChanged(true);
+            setupRegionListener(newColorSubregion);
         }
 
         workspace.redrawSubregions();
@@ -424,6 +428,8 @@ public class DataManager implements AppDataComponent {
         subregion.setPrevBlue(subregion.getBlue());
         subregion.setRGB(255, 255, 0);
         subregion.setRegion(subregion.constructRegion(borderThickness, borderColorRed, borderColorGreen, borderColorBlue, 255, 255, 0));
+        setupRegionListener(subregion);
+        
         for (int i = 0; i < subregions.size(); i++) {
             if (i != chosenSubregion) {
                 Subregion nonSelectedSubregion = subregions.get(i);
@@ -432,9 +438,15 @@ public class DataManager implements AppDataComponent {
                 int blue = nonSelectedSubregion.getBlue();
                 nonSelectedSubregion.setRGB(red, green, blue);
                 nonSelectedSubregion.setRegion(nonSelectedSubregion.constructRegion(borderThickness, borderColorRed, borderColorGreen, borderColorBlue, red, green, blue));
+                setupRegionListener(nonSelectedSubregion);
             }
         }
         workspace.redrawSubregions();
+    }
+
+    public void selectSubregionTableRow(int subregionIndex) {
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
+        workspace.getTableView().getSelectionModel().select(subregionIndex);
     }
 
     public void setupImageViewListener(ImageView imageView) {
@@ -458,6 +470,15 @@ public class DataManager implements AppDataComponent {
                     imageViews.get(i).setEffect(null);
                 }
             }
+        });
+    }
+
+    public void setupRegionListener(Subregion subregion) {
+        Polygon region = subregion.getRegion();
+        region.setOnMouseClicked(e -> {
+            int regionIndex = subregions.indexOf(subregion);
+            highlightSubregion(regionIndex);
+            selectSubregionTableRow(regionIndex);
         });
     }
 

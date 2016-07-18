@@ -234,10 +234,11 @@ public class FileManager implements AppFileComponent {
             double x = getDataAsDouble(jsonImagePath, JSON_X);
             double y = getDataAsDouble(jsonImagePath, JSON_Y);
             dataManager.getPaths().add(jsonImageString.getString());
-            Image newImage = new Image(jsonImageString.getString());
+            Image newImage = new Image("file:" + jsonImageString.getString());
             ImageView newImageView = new ImageView(newImage);
             newImageView.setX(x);
             newImageView.setY(y);
+            dataManager.setupImageViewListener(newImageView);
             dataManager.getImageViews().add(newImageView);
         }
 
@@ -387,10 +388,10 @@ public class FileManager implements AppFileComponent {
                         if (k == jsonCoordinates.size() - 1) {
                             subregion.setRegion(subregion.constructRegion(dataManager.getBorderThickness(), dataManager.getBorderColorRed(), dataManager.getBorderColorGreen(), dataManager.getBorderColorBlue()));
                             dataManager.addSubregion(subregion);
+                            dataManager.setupRegionListener(subregion);
                         }
                     }
-                } 
-                else {
+                } else {
                     for (int k = 0; k < jsonCoordinates.size(); k++) {
                         JsonObject jsonCoordinatesObject = jsonCoordinates.getJsonObject(k);
                         double x = getDataAsDouble(jsonCoordinatesObject, JSON_X);
@@ -399,15 +400,16 @@ public class FileManager implements AppFileComponent {
                         if (k == jsonCoordinates.size() - 1) {
                             subregion.setRegion(subregion.constructRegion(dataManager.getBorderThickness(), dataManager.getBorderColorRed(), dataManager.getBorderColorGreen(), dataManager.getBorderColorBlue()));
                             dataManager.addSubregion(subregion);
+                            dataManager.setupRegionListener(subregion);
                         }
                     }
 
                 }
             }
         }
-        
+
         //LOAD ALL IMAGES
-        JsonArray jsonImages = json.getJsonArray(JSON_IMAGES);
+        /*JsonArray jsonImages = json.getJsonArray(JSON_IMAGES);
         for(int i = 0; i < jsonImages.size(); i++)
         {
             JsonObject jsonImageProperties = jsonImages.getJsonObject(i);
@@ -421,8 +423,7 @@ public class FileManager implements AppFileComponent {
             newImageView.setX(x);
             newImageView.setY(y);
             dataManager.getImageViews().add(newImageView);
-        }
-        
+        }*/
         dataManager.setConverted(true);
 
     }
@@ -458,6 +459,7 @@ public class FileManager implements AppFileComponent {
                             subregion.getRegion().setStrokeWidth(1); //PUT ANOTHER JSON FIELD HERE
                             subregion.getRegion().setStroke(Color.BLACK); //PUT ANOTHER JSON FIELD HERE WHEN IMPLEMENTED
                             dataManager.addSubregion(subregion);
+                            dataManager.setupRegionListener(subregion);
                         }
                     }
                 } else {
@@ -471,6 +473,7 @@ public class FileManager implements AppFileComponent {
                             subregion.getRegion().setStrokeWidth(1); //PUT ANOTHER JSON FIELD HERE
                             subregion.getRegion().setStroke(Color.BLACK); //PUT ANOTHER JSON FIELD HERE WHEN IMPLEMENTED
                             dataManager.addSubregion(subregion);
+                            dataManager.setupRegionListener(subregion);
                         }
                     }
 
