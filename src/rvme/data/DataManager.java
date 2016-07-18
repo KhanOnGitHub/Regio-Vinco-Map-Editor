@@ -24,13 +24,14 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
-import properties_manager.PropertiesManager;
+import rvme.audio.AudioManager;
 import rvme.file.FileManager;
 import rvme.gui.Workspace;
 import saf.AppTemplate;
 import saf.components.AppDataComponent;
 import saf.ui.AppChangeMapBGDialogSingleton;
 import saf.ui.AppChangeMapBorderColorDialogSingleton;
+import saf.ui.AppMessageDialogSingleton;
 import saf.ui.AppProgressBarDialogSingleton;
 
 /**
@@ -68,6 +69,9 @@ public class DataManager implements AppDataComponent {
     GridPane loadingGrid;
 
     boolean converted;
+    boolean playing;
+
+    AudioManager audio;
 
     public DataManager(AppTemplate initApp) throws Exception {
         app = initApp;
@@ -89,6 +93,8 @@ public class DataManager implements AppDataComponent {
         parentDirectory = "?";
         mapZoom = 1.0;
         converted = false;
+        playing = false;
+        audio = new AudioManager();
     }
 
     public ObservableList<Subregion> getSubregions() {
@@ -238,6 +244,14 @@ public class DataManager implements AppDataComponent {
 
     public void setMapZoom(double mapZoom) {
         this.mapZoom = mapZoom;
+    }
+
+    public boolean isPlaying() {
+        return playing;
+    }
+
+    public void setPlaying(boolean playing) {
+        this.playing = playing;
     }
 
     public void printData() {
@@ -417,7 +431,24 @@ public class DataManager implements AppDataComponent {
         }
 
         workspace.redrawSubregions();
+    }
 
+    @Override
+    public void playAnthem() {
+
+        if (!playing) {
+            try {
+                audio.loadAudio(audioName, audioFileName);
+                audio.play(audioName, false);
+                playing = true;
+            } catch (Exception e) {
+                AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+                dialog.show("Audio playing error", "Incorrect path or audio file is not .wav or .mid");
+            }
+        } else {
+            audio.stop(audioName);
+            playing = false;
+        }
     }
 
     public void highlightSubregion(int chosenSubregion) {
@@ -429,7 +460,7 @@ public class DataManager implements AppDataComponent {
         subregion.setRGB(255, 255, 0);
         subregion.setRegion(subregion.constructRegion(borderThickness, borderColorRed, borderColorGreen, borderColorBlue, 255, 255, 0));
         setupRegionListener(subregion);
-        
+
         for (int i = 0; i < subregions.size(); i++) {
             if (i != chosenSubregion) {
                 Subregion nonSelectedSubregion = subregions.get(i);

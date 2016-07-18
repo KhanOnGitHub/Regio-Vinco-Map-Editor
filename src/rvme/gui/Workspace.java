@@ -70,7 +70,6 @@ public class Workspace extends AppWorkspaceComponent {
     TableColumn subregionNameColumn;
     TableColumn subregionCapitalColumn;
     TableColumn subregionLeaderColumn;
-    
 
     public Workspace(AppTemplate initApp) throws IOException {
         app = initApp;
@@ -101,6 +100,7 @@ public class Workspace extends AppWorkspaceComponent {
                 if (mouseClick.getClickCount() == 2 && (!row.isEmpty())) {
                     rowData = row.getItem();
                     mapEditorController.processEditSubregion(rowData);
+                    mapEditorController.processHighlightSubregion(rowData);
                 }
             });
             return row;
@@ -228,7 +228,7 @@ public class Workspace extends AppWorkspaceComponent {
     public void drawOnMap(ObservableList<Subregion> subregions) {
         DataManager dataManager = (DataManager) app.getDataComponent();
         subregionsPane.setPrefSize(802, 536);
-        
+
         Group subregionGroup = new Group();
         for (int i = 0; i < subregions.size(); i++) {
             Polygon polygon = subregions.get(i).getRegion();
@@ -263,7 +263,7 @@ public class Workspace extends AppWorkspaceComponent {
         ObservableList<Subregion> subregions = dataManager.getSubregions();
         subregionsPane.setPrefSize(802, 536);
         subregionsPane.getChildren().clear();
-        
+
         Group subregionGroup = new Group();
         for (int i = 0; i < subregions.size(); i++) {
             Polygon polygon = subregions.get(i).getRegion();

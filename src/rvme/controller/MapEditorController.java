@@ -62,7 +62,7 @@ public class MapEditorController {
         DataManager data = (DataManager) app.getDataComponent();
         layoutEditSubregionGUI(subregion);
     }
-    
+
     public void processHighlightSubregion(Subregion subregion) {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
         workspace.reloadWorkspace();
@@ -70,12 +70,14 @@ public class MapEditorController {
         ObservableList<Subregion> subregions = dataManager.getSubregions();
         int chosenSubregion = subregions.indexOf(subregion);
         dataManager.highlightSubregion(chosenSubregion);
-        
+
     }
 
     public void layoutEditSubregionGUI(Subregion subregion) {
         dialog = AppEditDialogSingleton.getSingleton();
         PropertiesManager props = PropertiesManager.getPropertiesManager();
+        DataManager dataManager = (DataManager) app.getDataComponent();
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
 
         //INSTANTIATE THE LABELS AND GIVE THEM TEXT
         subregionNameLabel = new Label();
@@ -110,11 +112,33 @@ public class MapEditorController {
         cancelButton = new Button();
         cancelButton.setText(props.getProperty(PropertyType.CANCEL_BUTTON));
         cancelButton.setOnAction(mouseClick -> {
+            editSubregion(subregion);
             promptCancel();
         });
 
         prevButton = new Button("Previous");
+        prevButton.setOnAction(mouseClick -> {
+            ObservableList<Subregion> subregions = dataManager.getSubregions();
+            int currSubregionIndex = subregions.indexOf(subregion);
+            if (currSubregionIndex != 0) {
+                editSubregion(subregion);
+                layoutEditSubregionGUI(subregions.get(currSubregionIndex - 1));
+                dataManager.highlightSubregion(currSubregionIndex - 1);
+                workspace.getTableView().getSelectionModel().select(currSubregionIndex - 1);
+
+            }
+        });
         nextButton = new Button("Next");
+        nextButton.setOnAction(mouseClick -> {
+            ObservableList<Subregion> subregions = dataManager.getSubregions();
+            int currSubregionIndex = subregions.indexOf(subregion);
+            if (currSubregionIndex != subregions.size() - 1) {
+                editSubregion(subregion);
+                layoutEditSubregionGUI(subregions.get(currSubregionIndex + 1));
+                dataManager.highlightSubregion(currSubregionIndex + 1);
+                workspace.getTableView().getSelectionModel().select(currSubregionIndex + 1);
+            }
+        });
 
         GridPane gridPane = new GridPane();
 
