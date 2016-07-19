@@ -74,6 +74,8 @@ public class FileManager implements AppFileComponent {
     static final String JSON_IMAGE = "IMAGE_PATH";
     static final String JSON_IMAGES = "IMAGE_PATHS";
     static final String JSON_ZOOM = "MAP_ZOOM";
+    static final String JSON_SCROLL_X = "SCROLL_X";
+    static final String JSON_SCROLL_Y = "SCROLL_Y";
 
     MapEditorApp app;
 
@@ -96,6 +98,8 @@ public class FileManager implements AppFileComponent {
         String audioName = dataManager.getAudioName();
         String audioFileName = dataManager.getAudioFileName();
         boolean converted = dataManager.getConverted();
+        int mapScrollLocationX = dataManager.getMapScrollLocationX();
+        int mapScrollLocationY = dataManager.getMapScrollLocationY();
 
         //JSON FOR THE PATHS OF IMAGES THAT ARENT LEADERS OR FLAGS
         ObservableList<String> paths = dataManager.getPaths();
@@ -185,6 +189,8 @@ public class FileManager implements AppFileComponent {
                 .add(JSON_BORDER, borderColorArray)
                 .add(JSON_MAP_COLOR, backgroundColor)
                 .add(JSON_ZOOM, mapZoom)
+                .add(JSON_SCROLL_X, mapScrollLocationX)
+                .add(JSON_SCROLL_Y, mapScrollLocationY)
                 .add(JSON_CONVERTED, converted)
                 .add(JSON_SUBREGIONS, subregionsArray).build();
 
@@ -533,6 +539,7 @@ public class FileManager implements AppFileComponent {
         AppMessageDialogSingleton updateFilesMessage = AppMessageDialogSingleton.getSingleton();
         Files.move(currentMapFile.toPath(), currentMapFile.toPath().resolveSibling(fileName + ".json"), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         folderInParent.renameTo(new File(folderInParent.getParent() + "/" + fileName));
+        currentMapFile = new File("./work/", fileName + ".json");
         updateFilesMessage.show("Region Name Change", "Region name has been changed along with the work file and directory names.");
 
     }

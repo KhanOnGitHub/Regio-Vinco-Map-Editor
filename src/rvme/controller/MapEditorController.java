@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import properties_manager.PropertiesManager;
@@ -70,7 +71,48 @@ public class MapEditorController {
         ObservableList<Subregion> subregions = dataManager.getSubregions();
         int chosenSubregion = subregions.indexOf(subregion);
         dataManager.highlightSubregion(chosenSubregion);
+    }
 
+    public void handleKeyPress(KeyEvent event) {
+        event.consume();
+        switch (event.getCode()) {
+            case UP:
+                processMoveUp();
+                break;
+            case DOWN:
+                processMoveDown();
+                break;
+            case LEFT:
+                processMoveLeft();
+                break;
+            case RIGHT:
+                processMoveRight();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void processMoveUp() {
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
+        workspace.getSubregionGroup().setTranslateY(workspace.getSubregionGroup().getTranslateY() - 10);
+                workspace.getSubregionGroup().setTranslateY(workspace.getSubregionGroup().getTranslateY() - 10);
+   
+    }
+
+    public void processMoveDown() {
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
+        workspace.getSubregionGroup().setTranslateY(workspace.getSubregionGroup().getTranslateY() + 10);
+    }
+
+    public void processMoveLeft() {
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
+        workspace.getSubregionGroup().setTranslateX(workspace.getSubregionGroup().getTranslateX() - 10);
+    }
+
+    public void processMoveRight() {
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
+        workspace.getSubregionGroup().setTranslateX(workspace.getWorkspace().getTranslateX() + 10);
     }
 
     public void layoutEditSubregionGUI(Subregion subregion) {

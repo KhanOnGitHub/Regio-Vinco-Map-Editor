@@ -6,6 +6,8 @@
 package rvme.gui;
 
 import java.io.IOException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -25,6 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import properties_manager.PropertiesManager;
 import rvme.PropertyType;
 import saf.ui.AppGUI;
@@ -56,11 +59,14 @@ public class Workspace extends AppWorkspaceComponent {
     StackPane mapPane;
     Pane subregionsPane;
     Pane imagesPane;
+    Group imagesGroup;
     Label sliderLabel;
     Label mapLabel;
     Slider mapZoomSlider;
     HBox sliderBox;
     ImageView mapImages;
+    Group subregionGroup;
+    Label zoomLevel;
 
     //OUR REGION FOR VIEWING AND MANAGING SUBREGIONS
     VBox subregionsBox;
@@ -90,7 +96,7 @@ public class Workspace extends AppWorkspaceComponent {
 
     private void setupHandlers() {
         mapEditorController = new MapEditorController(app);
-        DataManager data = (DataManager) app.getDataComponent();
+        DataManager dataManager = (DataManager) app.getDataComponent();
 
         subregionsTable.setRowFactory(e -> {
             TableRow<Subregion> row = new TableRow<>();
@@ -105,6 +111,21 @@ public class Workspace extends AppWorkspaceComponent {
             });
             return row;
         });
+
+        mapZoomSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> ov,
+                    Number old, Number newValue) {
+                subregionGroup.setScaleX(newValue.doubleValue());
+                subregionGroup.setScaleY(newValue.doubleValue());
+                zoomLevel.setText(String.format("%.2f", newValue));
+                dataManager.setMapZoom(newValue.doubleValue());
+            }
+        });
+
+        gui.getPrimaryScene().setOnKeyPressed(e -> {
+            mapEditorController.handleKeyPress(e);
+        });
+
     }
 
     public void updateTableView() {
@@ -128,20 +149,30 @@ public class Workspace extends AppWorkspaceComponent {
         mapPane = new StackPane();
         subregionsPane = new Pane();
         imagesPane = new Pane();
+        imagesGroup = new Group();
         sliderBox = new HBox();
 
+        mapPane.setPrefSize(802, 536);
+        mapPane.setMaxSize(802, 536);
+
         //SETUP MAP ZOOM SLIDER
-        mapZoomSlider = new Slider(0, 1, .5);
+        mapZoomSlider = new Slider();
+        mapZoomSlider.setMin(0);
+        mapZoomSlider.setMax(1000);
+        mapZoomSlider.setValue(200);
         mapZoomSlider.setShowTickMarks(true);
-        mapZoomSlider.setMajorTickUnit(.25f);
-        mapZoomSlider.setBlockIncrement(.1f);
+        mapZoomSlider.setMajorTickUnit(100);
+        mapZoomSlider.setMinorTickCount(50);
+        mapZoomSlider.setBlockIncrement(20);
 
         //LABEL FOR SLIDER
         sliderLabel = new Label();
         sliderLabel.setText(props.getProperty(PropertyType.ZOOM_SLIDER_LABEL));
 
+        zoomLevel = new Label();
+        zoomLevel.setText(Double.toString(mapZoomSlider.getValue()));
         //SETUP THE HBOX CONTAINIG THE SLIDERS
-        sliderBox.getChildren().addAll(sliderLabel, mapZoomSlider);
+        sliderBox.getChildren().addAll(sliderLabel, mapZoomSlider, zoomLevel);
 
         Group sliderBoxGroup = new Group();
         sliderBoxGroup.getChildren().add(sliderBox);
@@ -228,33 +259,38 @@ public class Workspace extends AppWorkspaceComponent {
     public void drawOnMap(ObservableList<Subregion> subregions) {
         DataManager dataManager = (DataManager) app.getDataComponent();
         subregionsPane.setPrefSize(802, 536);
+        subregionsPane.setMaxSize(802, 536);
 
-        Group subregionGroup = new Group();
+        subregionGroup = new Group();
         for (int i = 0; i < subregions.size(); i++) {
             Polygon polygon = subregions.get(i).getRegion();
             subregionGroup.getChildren().add(polygon);
         }
 
-        subregionGroup.setScaleX(subregionGroup.getScaleX() * 200);
-        subregionGroup.setScaleY(subregionGroup.getScaleY() * 200);
+        subregionGroup.setScaleX(dataManager.getMapZoom());
+        subregionGroup.setScaleY(dataManager.getMapZoom());
         subregionsPane.getChildren().add(subregionGroup);
         subregionsPane.setBackground(Background.EMPTY);
     }
 
     public void imagesOnMap(ObservableList<ImageView> imageViews) {
         for (int i = 0; i < imageViews.size(); i++) {
-            imagesPane.getChildren().add(imageViews.get(i));
+            imagesGroup.getChildren().add(imageViews.get(i));
         }
+        
+        imagesPane.getChildren().add(imagesGroup);
     }
 
     public void imageOnMap(ImageView imageView) {
-        imagesPane.getChildren().add(imageView);
+        imagesGroup.getChildren().add(imageView);
+        imagesPane.getChildren().clear();
+        imagesPane.getChildren().add(imagesGroup);
 
     }
 
     public void removeImageOnMap() {
         DataManager dataManager = (DataManager) app.getDataComponent();
-        imagesPane.getChildren().clear();
+        imagesGroup.getChildren().clear();
         dataManager.addImagesToMap();
     }
 
@@ -262,18 +298,22 @@ public class Workspace extends AppWorkspaceComponent {
         DataManager dataManager = (DataManager) app.getDataComponent();
         ObservableList<Subregion> subregions = dataManager.getSubregions();
         subregionsPane.setPrefSize(802, 536);
+        subregionsPane.setMaxSize(802, 536);
         subregionsPane.getChildren().clear();
 
-        Group subregionGroup = new Group();
+        subregionGroup = new Group();
         for (int i = 0; i < subregions.size(); i++) {
             Polygon polygon = subregions.get(i).getRegion();
             subregionGroup.getChildren().add(polygon);
         }
 
-        subregionGroup.setScaleX(subregionGroup.getScaleX() * 200);
-        subregionGroup.setScaleY(subregionGroup.getScaleY() * 200);
+        subregionGroup.setScaleX(dataManager.getMapZoom());
+        subregionGroup.setScaleY(dataManager.getMapZoom());
+        Rectangle clipRectangle = new Rectangle();
+        clipRectangle.setHeight(subregionsPane.getHeight() - mapLabel.getHeight());
+        clipRectangle.setWidth(subregionsPane.getWidth());
+        subregionGroup.setClip(clipRectangle);
         subregionsPane.getChildren().add(subregionGroup);
-        subregionsPane.setBackground(Background.EMPTY);
 
     }
 
@@ -302,5 +342,15 @@ public class Workspace extends AppWorkspaceComponent {
         dataManager.addImagesToMap();
          */
     }
+
+    public Group getSubregionGroup() {
+        return subregionGroup;
+    }
+    
+    public Group getImagesGroup() {
+        return imagesGroup;
+    }
+    
+    
 
 }

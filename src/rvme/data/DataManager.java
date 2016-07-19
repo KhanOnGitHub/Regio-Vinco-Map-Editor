@@ -51,6 +51,8 @@ public class DataManager implements AppDataComponent {
     int borderColorGreen;
     int borderColorBlue;
     int imageViewSelected;
+    int mapScrollLocationX;
+    int mapScrollLocationY;
 
     String parentDirectory;
 
@@ -80,9 +82,9 @@ public class DataManager implements AppDataComponent {
         imageViews = FXCollections.observableArrayList();
         paths = FXCollections.observableArrayList();
         backgroundColor = "#FFFFFF";
-        int borderColorRed = 255;
-        int borderColorGreen = 255;
-        int borderColorBlue = 255;
+        borderColorRed = 255;
+        borderColorGreen = 255;
+        borderColorBlue = 255;
         regionName = "?";
         audioName = "?";
         audioFileName = "?";
@@ -92,6 +94,8 @@ public class DataManager implements AppDataComponent {
         borderThickness = 1.0;
         parentDirectory = "?";
         mapZoom = 1.0;
+        mapScrollLocationX = 0;
+        mapScrollLocationY = 0;
         converted = false;
         playing = false;
         audio = new AudioManager();
@@ -254,6 +258,24 @@ public class DataManager implements AppDataComponent {
         this.playing = playing;
     }
 
+    public int getMapScrollLocationX() {
+        return mapScrollLocationX;
+    }
+
+    public void setMapScrollLocationX(int mapScrollLocationX) {
+        this.mapScrollLocationX = mapScrollLocationX;
+    }
+
+    public int getMapScrollLocationY() {
+        return mapScrollLocationY;
+    }
+
+    public void setMapScrollLocationY(int mapScrollLocationY) {
+        this.mapScrollLocationY = mapScrollLocationY;
+    }
+
+    
+    
     public void printData() {
         System.out.println("Region Name: " + regionName);
         System.out.println("Audio Name: " + audioName);
