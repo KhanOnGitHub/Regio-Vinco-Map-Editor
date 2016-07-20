@@ -18,9 +18,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
+import javafx.scene.image.WritableImage;
+import javax.imageio.ImageIO;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
@@ -36,9 +39,12 @@ import properties_manager.PropertiesManager;
 import rvme.MapEditorApp;
 import rvme.data.DataManager;
 import rvme.data.Subregion;
+import rvme.gui.Workspace;
+import saf.AppTemplate;
 
 import saf.components.AppDataComponent;
 import saf.components.AppFileComponent;
+import saf.ui.AppGUI;
 import saf.ui.AppMessageDialogSingleton;
 
 /**
@@ -89,9 +95,13 @@ public class FileManager implements AppFileComponent {
     static final String JSON_B = "blue";
 
     MapEditorApp app;
+    AppTemplate appForGUI;
+    AppGUI gui;
 
     File currentMapFile;
     File folderInParent;
+    
+    AppMessageDialogSingleton exportDialog;
 
     @Override
     public void saveData(AppDataComponent data, String filePath) throws IOException {
@@ -515,6 +525,9 @@ public class FileManager implements AppFileComponent {
     public void exportData(AppDataComponent data) throws IOException {
         DataManager dataManager = (DataManager) data;
         ObservableList<Subregion> subregions = dataManager.getSubregions();
+
+        exportDialog = AppMessageDialogSingleton.getSingleton();
+        
         String regionName = dataManager.getRegionName();
         boolean subregionsCapitals = true;
         boolean subregionsFlags = true;
@@ -583,6 +596,10 @@ public class FileManager implements AppFileComponent {
         PrintWriter pw = new PrintWriter(exportedRVM.getPath());
         pw.write(prettyPrinted);
         pw.close();
+        
+        dataManager.snapshotMap(dataManager.getParentDirectory(), dataManager.getRegionName(), dataManager.getMapWidth(), dataManager.getMapHeight());
+
+        exportDialog.show("Exported map successfully", "Your map has been exported to: " +dataManager.getParentDirectory() + "/" + dataManager.getRegionName() );
 
     }
 
@@ -627,5 +644,7 @@ public class FileManager implements AppFileComponent {
         updateFilesMessage.show("Region Name Change", "Region name has been changed along with the work file and directory names.");
 
     }
+
+
 
 }

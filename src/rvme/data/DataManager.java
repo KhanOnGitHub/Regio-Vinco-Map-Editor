@@ -5,34 +5,41 @@
  */
 package rvme.data;
 
+import java.io.File;
 import java.io.IOException;
 import javafx.scene.paint.Color;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
+import javax.imageio.ImageIO;
 import rvme.audio.AudioManager;
 import rvme.file.FileManager;
 import rvme.gui.Workspace;
 import saf.AppTemplate;
 import saf.components.AppDataComponent;
+import saf.ui.AppChangeDimensionsDialogSingleton;
 import saf.ui.AppChangeMapBGDialogSingleton;
 import saf.ui.AppChangeMapBorderColorDialogSingleton;
+import saf.ui.AppGUI;
 import saf.ui.AppMessageDialogSingleton;
-import saf.ui.AppProgressBarDialogSingleton;
 
 /**
  *
@@ -41,6 +48,7 @@ import saf.ui.AppProgressBarDialogSingleton;
 public class DataManager implements AppDataComponent {
 
     AppTemplate app;
+    AppGUI gui;
 
     ObservableList<Subregion> subregions;
     ObservableList<ImageView> imageViews;
@@ -51,6 +59,8 @@ public class DataManager implements AppDataComponent {
     int borderColorGreen;
     int borderColorBlue;
     int imageViewSelected;
+    int mapWidth;
+    int mapHeight;
     double mapScrollLocationX;
     double mapScrollLocationY;
 
@@ -96,6 +106,8 @@ public class DataManager implements AppDataComponent {
         mapZoom = 1.0;
         mapScrollLocationX = 0.0;
         mapScrollLocationY = 0.0;
+        mapWidth = 802;
+        mapHeight = 536;
         converted = false;
         playing = false;
         audio = new AudioManager();
@@ -273,8 +285,22 @@ public class DataManager implements AppDataComponent {
         this.mapScrollLocationY = mapScrollLocationY;
     }
 
-    
-    
+    public int getMapWidth() {
+        return mapWidth;
+    }
+
+    public void setMapWidth(int mapWidth) {
+        this.mapWidth = mapWidth;
+    }
+
+    public int getMapHeight() {
+        return mapHeight;
+    }
+
+    public void setMapHeight(int mapHeight) {
+        this.mapHeight = mapHeight;
+    }
+
     public void printData() {
         System.out.println("Region Name: " + regionName);
         System.out.println("Audio Name: " + audioName);
@@ -510,4 +536,68 @@ public class DataManager implements AppDataComponent {
         });
     }
 
+    @Override
+    public void changeMapDimensions() {
+        AppChangeDimensionsDialogSingleton changeDimensionsDialog = AppChangeDimensionsDialogSingleton.getSingleton();
+        AppMessageDialogSingleton dneDialog = AppMessageDialogSingleton.getSingleton();
+
+        FileManager fileManager = (FileManager) app.getFileComponent();
+
+        Label newWidth = new Label("New width for your exported image");
+        Label newHeight = new Label("New height for your exported image");
+        TextField widthValue = new TextField();
+        TextField heightValue = new TextField();
+        Button okButton = new Button("OK");
+        okButton.setOnAction(e -> {
+            mapWidth = Integer.parseInt(widthValue.getText());
+            mapHeight = Integer.parseInt(heightValue.getText());
+            try {
+                File checkExportedMap = new File(parentDirectory + "/" + regionName + "/" + regionName + ".png");
+                if (checkExportedMap != null) {
+                    snapshotMap(parentDirectory, regionName, mapWidth, mapHeight);
+                } else {
+
+                    dneDialog.show("Exported map doesn't exist yet", "The image file doesn't exist yet. If you exported before under a different region name, please export again.");
+                }
+            } catch (IOException ex) {
+                dneDialog.show("Invalid file path", "File path doesn't exist");
+
+            }
+            changeDimensionsDialog.close();
+        });
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setOnAction(e -> {
+            changeDimensionsDialog.close();
+        });
+
+        GridPane dimensionsGrid = new GridPane();
+        dimensionsGrid.add(newWidth, 0, 0);
+        dimensionsGrid.add(widthValue, 1, 0);
+        dimensionsGrid.add(newHeight, 0, 1);
+        dimensionsGrid.add(heightValue, 1, 1);
+        dimensionsGrid.add(okButton, 0, 2);
+        dimensionsGrid.add(cancelButton, 1, 2);
+
+        Scene scene = new Scene(dimensionsGrid);
+
+        changeDimensionsDialog.setScene(scene);
+        changeDimensionsDialog.showAndWait();
+    }
+
+    public void snapshotMap(String parentDirectory, String regionName, int width, int height) throws IOException {
+
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
+
+        try {
+            WritableImage widthHeight = new WritableImage(width, height);
+            WritableImage regionMapImage = workspace.getMapPane().snapshot(new SnapshotParameters(), widthHeight);
+
+            File exportedImage = new File(parentDirectory + "/" + regionName + "/" + regionName + ".png");
+            ImageIO.write(SwingFXUtils.fromFXImage(regionMapImage, null), "png", exportedImage);
+        } catch (IOException ex) {
+            AppMessageDialogSingleton error = AppMessageDialogSingleton.getSingleton();
+            error.show("Exporting failed", "Not a valid folder in the parent directory");
+
+        }
+    }
 }
