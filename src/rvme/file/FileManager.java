@@ -98,8 +98,8 @@ public class FileManager implements AppFileComponent {
         String audioName = dataManager.getAudioName();
         String audioFileName = dataManager.getAudioFileName();
         boolean converted = dataManager.getConverted();
-        int mapScrollLocationX = dataManager.getMapScrollLocationX();
-        int mapScrollLocationY = dataManager.getMapScrollLocationY();
+        double mapScrollLocationX = dataManager.getMapScrollLocationX();
+        double mapScrollLocationY = dataManager.getMapScrollLocationY();
 
         //JSON FOR THE PATHS OF IMAGES THAT ARENT LEADERS OR FLAGS
         ObservableList<String> paths = dataManager.getPaths();
@@ -230,6 +230,12 @@ public class FileManager implements AppFileComponent {
 
         JsonString jsonParentRegionDirectory = json.getJsonString(JSON_DIRECTORY);
         dataManager.setParentDirectory(jsonParentRegionDirectory.getString());
+
+        JsonObject jsonScrollX = json.getJsonObject(JSON_SCROLL_X);
+        dataManager.setMapScrollLocationX(getDataAsDouble(jsonScrollX, JSON_SCROLL_X));
+
+        JsonObject jsonScrollY = json.getJsonObject(JSON_SCROLL_Y);
+        dataManager.setMapScrollLocationY(getDataAsDouble(jsonScrollY, JSON_SCROLL_Y));
 
         dataManager.setConverted(json.getBoolean(JSON_CONVERTED));
 
@@ -500,7 +506,29 @@ public class FileManager implements AppFileComponent {
 
     @Override
     public void exportData(AppDataComponent data, String filePath) throws IOException {
-
+        DataManager dataManager = (DataManager) data;
+        ObservableList<Subregion> subregions = dataManager.getSubregions();
+        String regionName = dataManager.getRegionName();
+        boolean subregionsCapitals = true;
+        boolean subregionsFlags = true;
+        boolean subregionsLeaders = true;
+        
+        for(int i = 0; i < subregions.size(); i++) {
+            if(!subregionsCapitals && !subregionsFlags && !subregionsLeaders)
+                break;
+            Subregion currSubregion = subregions.get(i);
+            if(subregionsCapitals)
+                if(currSubregion.getSubregionCapital().equals("?"))
+                    subregionsCapitals = false;
+            if(subregionsFlags)
+                if(currSubregion.getFlagPath().equals("?"))
+                    subregionsFlags = false;
+            if(subregionsLeaders)
+                if(currSubregion.getSubregionLeader().equals("?") && currSubregion.getLeaderPath().equals("?"))
+                    subregionsLeaders = false; 
+        }
+        
+        
     }
 
     @Override

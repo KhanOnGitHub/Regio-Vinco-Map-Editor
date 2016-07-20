@@ -51,8 +51,8 @@ public class DataManager implements AppDataComponent {
     int borderColorGreen;
     int borderColorBlue;
     int imageViewSelected;
-    int mapScrollLocationX;
-    int mapScrollLocationY;
+    double mapScrollLocationX;
+    double mapScrollLocationY;
 
     String parentDirectory;
 
@@ -94,8 +94,8 @@ public class DataManager implements AppDataComponent {
         borderThickness = 1.0;
         parentDirectory = "?";
         mapZoom = 1.0;
-        mapScrollLocationX = 0;
-        mapScrollLocationY = 0;
+        mapScrollLocationX = 0.0;
+        mapScrollLocationY = 0.0;
         converted = false;
         playing = false;
         audio = new AudioManager();
@@ -258,19 +258,19 @@ public class DataManager implements AppDataComponent {
         this.playing = playing;
     }
 
-    public int getMapScrollLocationX() {
+    public double getMapScrollLocationX() {
         return mapScrollLocationX;
     }
 
-    public void setMapScrollLocationX(int mapScrollLocationX) {
+    public void setMapScrollLocationX(double mapScrollLocationX) {
         this.mapScrollLocationX = mapScrollLocationX;
     }
 
-    public int getMapScrollLocationY() {
+    public double getMapScrollLocationY() {
         return mapScrollLocationY;
     }
 
-    public void setMapScrollLocationY(int mapScrollLocationY) {
+    public void setMapScrollLocationY(double mapScrollLocationY) {
         this.mapScrollLocationY = mapScrollLocationY;
     }
 

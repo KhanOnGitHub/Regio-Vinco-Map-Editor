@@ -95,24 +95,31 @@ public class MapEditorController {
 
     public void processMoveUp() {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
+        DataManager dataManager = (DataManager) app.getDataComponent();
         workspace.getSubregionGroup().setTranslateY(workspace.getSubregionGroup().getTranslateY() - 10);
-                workspace.getSubregionGroup().setTranslateY(workspace.getSubregionGroup().getTranslateY() - 10);
-   
+        dataManager.setMapScrollLocationY(workspace.getSubregionGroup().getTranslateY());
+
     }
 
     public void processMoveDown() {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
+        DataManager dataManager = (DataManager) app.getDataComponent();
         workspace.getSubregionGroup().setTranslateY(workspace.getSubregionGroup().getTranslateY() + 10);
+        dataManager.setMapScrollLocationY(workspace.getSubregionGroup().getTranslateY());
     }
 
     public void processMoveLeft() {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
+        DataManager dataManager = (DataManager) app.getDataComponent();
         workspace.getSubregionGroup().setTranslateX(workspace.getSubregionGroup().getTranslateX() - 10);
+        dataManager.setMapScrollLocationX(workspace.getSubregionGroup().getTranslateX());
     }
 
     public void processMoveRight() {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
+        DataManager dataManager = (DataManager) app.getDataComponent();
         workspace.getSubregionGroup().setTranslateX(workspace.getWorkspace().getTranslateX() + 10);
+        dataManager.setMapScrollLocationX(workspace.getSubregionGroup().getTranslateX());
     }
 
     public void layoutEditSubregionGUI(Subregion subregion) {
