@@ -11,7 +11,7 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import rvme.MapEditorApp;
-import saf.components.AppDataComponent;
+import saf.AppTemplate;
 
 /**
  *
@@ -43,6 +43,8 @@ public class Subregion {
     boolean selected;
 
     MapEditorApp app;
+    
+    AppTemplate dataApp;
 
     public Subregion() {
         subregionName = new SimpleStringProperty(DEFAULT_NAME);
@@ -229,20 +231,20 @@ public class Subregion {
         polyPoints.add(Y);
     }
 
-    public Polygon constructRegion(double strokeWidth, int borderColorRed, int borderColorGreen, int borderColorBlue) {
+    public Polygon constructRegion(double strokeWidth, int borderColorRed, int borderColorGreen, int borderColorBlue, double mapZoom) {
         region = new Polygon();
         region.getPoints().addAll(polyPoints);
         region.setFill(Color.rgb(red, green, blue));
-        region.setStrokeWidth(region.getStrokeWidth() / 100);
+        region.setStrokeWidth(region.getStrokeWidth() / mapZoom);
         region.setStroke(Color.rgb(borderColorRed, borderColorGreen, borderColorBlue));
         return region;
     }
 
-    public Polygon constructRegion(double strokeWidth, int borderColorRed, int borderColorGreen, int borderColorBlue, int newRed, int newGreen, int newBlue) {
+    public Polygon constructRegion(double strokeWidth, int borderColorRed, int borderColorGreen, int borderColorBlue, int newRed, int newGreen, int newBlue, double mapZoom) {
         region = new Polygon();
         region.getPoints().addAll(polyPoints);
         region.setFill(Color.rgb(newRed, newGreen, newBlue));
-        region.setStrokeWidth(region.getStrokeWidth() / 100);
+        region.setStrokeWidth(region.getStrokeWidth() / mapZoom);
         region.setStroke(Color.rgb(borderColorRed, borderColorGreen, borderColorBlue));
         return region;
     }

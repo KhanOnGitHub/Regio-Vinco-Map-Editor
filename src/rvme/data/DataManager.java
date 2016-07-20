@@ -7,17 +7,21 @@ package rvme.data;
 
 import java.io.File;
 import java.io.IOException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Color;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -35,6 +39,7 @@ import rvme.file.FileManager;
 import rvme.gui.Workspace;
 import saf.AppTemplate;
 import saf.components.AppDataComponent;
+import saf.ui.AppChangeBorderThicknessSingleton;
 import saf.ui.AppChangeDimensionsDialogSingleton;
 import saf.ui.AppChangeMapBGDialogSingleton;
 import saf.ui.AppChangeMapBorderColorDialogSingleton;
@@ -413,7 +418,7 @@ public class DataManager implements AppDataComponent {
             borderColorBlue = (int) (chosenColor.getBlue() * 255);
             for (int i = 0; i < subregions.size(); i++) {
                 Subregion subregion = subregions.get(i);
-                subregion.setRegion(subregion.constructRegion(borderThickness, borderColorRed, borderColorGreen, borderColorBlue));
+                subregion.setRegion(subregion.constructRegion(borderThickness, borderColorRed, borderColorGreen, borderColorBlue, mapZoom));
                 setupRegionListener(subregion);
             }
             workspace.redrawSubregions();
@@ -425,6 +430,54 @@ public class DataManager implements AppDataComponent {
         Scene scene = new Scene(colorPickerPane);
         changeBorderColorDialog.setScene(scene);
         changeBorderColorDialog.showAndWait();
+    }
+
+    @Override
+    public void changeBorderThickness() {
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
+        ObservableList<Node> polygons = workspace.getSubregionGroup().getChildren();
+        AppChangeBorderThicknessSingleton thicknessDialog = AppChangeBorderThicknessSingleton.getSingleton();
+        Label borderThicknessLabel = new Label("Border Thickness Slider");
+        Label borderThicknessValue = new Label();
+        Label currentBorderThicknessLabel = new Label("Current Border Thickness: ");
+        Label currentBorderThickness = new Label(Double.toString(borderThickness));
+        Slider borderThicknessSlider = new Slider();
+
+        borderThicknessSlider.setValue(1.0);
+        borderThicknessSlider.setMin(0f);
+        borderThicknessSlider.setMax(10f);
+        borderThicknessSlider.setShowTickMarks(true);
+        borderThicknessSlider.setMajorTickUnit(.25f);
+
+        borderThicknessSlider.setBlockIncrement(.5);
+
+        borderThicknessSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> ov,
+                    Number old, Number newValue) {
+                borderThicknessValue.setText(String.format("%.2f", newValue));
+                borderThickness = newValue.doubleValue();
+                for (int i = 0; i < polygons.size(); i++) {
+                    Polygon polygon = (Polygon) polygons.get(i);
+                    polygon.setStrokeWidth(borderThickness / mapZoom);
+                }
+            }
+        });
+        
+        GridPane borderThicknessGrid = new GridPane();
+        borderThicknessGrid.add(borderThicknessLabel, 0,0);
+        borderThicknessGrid.add(borderThicknessSlider, 1, 0);
+        borderThicknessGrid.add(borderThicknessValue, 2,0);
+        borderThicknessGrid.add(currentBorderThicknessLabel, 0, 1);
+        borderThicknessGrid.add(currentBorderThickness, 1,1);
+        
+        Scene scene = new Scene(borderThicknessGrid,300,300);
+        thicknessDialog.setScene(scene);
+        thicknessDialog.showAndWait();
+        
+        
+        
+        
+
     }
 
     @Override
@@ -448,7 +501,7 @@ public class DataManager implements AppDataComponent {
                 newColorSubregion = subregions.get((int) (Math.random() * subregions.size()));
             }
             newColorSubregion.setRGB(newRed, newGreen, newBlue);
-            newColorSubregion.constructRegion(dataManager.getBorderThickness(), dataManager.getBorderColorRed(), dataManager.getBorderColorGreen(), dataManager.getBorderColorBlue(), newRed, newGreen, newBlue);
+            newColorSubregion.constructRegion(dataManager.getBorderThickness(), dataManager.getBorderColorRed(), dataManager.getBorderColorGreen(), dataManager.getBorderColorBlue(), newRed, newGreen, newBlue, mapZoom);
             newColorSubregion.setChanged(true);
             setupRegionListener(newColorSubregion);
         }
@@ -481,7 +534,7 @@ public class DataManager implements AppDataComponent {
         subregion.setPrevGreen(subregion.getGreen());
         subregion.setPrevBlue(subregion.getBlue());
         subregion.setRGB(255, 255, 0);
-        subregion.setRegion(subregion.constructRegion(borderThickness, borderColorRed, borderColorGreen, borderColorBlue, 255, 255, 0));
+        subregion.setRegion(subregion.constructRegion(borderThickness, borderColorRed, borderColorGreen, borderColorBlue, 255, 255, 0, mapZoom));
         setupRegionListener(subregion);
 
         for (int i = 0; i < subregions.size(); i++) {
@@ -491,7 +544,7 @@ public class DataManager implements AppDataComponent {
                 int green = nonSelectedSubregion.getPrevGreen();
                 int blue = nonSelectedSubregion.getBlue();
                 nonSelectedSubregion.setRGB(red, green, blue);
-                nonSelectedSubregion.setRegion(nonSelectedSubregion.constructRegion(borderThickness, borderColorRed, borderColorGreen, borderColorBlue, red, green, blue));
+                nonSelectedSubregion.setRegion(nonSelectedSubregion.constructRegion(borderThickness, borderColorRed, borderColorGreen, borderColorBlue, red, green, blue, mapZoom));
                 setupRegionListener(nonSelectedSubregion);
             }
         }
@@ -540,7 +593,7 @@ public class DataManager implements AppDataComponent {
     public void changeMapDimensions() {
         AppChangeDimensionsDialogSingleton changeDimensionsDialog = AppChangeDimensionsDialogSingleton.getSingleton();
         AppMessageDialogSingleton dneDialog = AppMessageDialogSingleton.getSingleton();
-
+        Workspace workspace = (Workspace) app.getWorkspaceComponent();
         FileManager fileManager = (FileManager) app.getFileComponent();
 
         Label newWidth = new Label("New width for your exported image");
@@ -551,18 +604,7 @@ public class DataManager implements AppDataComponent {
         okButton.setOnAction(e -> {
             mapWidth = Integer.parseInt(widthValue.getText());
             mapHeight = Integer.parseInt(heightValue.getText());
-            try {
-                File checkExportedMap = new File(parentDirectory + "/" + regionName + "/" + regionName + ".png");
-                if (checkExportedMap != null) {
-                    snapshotMap(parentDirectory, regionName, mapWidth, mapHeight);
-                } else {
-
-                    dneDialog.show("Exported map doesn't exist yet", "The image file doesn't exist yet. If you exported before under a different region name, please export again.");
-                }
-            } catch (IOException ex) {
-                dneDialog.show("Invalid file path", "File path doesn't exist");
-
-            }
+            workspace.getMapPane().setMinSize(Double.parseDouble(widthValue.getText()), Double.parseDouble(heightValue.getText()));
             changeDimensionsDialog.close();
         });
         Button cancelButton = new Button("Cancel");

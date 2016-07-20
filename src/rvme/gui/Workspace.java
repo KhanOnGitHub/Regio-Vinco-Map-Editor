@@ -20,7 +20,6 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -28,6 +27,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import properties_manager.PropertiesManager;
 import rvme.PropertyType;
 import saf.ui.AppGUI;
@@ -140,7 +140,7 @@ public class Workspace extends AppWorkspaceComponent {
 
     private VBox createMapPane() {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
-
+        DataManager dataManager = (DataManager) app.getDataComponent();
         mapBox = new VBox();
 
         mapLabel = new Label();
@@ -160,7 +160,7 @@ public class Workspace extends AppWorkspaceComponent {
         mapZoomSlider = new Slider();
         mapZoomSlider.setMin(0);
         mapZoomSlider.setMax(1000);
-        mapZoomSlider.setValue(0);
+        mapZoomSlider.setValue(dataManager.getMapZoom());
         mapZoomSlider.setShowTickMarks(true);
         mapZoomSlider.setMajorTickUnit(100);
         mapZoomSlider.setMinorTickCount(50);
@@ -273,6 +273,8 @@ public class Workspace extends AppWorkspaceComponent {
         subregionGroup.setTranslateX(dataManager.getMapScrollLocationX());
         subregionGroup.setTranslateY(dataManager.getMapScrollLocationY());
         subregionsPane.getChildren().add(subregionGroup);
+        
+       
     }
 
     public void imagesOnMap(ObservableList<ImageView> imageViews) {

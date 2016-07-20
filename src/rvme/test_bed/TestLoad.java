@@ -46,7 +46,7 @@ public class TestLoad extends Application {
         File selectedFile = fc.showOpenDialog(primaryStage);*/
         FileManager fileManager = new FileManager();
         DataManager dataManager = new DataManager(app);
-        fileManager.loadDataTest(dataManager, "./andorra/Andorra.json");
+        //fileManager.loadDataTest(dataManager, "./andorra/Andorra.json");
 
         dataManager.printData();
 
