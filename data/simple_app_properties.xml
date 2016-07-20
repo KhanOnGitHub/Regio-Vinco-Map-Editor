@@ -22,12 +22,14 @@
          
         <property name="CHANGEMAPNAME_ICON"  value="ChangeMap.png"></property>
         <property name="ADDIMAGE_ICON" value="AddImage.png"></property>
+        <property name = "REMOVEIMAGE_ICON" value ="RemoveImage.png"></property>
         <property name="CHANGEMAPBG_ICON"     value="ChangeMapBG.png"></property>
         <property name="CHANGEBORDERCOLOR_ICON"		value="ChangeBorderColor.png"></property>
         <property name="CHANGETHICKNESS_ICON"		value="ChangeThickness.png"></property>
         <property name="MAPCOLOR_ICON"		value="MapColor.png"></property>
         <property name ="PLAY_ICON"             value="Play.png"></property>
         <property name = "FILE_CHOOSER_ICON" value ="Folder.png"></property>
+        <property name = "DIMENSIONS_ICON" value = "ChangeDimensions.png"></property>
         
         <!-- TOOLTIPS FOR BUTTONS -->
         <property name="NEW_TOOLTIP"		value="Create a New To Do List"></property>
@@ -37,11 +39,13 @@
         <property name="EXPORT_TOOLTIP"		value="Export the map to Regio Vinco format"></property>
         <property name="MAPNAME_TOOLTIP"		value="Change the name of the current map"></property>
         <property name="ADDIMAGE_TOOLTIP"		value="Add an image to the map"></property>
+        <property name = "REMOVEIMAGE_TOOLTIP"  value = "Remove an image on the map"></property>
         <property name="MAPBG_TOOLTIP"		value="Change the map background color"></property>
         <property name="BORDERCOLOR_TOOLTIP"		value="Change the border color of the map"></property>
         <property name="BORDERTHICKNESS_TOOLTIP"		value="Change the thickness of the borders"></property>
         <property name="MAPCOLOR_TOOLTIP"		value="Reassign map colors"></property>
         <property name="PLAYBUTTON_TOOLTIP"     value="Play this subregion's national anthem"></property>
+        <property name = "DIMENSIONS_TOOLTIP" value = "Change dimensions of the exported map image"></property>
         
         
         <!-- ERROR MESSAGES -->

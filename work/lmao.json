@@ -21,8 +21,8 @@
     ],
     "MAP_COLOR": "#FFFFFF",
     "MAP_ZOOM": 200.0,
-    "SCROLL_X": 0,
-    "SCROLL_Y": 0,
+    "SCROLL_X": 0.0,
+    "SCROLL_Y": 0.0,
     "CONVERTED": true,
     "SUBREGIONS": [
         {
@@ -33,7 +33,7 @@
                     "REGION_LEADER": "?",
                     "FLAG_PATH": "",
                     "LEADER_PATH": "",
-                    "R": 0,
+                    "R":255,
                     "G": 0,
                     "B": 0
                 }

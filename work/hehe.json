@@ -1,6 +1,6 @@
 
 {
-    "REGION NAME":"Andorra",
+    "REGION NAME":"hehe",
     "PARENT_DIRECTORY":"C:\\Users\\eyb0s\\Desktop\\Europe",
     "AUDIO_NAME":"",
     "AUDIO_FILE_NAME":"",
@@ -16,6 +16,8 @@
     ],
     "MAP_COLOR":"",
     "MAP_ZOOM":1.0,
+    "SCROLL_X":0.0,
+    "SCROLL_Y":0.0,
     "CONVERTED":true,
     "SUBREGIONS":[
         {
@@ -24,10 +26,10 @@
                     "REGION_NAME":"?",
                     "REGION_CAPITAL":"?",
                     "REGION_LEADER":"?",
-                    "FLAG_PATH":"",
-                    "LEADER_PATH":"",
-                    "R":0,
-                    "G":0,
+                    "FLAG_PATH":"?",
+                    "LEADER_PATH":"?",
+                    "R":124,
+                    "G":252,
                     "B":0
                 }
             ],
@@ -242,10 +244,10 @@
                     "REGION_NAME":"?",
                     "REGION_CAPITAL":"?",
                     "REGION_LEADER":"?",
-                    "FLAG_PATH":"",
-                    "LEADER_PATH":"",
-                    "R":0,
-                    "G":0,
+                    "FLAG_PATH":"?",
+                    "LEADER_PATH":"?",
+                    "R":124,
+                    "G":252,
                     "B":0
                 }
             ],
@@ -864,10 +866,10 @@
                     "REGION_NAME":"?",
                     "REGION_CAPITAL":"?",
                     "REGION_LEADER":"?",
-                    "FLAG_PATH":"",
-                    "LEADER_PATH":"",
-                    "R":0,
-                    "G":0,
+                    "FLAG_PATH":"?",
+                    "LEADER_PATH":"?",
+                    "R":124,
+                    "G":252,
                     "B":0
                 }
             ],
@@ -1398,10 +1400,10 @@
                     "REGION_NAME":"?",
                     "REGION_CAPITAL":"?",
                     "REGION_LEADER":"?",
-                    "FLAG_PATH":"",
-                    "LEADER_PATH":"",
-                    "R":0,
-                    "G":0,
+                    "FLAG_PATH":"?",
+                    "LEADER_PATH":"?",
+                    "R":124,
+                    "G":252,
                     "B":0
                 }
             ],
@@ -1904,10 +1906,10 @@
                     "REGION_NAME":"?",
                     "REGION_CAPITAL":"?",
                     "REGION_LEADER":"?",
-                    "FLAG_PATH":"",
-                    "LEADER_PATH":"",
-                    "R":0,
-                    "G":0,
+                    "FLAG_PATH":"?",
+                    "LEADER_PATH":"?",
+                    "R":124,
+                    "G":252,
                     "B":0
                 }
             ],
@@ -2310,10 +2312,10 @@
                     "REGION_NAME":"?",
                     "REGION_CAPITAL":"?",
                     "REGION_LEADER":"?",
-                    "FLAG_PATH":"",
-                    "LEADER_PATH":"",
-                    "R":0,
-                    "G":0,
+                    "FLAG_PATH":"?",
+                    "LEADER_PATH":"?",
+                    "R":124,
+                    "G":252,
                     "B":0
                 }
             ],
@@ -2804,10 +2806,10 @@
                     "REGION_NAME":"?",
                     "REGION_CAPITAL":"?",
                     "REGION_LEADER":"?",
-                    "FLAG_PATH":"",
-                    "LEADER_PATH":"",
-                    "R":0,
-                    "G":0,
+                    "FLAG_PATH":"?",
+                    "LEADER_PATH":"?",
+                    "R":124,
+                    "G":252,
                     "B":0
                 }
             ],

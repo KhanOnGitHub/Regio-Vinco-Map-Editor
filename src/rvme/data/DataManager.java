@@ -130,7 +130,6 @@ public class DataManager implements AppDataComponent {
     public void setMapBackgroundColor(String color) {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
         backgroundColor = color;
-        //randomPane.setBackground(new Background(new BackgroundFill(Color.web(color), CornerRadii.EMPTY, Insets.EMPTY)));
         workspace.getMapPane().setBackground(new Background(new BackgroundFill(Color.web(color), CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
@@ -295,30 +294,6 @@ public class DataManager implements AppDataComponent {
 
     }
 
-    public void loadingProgress() {
-        Workspace workspace = (Workspace) app.getWorkspaceComponent();
-        AppProgressBarDialogSingleton loadingDialog = AppProgressBarDialogSingleton.getSingleton();
-        loadingProgress = new ProgressBar();
-        loadingProgress.setProgress(0f);
-        loadingLabel = new Label();
-        //REPLACE WITH XML PROPERTY
-        loadingLabel.setText("Loading of work in progress");
-        loadingGrid = new GridPane();
-        loadingGrid.add(loadingLabel, 0, 0);
-        loadingGrid.add(loadingProgress, 1, 0);
-        Scene scene = new Scene(loadingGrid, 300, 300);
-        scene.getStylesheets().add("rvme/css/rvme_style.css");
-        loadingGrid.getStyleClass().add("gridPane");
-        loadingDialog.setScene(scene);
-        //REPLACE WITH XML PROPERTY
-        loadingDialog.setTitle("Loading");
-        loadingDialog.show();
-    }
-
-    public void setLoadingProgress(double value) {
-        loadingProgress.setProgress(value);
-    }
-
     public void setLabelText(String text) {
         loadingLabel.setText(text);
     }
@@ -407,9 +382,9 @@ public class DataManager implements AppDataComponent {
         Button okButton = new Button("OK");
         okButton.setOnAction(e -> {
             Color chosenColor = mapBGColorPicker.getValue();
-            borderColorRed = (int) chosenColor.getRed() * 255;
-            borderColorGreen = (int) chosenColor.getGreen() * 255;
-            borderColorBlue = (int) chosenColor.getBlue() * 255;
+            borderColorRed = (int) (chosenColor.getRed() * 255);
+            borderColorGreen = (int) (chosenColor.getGreen() * 255);
+            borderColorBlue = (int) (chosenColor.getBlue() * 255);
             for (int i = 0; i < subregions.size(); i++) {
                 Subregion subregion = subregions.get(i);
                 subregion.setRegion(subregion.constructRegion(borderThickness, borderColorRed, borderColorGreen, borderColorBlue));

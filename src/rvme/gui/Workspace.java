@@ -123,6 +123,7 @@ public class Workspace extends AppWorkspaceComponent {
         });
 
         gui.getPrimaryScene().setOnKeyPressed(e -> {
+            mapPane.requestFocus();
             mapEditorController.handleKeyPress(e);
         });
 
@@ -159,7 +160,7 @@ public class Workspace extends AppWorkspaceComponent {
         mapZoomSlider = new Slider();
         mapZoomSlider.setMin(0);
         mapZoomSlider.setMax(1000);
-        mapZoomSlider.setValue(200);
+        mapZoomSlider.setValue(0);
         mapZoomSlider.setShowTickMarks(true);
         mapZoomSlider.setMajorTickUnit(100);
         mapZoomSlider.setMinorTickCount(50);
@@ -269,15 +270,16 @@ public class Workspace extends AppWorkspaceComponent {
 
         subregionGroup.setScaleX(dataManager.getMapZoom());
         subregionGroup.setScaleY(dataManager.getMapZoom());
+        subregionGroup.setTranslateX(dataManager.getMapScrollLocationX());
+        subregionGroup.setTranslateY(dataManager.getMapScrollLocationY());
         subregionsPane.getChildren().add(subregionGroup);
-        subregionsPane.setBackground(Background.EMPTY);
     }
 
     public void imagesOnMap(ObservableList<ImageView> imageViews) {
         for (int i = 0; i < imageViews.size(); i++) {
             imagesGroup.getChildren().add(imageViews.get(i));
         }
-        
+
         imagesPane.getChildren().add(imagesGroup);
     }
 
@@ -309,6 +311,8 @@ public class Workspace extends AppWorkspaceComponent {
 
         subregionGroup.setScaleX(dataManager.getMapZoom());
         subregionGroup.setScaleY(dataManager.getMapZoom());
+        subregionGroup.setTranslateX(dataManager.getMapScrollLocationX());
+        subregionGroup.setTranslateY(dataManager.getMapScrollLocationY());
         Rectangle clipRectangle = new Rectangle();
         clipRectangle.setHeight(subregionsPane.getHeight() - mapLabel.getHeight());
         clipRectangle.setWidth(subregionsPane.getWidth());
@@ -346,11 +350,9 @@ public class Workspace extends AppWorkspaceComponent {
     public Group getSubregionGroup() {
         return subregionGroup;
     }
-    
+
     public Group getImagesGroup() {
         return imagesGroup;
     }
-    
-    
 
 }

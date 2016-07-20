@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import properties_manager.PropertiesManager;
 import saf.AppTemplate;
 import saf.ui.AppEditDialogSingleton;
@@ -22,6 +23,7 @@ import rvme.PropertyType;
 import rvme.data.DataManager;
 import rvme.data.Subregion;
 import rvme.gui.Workspace;
+import saf.ui.AppGUI;
 
 /**
  *
@@ -30,6 +32,7 @@ import rvme.gui.Workspace;
 public class MapEditorController {
 
     AppTemplate app;
+    AppGUI gui;
     AppEditDialogSingleton dialog;
 
     private Label subregionNameLabel;
