@@ -187,8 +187,14 @@ public class MapEditorController {
 
         flagPictureText = new TextField();
         flagPictureText.setText(subregion.getFlagPath());
+        flagPictureText.setEditable(false);
+        flagPictureText.setMouseTransparent(true);
+        flagPictureText.setFocusTraversable(false);
         leaderPictureText = new TextField();
         leaderPictureText.setText(subregion.getLeaderPath());
+        leaderPictureText.setEditable(false);
+        leaderPictureText.setMouseTransparent(true);
+        leaderPictureText.setFocusTraversable(false);
 
         //INSTANTIATE AND GIVE TEXT TO BUTTONS
         okButton = new Button();
