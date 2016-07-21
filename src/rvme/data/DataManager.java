@@ -39,6 +39,7 @@ import rvme.file.FileManager;
 import rvme.gui.Workspace;
 import saf.AppTemplate;
 import saf.components.AppDataComponent;
+import saf.controller.AppFileController;
 import saf.ui.AppChangeBorderThicknessSingleton;
 import saf.ui.AppChangeDimensionsDialogSingleton;
 import saf.ui.AppChangeMapBGDialogSingleton;
@@ -54,6 +55,7 @@ public class DataManager implements AppDataComponent {
 
     AppTemplate app;
     AppGUI gui;
+    AppFileController appFileController;
 
     ObservableList<Subregion> subregions;
     ObservableList<ImageView> imageViews;
@@ -148,6 +150,9 @@ public class DataManager implements AppDataComponent {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
         backgroundColor = color;
         workspace.getMapPane().setBackground(new Background(new BackgroundFill(Color.web(color), CornerRadii.EMPTY, Insets.EMPTY)));
+        gui = app.getGUI();
+        appFileController = new AppFileController(app);
+        appFileController.markAsEdited(gui);
     }
 
     public String getBackgroundColor() {
@@ -360,6 +365,10 @@ public class DataManager implements AppDataComponent {
         FileManager fileManager = (FileManager) app.getFileComponent();
         regionName = mapName;
         fileManager.updateFiles(regionName);
+        gui = app.getGUI();
+        appFileController = new AppFileController(app);
+        appFileController.markAsEdited(gui);
+
     }
 
     @Override
@@ -370,6 +379,9 @@ public class DataManager implements AppDataComponent {
         setupImageViewListener(newImageView);
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
         workspace.imageOnMap(imageViews.get(imageViews.size() - 1));
+        gui = app.getGUI();
+        appFileController = new AppFileController(app);
+        appFileController.markAsEdited(gui);
     }
 
     @Override
@@ -377,6 +389,9 @@ public class DataManager implements AppDataComponent {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
         imageViews.remove(imageViewSelected);
         workspace.removeImageOnMap();
+        gui = app.getGUI();
+        appFileController = new AppFileController(app);
+        appFileController.markAsEdited(gui);
 
     }
 
@@ -460,23 +475,23 @@ public class DataManager implements AppDataComponent {
                     Polygon polygon = (Polygon) polygons.get(i);
                     polygon.setStrokeWidth(borderThickness / mapZoom);
                 }
+                gui = app.getGUI();
+                appFileController = new AppFileController(app);
+
+                appFileController.markAsEdited(gui);
             }
         });
-        
+
         GridPane borderThicknessGrid = new GridPane();
-        borderThicknessGrid.add(borderThicknessLabel, 0,0);
+        borderThicknessGrid.add(borderThicknessLabel, 0, 0);
         borderThicknessGrid.add(borderThicknessSlider, 1, 0);
-        borderThicknessGrid.add(borderThicknessValue, 2,0);
+        borderThicknessGrid.add(borderThicknessValue, 2, 0);
         borderThicknessGrid.add(currentBorderThicknessLabel, 0, 1);
-        borderThicknessGrid.add(currentBorderThickness, 1,1);
-        
-        Scene scene = new Scene(borderThicknessGrid,300,300);
+        borderThicknessGrid.add(currentBorderThickness, 1, 1);
+
+        Scene scene = new Scene(borderThicknessGrid, 300, 300);
         thicknessDialog.setScene(scene);
         thicknessDialog.showAndWait();
-        
-        
-        
-        
 
     }
 
@@ -570,6 +585,10 @@ public class DataManager implements AppDataComponent {
             }
             imageView.setX(e.getX());
             imageView.setY(e.getY());
+            gui = app.getGUI();
+            appFileController = new AppFileController(app);
+
+            appFileController.markAsEdited(gui);
         });
 
         imageView.setOnMouseClicked(e -> {
@@ -609,6 +628,9 @@ public class DataManager implements AppDataComponent {
             mapHeight = Integer.parseInt(heightValue.getText());
             workspace.getMapPane().setMinSize(Double.parseDouble(widthValue.getText()), Double.parseDouble(heightValue.getText()));
             changeDimensionsDialog.close();
+            gui = app.getGUI();
+            appFileController = new AppFileController(app);
+            appFileController.markAsEdited(gui);
         });
         Button cancelButton = new Button("Cancel");
         cancelButton.setOnAction(e -> {

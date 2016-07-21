@@ -27,12 +27,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import properties_manager.PropertiesManager;
 import rvme.PropertyType;
 import saf.ui.AppGUI;
 import saf.AppTemplate;
 import saf.components.AppWorkspaceComponent;
+import saf.controller.AppFileController;
 import rvme.controller.MapEditorController;
 import rvme.data.DataManager;
 import rvme.data.Subregion;
@@ -48,6 +48,7 @@ public class Workspace extends AppWorkspaceComponent {
     AppGUI gui;
 
     MapEditorController mapEditorController;
+    AppFileController appFileController;
 
     //OUR SPLIT PANE
     SplitPane mapTable;
@@ -80,6 +81,7 @@ public class Workspace extends AppWorkspaceComponent {
     public Workspace(AppTemplate initApp) throws IOException {
         app = initApp;
         gui = app.getGUI();
+        appFileController = new AppFileController(app);
         layoutGUI();
         setupHandlers();
     }
@@ -119,6 +121,7 @@ public class Workspace extends AppWorkspaceComponent {
                 subregionGroup.setScaleY(newValue.doubleValue());
                 zoomLevel.setText(String.format("%.2f", newValue));
                 dataManager.setMapZoom(newValue.doubleValue());
+                appFileController.markAsEdited(gui);
             }
         });
 
@@ -126,6 +129,7 @@ public class Workspace extends AppWorkspaceComponent {
             mapPane.requestFocus();
             e.consume();
             mapEditorController.handleKeyPress(e);
+            appFileController.markAsEdited(gui);
         });
 
     }
@@ -137,6 +141,7 @@ public class Workspace extends AppWorkspaceComponent {
         subregionsTable.getColumns().get(1).setVisible(true);
         subregionsTable.getColumns().get(2).setVisible(false);
         subregionsTable.getColumns().get(2).setVisible(true);
+        appFileController.markAsEdited(gui);
     }
 
     private VBox createMapPane() {
@@ -321,7 +326,7 @@ public class Workspace extends AppWorkspaceComponent {
         clipRectangle.setWidth(subregionsPane.getWidth());
         subregionGroup.setClip(clipRectangle);
         subregionsPane.getChildren().add(subregionGroup);
-
+        appFileController.markAsEdited(gui);
     }
 
     public StackPane getMapPane() {

@@ -398,22 +398,6 @@ public class FileManager implements AppFileComponent {
             }
         }
 
-        //LOAD ALL IMAGES
-        /*JsonArray jsonImages = json.getJsonArray(JSON_IMAGES);
-        for(int i = 0; i < jsonImages.size(); i++)
-        {
-            JsonObject jsonImageProperties = jsonImages.getJsonObject(i);
-            String imagePath = jsonImageProperties.getString(JSON_IMAGE);
-            double x = getDataAsDouble(jsonImageProperties, JSON_X);
-            double y = getDataAsDouble(jsonImageProperties, JSON_Y);
-            x = dataManager.convertLong(x);
-            y = dataManager.convertLat(y);
-            Image newImage = new Image(imagePath);
-            ImageView newImageView = new ImageView(newImage);
-            newImageView.setX(x);
-            newImageView.setY(y);
-            dataManager.getImageViews().add(newImageView);
-        }*/
         dataManager.setConverted(true);
 
     }
