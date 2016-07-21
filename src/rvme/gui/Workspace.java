@@ -124,6 +124,7 @@ public class Workspace extends AppWorkspaceComponent {
 
         gui.getPrimaryScene().setOnKeyPressed(e -> {
             mapPane.requestFocus();
+            e.consume();
             mapEditorController.handleKeyPress(e);
         });
 

@@ -28,9 +28,9 @@
         {
             "SUBREGION_PROPERTIES": [
                 {
-                    "REGION_NAME": "?",
-                    "REGION_CAPITAL": "?",
-                    "REGION_LEADER": "?",
+                    "REGION_NAME": "Canillo",
+                    "REGION_CAPITAL": "Canillo (town)",
+                    "REGION_LEADER": "Josep Areny",
                     "FLAG_PATH": "",
                     "LEADER_PATH": "",
                     "R":255,

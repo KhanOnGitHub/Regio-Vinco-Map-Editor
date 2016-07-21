@@ -5,6 +5,7 @@
  */
 package rvme.controller;
 
+import java.io.File;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -12,10 +13,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
 import properties_manager.PropertiesManager;
 import saf.AppTemplate;
 import saf.ui.AppEditDialogSingleton;
@@ -51,6 +53,14 @@ public class MapEditorController {
     private Button cancelButton;
     private Button prevButton;
     private Button nextButton;
+
+    private Image flagImage;
+    private Image leaderImage;
+
+    private ImageView flagImageView;
+    private ImageView leaderImageView;
+    
+    private HBox imageViewBox;
 
     private GridPane editPane;
 
@@ -121,7 +131,7 @@ public class MapEditorController {
     public void processMoveRight() {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
         DataManager dataManager = (DataManager) app.getDataComponent();
-        workspace.getSubregionGroup().setTranslateX(workspace.getWorkspace().getTranslateX() + 10);
+        workspace.getSubregionGroup().setTranslateX(workspace.getSubregionGroup().getTranslateX() + 10);
         dataManager.setMapScrollLocationX(workspace.getSubregionGroup().getTranslateX());
     }
 
@@ -150,6 +160,31 @@ public class MapEditorController {
         capitalText.setText(subregion.getSubregionCapital());
         leaderText = new TextField();
         leaderText.setText(subregion.getSubregionLeader());
+
+        File flagFile = new File(dataManager.getParentDirectory() + "/" + dataManager.getRegionName() + "/" +  subregion.getSubregionName() + " Flag.png");
+        if (flagFile.exists()) {
+            flagImage = new Image("file:" + dataManager.getParentDirectory() + "/" + dataManager.getRegionName() + "/" +  subregion.getSubregionName() + " Flag.png");
+            subregion.setFlagPath(flagFile.getPath());
+        } else {
+            flagImage = new Image("file:./images/NoImage.png");
+        }
+
+        File leaderFile = new File(dataManager.getParentDirectory() + "/" + dataManager.getRegionName() + "/" + subregion.getSubregionLeader() + ".png");
+        if (leaderFile.exists()) {
+            leaderImage = new Image("file:" + dataManager.getParentDirectory() + "/" + dataManager.getRegionName() + "/" + subregion.getSubregionLeader() + ".png");
+            subregion.setLeaderPath(leaderFile.getPath());
+        } else {
+            leaderImage = new Image("file:./images/NoImage.png");
+        }
+
+        flagImageView = new ImageView(flagImage);
+        flagImageView.setFitWidth(200);
+        flagImageView.setFitHeight(200);
+        
+        leaderImageView = new ImageView(leaderImage);
+        leaderImageView.setFitWidth(200);
+        leaderImageView.setFitHeight(200);
+
         flagPictureText = new TextField();
         flagPictureText.setText(subregion.getFlagPath());
         leaderPictureText = new TextField();
@@ -211,17 +246,24 @@ public class MapEditorController {
 
         HBox okCancel = new HBox();
         okCancel.setSpacing(10);
+        okCancel.setPadding(new Insets(0,0, 0, 50));
         okCancel.getChildren().addAll(okButton, cancelButton);
 
         gridPane.add(leaderPictureLabel, 0, 4);
         gridPane.add(leaderPictureText, 1, 4);
+        
+        imageViewBox = new HBox();
+        imageViewBox.setSpacing(10);
+        imageViewBox.getChildren().addAll(leaderImageView, flagImageView);
+        gridPane.add(imageViewBox, 1, 5);
 
-        gridPane.add(okCancel, 1, 5);
-        gridPane.add(prevButton, 0, 5);
-        gridPane.add(nextButton, 2, 5);
+        gridPane.add(okCancel, 1, 6);
+        gridPane.add(prevButton, 0, 6);
+        gridPane.add(nextButton, 2, 6);
+        GridPane.setHalignment(imageViewBox, HPos.CENTER);
         GridPane.setHalignment(okCancel, HPos.CENTER);
 
-        scene = new Scene(gridPane, 400, 300);
+        scene = new Scene(gridPane, 700, 500);
         scene.getStylesheets().add("rvme/css/rvme_style.css");
         gridPane.getStyleClass().add("gridPane");
         dialog.setScene(scene);

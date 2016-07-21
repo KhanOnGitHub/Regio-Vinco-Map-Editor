@@ -500,6 +500,9 @@ public class DataManager implements AppDataComponent {
             while (newColorSubregion.getChanged()) {
                 newColorSubregion = subregions.get((int) (Math.random() * subregions.size()));
             }
+            newColorSubregion.setPrevRed(newColorSubregion.getRed());
+            newColorSubregion.setPrevGreen(newColorSubregion.getGreen());
+            newColorSubregion.setPrevBlue(newColorSubregion.getBlue());
             newColorSubregion.setRGB(newRed, newGreen, newBlue);
             newColorSubregion.constructRegion(dataManager.getBorderThickness(), dataManager.getBorderColorRed(), dataManager.getBorderColorGreen(), dataManager.getBorderColorBlue(), newRed, newGreen, newBlue, mapZoom);
             newColorSubregion.setChanged(true);
