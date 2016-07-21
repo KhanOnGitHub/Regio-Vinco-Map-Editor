@@ -374,6 +374,7 @@ public class DataManager implements AppDataComponent {
     @Override
     public void addImage(String imagePath) {
         Image newImage = new Image("file:" + imagePath);
+        paths.add(imagePath);
         ImageView newImageView = new ImageView(newImage);
         imageViews.add(newImageView);
         setupImageViewListener(newImageView);
@@ -388,6 +389,7 @@ public class DataManager implements AppDataComponent {
     public void removeImage() {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
         imageViews.remove(imageViewSelected);
+        paths.remove(imageViewSelected);
         workspace.removeImageOnMap();
         gui = app.getGUI();
         appFileController = new AppFileController(app);
@@ -415,6 +417,9 @@ public class DataManager implements AppDataComponent {
 
         Scene scene = new Scene(colorPickerPane);
         changeBGDialog.setScene(scene);
+        changeBGDialog.setTitle("Change the map backgroudn color");
+        scene.getStylesheets().add("rvme/css/rvme_style.css");
+        colorPickerPane.getStyleClass().add("gridPane");
         changeBGDialog.showAndWait();
 
     }
@@ -444,6 +449,9 @@ public class DataManager implements AppDataComponent {
 
         Scene scene = new Scene(colorPickerPane);
         changeBorderColorDialog.setScene(scene);
+        changeBorderColorDialog.setTitle("Change the border color");
+        scene.getStylesheets().add("rvme/css/rvme_style.css");
+        colorPickerPane.getStyleClass().add("gridPane");
         changeBorderColorDialog.showAndWait();
     }
 
@@ -491,6 +499,9 @@ public class DataManager implements AppDataComponent {
 
         Scene scene = new Scene(borderThicknessGrid, 300, 300);
         thicknessDialog.setScene(scene);
+        thicknessDialog.setTitle("Change border thickness");
+        scene.getStylesheets().add("rvme/css/rvme_style.css");
+        borderThicknessGrid.getStyleClass().add("gridPane");
         thicknessDialog.showAndWait();
 
     }
@@ -654,10 +665,10 @@ public class DataManager implements AppDataComponent {
     public void snapshotMap(String parentDirectory, String regionName, int width, int height) throws IOException {
 
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
-
+        
         try {
             WritableImage widthHeight = new WritableImage(width, height);
-            WritableImage regionMapImage = workspace.getMapPane().snapshot(new SnapshotParameters(), widthHeight);
+            WritableImage regionMapImage = workspace.getMapPane().snapshot(new SnapshotParameters(), null);
 
             File exportedImage = new File(parentDirectory + "/" + regionName + "/" + regionName + ".png");
             ImageIO.write(SwingFXUtils.fromFXImage(regionMapImage, null), "png", exportedImage);

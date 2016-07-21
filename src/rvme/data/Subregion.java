@@ -235,7 +235,7 @@ public class Subregion {
         region = new Polygon();
         region.getPoints().addAll(polyPoints);
         region.setFill(Color.rgb(red, green, blue));
-        region.setStrokeWidth(region.getStrokeWidth() / mapZoom);
+        region.setStrokeWidth(1 / mapZoom);
         region.setStroke(Color.rgb(borderColorRed, borderColorGreen, borderColorBlue));
         return region;
     }
@@ -244,7 +244,7 @@ public class Subregion {
         region = new Polygon();
         region.getPoints().addAll(polyPoints);
         region.setFill(Color.rgb(newRed, newGreen, newBlue));
-        region.setStrokeWidth(region.getStrokeWidth() / mapZoom);
+        region.setStrokeWidth(1 / mapZoom);
         region.setStroke(Color.rgb(borderColorRed, borderColorGreen, borderColorBlue));
         return region;
     }

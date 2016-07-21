@@ -557,6 +557,8 @@ public class FileManager implements AppFileComponent {
         dataManager.setConverted(false);
         dataManager.setRegionName(regionName);
         dataManager.setMapBackgroundColor("#FFFFFF");
+        dataManager.setAudioName(regionName + " Anthem");
+        dataManager.setAudioFileName(directoryPath + "/" + regionName + "/" + regionName + " National Anthem.mid");
         loadRawMap(data, filePath);
         currentMapFile = new File("./work/", regionName + ".json");
         currentMapFile.createNewFile();

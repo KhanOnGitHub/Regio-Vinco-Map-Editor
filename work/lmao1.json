@@ -20,7 +20,7 @@
         }
     ],
     "MAP_COLOR":"#FFFFFF",
-    "MAP_ZOOM":200.0,
+    "MAP_ZOOM":1,
     "SCROLL_X":40.0,
     "SCROLL_Y":60.0,
     "CONVERTED":true,

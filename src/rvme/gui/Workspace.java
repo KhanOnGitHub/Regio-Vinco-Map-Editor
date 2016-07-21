@@ -117,10 +117,15 @@ public class Workspace extends AppWorkspaceComponent {
         mapZoomSlider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,
                     Number old, Number newValue) {
+                dataManager.setMapZoom(newValue.doubleValue());
+                for(int i = 0; i < subregionGroup.getChildren().size(); i++) {
+                    Polygon polygon = (Polygon) subregionGroup.getChildren().get(i);
+                    polygon.setStrokeWidth(1/dataManager.getMapZoom());
+                }
                 subregionGroup.setScaleX(newValue.doubleValue());
                 subregionGroup.setScaleY(newValue.doubleValue());
                 zoomLevel.setText(String.format("%.2f", newValue));
-                dataManager.setMapZoom(newValue.doubleValue());
+                
                 appFileController.markAsEdited(gui);
             }
         });
@@ -187,12 +192,12 @@ public class Workspace extends AppWorkspaceComponent {
         //mapPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         mapPane.getChildren().add(subregionsPane);
         mapPane.getChildren().add(imagesPane);
-        mapPane.getChildren().add(sliderBoxGroup);
+        //mapPane.getChildren().add(sliderBoxGroup);
 
         sliderBoxGroup.setPickOnBounds(false);
         imagesPane.setPickOnBounds(false);
         StackPane.setAlignment(sliderBoxGroup, Pos.BOTTOM_LEFT);
-        mapBox.getChildren().addAll(mapLabel, mapPane);
+        mapBox.getChildren().addAll(mapLabel, mapPane, sliderBoxGroup);
 
         return mapBox;
     }
@@ -363,4 +368,21 @@ public class Workspace extends AppWorkspaceComponent {
         return imagesGroup;
     }
 
+    public Pane getSubregionsPane() {
+        return subregionsPane;
+    }
+
+    public void setSubregionsPane(Pane subregionsPane) {
+        this.subregionsPane = subregionsPane;
+    }
+
+    public Pane getImagesPane() {
+        return imagesPane;
+    }
+
+    public void setImagesPane(Pane imagesPane) {
+        this.imagesPane = imagesPane;
+    }
+
+    
 }
